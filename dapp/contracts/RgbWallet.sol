@@ -1,8 +1,6 @@
 pragma solidity ^0.4.24;
 
-import './Owned.sol';
-
-contract RgbWallet is Owned {
+contract RainbowToken {
 
   struct Rgb {
     uint r;
@@ -10,40 +8,49 @@ contract RgbWallet is Owned {
     uint b;
   }
 
-  struct Player {
-    uint interactionPrice;
-    Rgb rgb;
+  struct Token {
+    uint blendingPrice;
+    Rgb defaultRgb;
+    Rgb currentRgb;
   }
 
-  mapping(address => Player) public wallets;
+  /* Default blendign price is 0.01 ETH */
+  uint constant DEFAULT_BLENDING_PRICE = 10000000000000000;
 
+  /* Contract administrator */
+  address admin;
+
+  uint stopTime;
+
+  /* Target color to reach */
+  Rgb targetRgb;
+
+  /* Token */
+  mapping(address => Token) public tokens;
   address[] public playerList;
 
-  uint startTime;
+  modifier onlyAdmin() {
+    require(msg.sender == admin, 'Only administrator');
+    _;
+  }
 
   /* Throw if the sender is not a player */
   modifier onlyPlayer() {
-    require(isPlayer(msg.sender), 'Not a player');
+    require(isPlayer(msg.sender), 'You are not a player');
     _;
   }
 
   /* Throw if the game is over */
   modifier gameInProgress() {
-    require(now <= startTime + 1 weeks, 'Game over');
-    _;
-  }
-
-  /* Throw if the game is not over */
-  modifier gameOver() {
-    require(now > startTime + 1 weeks, 'Game in progress');
+    require(isGameInProgress(), 'Game over, ask admin to re-activate game');
     _;
   }
 
   /* Emitted each time a player join the game */
-  event NewPlayer(address indexed playerAddress);
+  event PlayerCreated(address indexed player);
 
   /* Emitted each time a blending is realized */
-  event Blending(
+  event TokenBlended(
     address indexed blender,
     uint r,
     uint g,
@@ -51,160 +58,279 @@ contract RgbWallet is Owned {
   );
 
   /* Emitted each time a player modifies its interaction price */
-  event PriceModification(
-    address indexed playerAddress,
-    uint interactionPrice
+  event BlendingPriceUpdated(
+    address indexed player,
+    uint price
   );
 
   /* Initializes the owner and the start time */
-  constructor() public {
-    owner = msg.sender;
-    startTime = now;
+  constructor(
+    uint _r,
+    uint _g,
+    uint _b,
+    uint _time
+  ) 
+    public
+  {
+    admin = msg.sender;
+    require(_r < 256 && _g < 256 && _b < 256, 'Target color is not valid');
+    targetRgb = Rgb(_r, _g, _b);
+    stopTime = now +  _time * 1 seconds;
   }
 
-  /* Sender joins the game */
-  function play() gameInProgress public {
-    // The sender must not be already a player
-    require(!isPlayer(msg.sender), 'Already a player');
-    // Register the address in the array of player
-    playerList.push(msg.sender);
-    // Given the address, derive the corresponding rgb
-    uint defaultChoice = uint(msg.sender) % 3;
-    Rgb memory defaultColor;
-    if (defaultChoice == 0) {
-      defaultColor = Rgb(255, 0, 0);
-    } else if (defaultChoice == 1){
-      defaultColor = Rgb(0, 255, 0);
-    } else {
-      defaultColor = Rgb(0, 0, 255);
-    }
-    // Assign the address a token of color derived from it
-    wallets[msg.sender] = Player(20, defaultColor);
-    // Emit the event
-    emit NewPlayer(msg.sender);
-  }
-
-  /* Set your interaction price with others */
-  /*TODO: setBlendingPrice */
-  function setInteractionPrice(uint _interactionPrice) public {
-    wallets[msg.sender].interactionPrice = _interactionPrice;
-    emit PriceModification(msg.sender, _interactionPrice);
-  }
-
-  /* Sender blends his token with the one of an other address */
-  function blendWithOthers(
-    address otherPlayer,
-    uint targetRgbR,
-    uint targetRgbG,
-    uint targetRgbB
-  ) gameInProgress onlyPlayer public payable {
-    // Get the coin of otherPlayer
-    Player memory otherCoin = wallets[otherPlayer];
-    // The sender must at least send the interactionPrice of the other player
-    require(msg.value >= otherCoin.interactionPrice * 1 finney, 'Not enough Ether');
-    // The color of the target must be the one in argument
-    require(targetRgbR == otherCoin.rgb.r && targetRgbG == otherCoin.rgb.g && targetRgbB == otherCoin.rgb.b, 'Target coin has changed');
-    // Get the coin of the sender
-    Player storage myCoin = wallets[msg.sender];
-    // Blend your coin with the other one
-    myCoin.rgb.r = (myCoin.rgb.r + otherCoin.rgb.r) / 2;
-    myCoin.rgb.g = (myCoin.rgb.g + otherCoin.rgb.g) / 2;
-    myCoin.rgb.b = (myCoin.rgb.b + otherCoin.rgb.b) / 2;
-    // Transfer the Ethers
-    otherPlayer.transfer(msg.value / 2);
-    // Emit the event
-    emit Blending(msg.sender, myCoin.rgb.r, myCoin.rgb.g, myCoin.rgb.b);
-  }
-
-  /* Sender blends his token with his default rgb code */
-  function blendWithYourself() gameInProgress onlyPlayer public payable {
-    // The sender must at least send 0.02 ethers
-    require(msg.value >= 20 finney, 'Not enough Ether');
-    // Get the default color of the sender
-    uint defaultChoice = uint(msg.sender) % 3;
-    Rgb memory otherCoin;
-    if (defaultChoice == 0) {
-      otherCoin = Rgb(255, 0, 0);
-    } else if (defaultChoice == 1){
-      otherCoin = Rgb(0, 255, 0);
-    } else {
-      otherCoin = Rgb(0, 0, 255);
-    }
-    // Get the coin of the sender
-    Player storage myCoin = wallets[msg.sender];
-    // Blend your coin with the other one
-    myCoin.rgb.r = (myCoin.rgb.r + otherCoin.r) / 2;
-    myCoin.rgb.g = (myCoin.rgb.g + otherCoin.g) / 2;
-    myCoin.rgb.b = (myCoin.rgb.b + otherCoin.b) / 2;
-    // Emit the event
-    emit Blending(msg.sender, myCoin.rgb.r, myCoin.rgb.g, myCoin.rgb.b);
-  }
-
-  /* Get the default rgb code of an address */
-  function getDefaultRgb(address player) public pure returns (uint[3]) {
-    uint defaultChoice = uint(player) % 3;
-    Rgb memory defaultRgb;
-    if (defaultChoice == 0) {
-      defaultRgb = Rgb(255, 0, 0);
-    } else if (defaultChoice == 1){
-      defaultRgb = Rgb(0, 255, 0);
-    } else {
-      defaultRgb = Rgb(0, 0, 255);
-    }
-    return [ defaultRgb.r, defaultRgb.g, defaultRgb.b ];
-  }
-
-  /* The owner rewards the winner */
-  function rewardWinner() public onlyOwner gameOver {
-    address winnerAddress = playerList[0];
-    int min = computeScore(playerList[0]);
-    uint i;
-    while (i < playerList.length) {
-      if (computeScore(playerList[i]) < min) {
-        winnerAddress = playerList[i];
-        min = computeScore(winnerAddress);
-      }
-      i++;
-    }
-    winnerAddress.transfer(address(this).balance);
-  }
-
-  /* Get the current rgb code of an address */
-  function getCurrentRgb(address player) public view returns (uint[3]) {
-    Player memory currentRgb = wallets[player];
-    return [ currentRgb.rgb.r, currentRgb.rgb.g, currentRgb.rgb.b ];
-  }
-
-  /* Get the list of players */
-  function getPlayers() public view returns (address[]) {
+   /* Get the list of players */
+  function getPlayers() 
+    public 
+    view 
+    returns (address[]) 
+  {
     return playerList;
   }
 
   /* Get the price of interaction of an address */
-  function getInteractionPrice(address player) public view returns (uint) {
-    return wallets[player].interactionPrice;
+  function getBlendingPrice(
+    address _player
+  ) 
+    public 
+    view 
+    returns (uint) 
+  {
+    return tokens[_player].blendingPrice;
   }
 
   /* Check if an address is a player */
-  function isPlayer(address _address) public view returns (bool) {
-    uint i;
-    while (i < playerList.length) {
-      if (playerList[i] == _address) {
-        return true;
-      }
-      i++;
+  function isPlayer(
+    address _player
+  ) 
+    public 
+    view 
+    returns (bool) 
+  {
+    return tokens[_player].blendingPrice > 0;
+  }
+
+  function isGameInProgress() 
+    public
+    view
+    returns (bool)
+  {
+    return stopTime - now > 0;
+  } 
+
+  function updateTimer(uint _time) 
+    public
+    onlyAdmin
+    returns (bool)
+  {
+    stopTime = now + _time * 1 seconds;
+    return true;
+  }
+
+  function timeRemaining()
+    public
+    view
+    returns (uint) 
+  {
+    return stopTime - now;
+  }
+
+  function computeDefaultRgb(
+    address _player
+  ) 
+    public 
+    pure 
+    returns (uint[3]) 
+  {
+    if (uint(_player) % 3 == 0) {
+      return [uint(255), 0, 0];
+    } else if (uint(_player) % 3 == 1) {
+      return [0, uint(255), 0];
+    } else {
+      return [0, 0, uint(255)];
+    }
+  }
+
+    /* Get the current rgb code of an address */
+  function getCurrentRgb(
+    address _player
+  ) 
+    public 
+    view 
+    returns (uint[3]) 
+  {
+    Rgb memory rgb = tokens[_player].currentRgb;
+    return [rgb.r, rgb.g, rgb.b];
+  }
+
+  /* Get the current rgb code of an address */
+  function getDefaultRgb(
+    address _player
+  ) 
+    public 
+    view 
+    returns (uint[3]) 
+  {
+    Rgb memory rgb = tokens[_player].defaultRgb;
+    return [rgb.r, rgb.g, rgb.b];
+  }
+
+  /* Sender joins the game */
+  function play() 
+    public
+    gameInProgress
+    returns (bool)  
+  {
+    // The sender must not be already a player
+    require(!isPlayer(msg.sender), 'Already a player');
+    
+    // Given the address, derive the corresponding rgb
+    // Assign the address a token of color derived from it
+    uint[3] memory defaultRgb = computeDefaultRgb(msg.sender);
+    Rgb memory initialRgb =  Rgb(defaultRgb[0], defaultRgb[1], defaultRgb[2]);
+  
+    // Register the address in the array of player with blending price at 
+    tokens[msg.sender] = Token(DEFAULT_BLENDING_PRICE, initialRgb, initialRgb);
+    playerList.push(msg.sender);
+
+    // Emit the event
+    emit PlayerCreated(msg.sender);
+
+    return true;
+  }
+
+  /* Set your interaction price with others */
+  /*TODO: setBlendingPrice */
+  function updateBlendingPrice(
+    uint _price
+  )
+     public
+     onlyPlayer
+     gameInProgress
+     returns (bool)
+  { 
+    require(_price > 0, 'You should set a positive blending price');
+    
+    tokens[msg.sender].blendingPrice = _price;
+    
+    emit BlendingPriceUpdated(msg.sender, _price);
+    return true;
+  }
+
+  /* Sender blends his token with the one of an other address */
+  function blend(
+    address _blendingPlayer,
+    uint _blendingR,
+    uint _blendingG,
+    uint _blendingB
+  ) 
+    public
+    payable
+    gameInProgress 
+    onlyPlayer 
+    returns (bool)
+  {
+    // Get the coin of otherPlayer
+    Token memory blendingToken = tokens[_blendingPlayer];
+
+    // The sender must at least send the blendingPrice of the other player
+    require(msg.value >= blendingToken.blendingPrice, 'Not enough Ether');
+
+    // The color of the target must not have been modified while blending transaction is transmitted
+    require(_blendingR == blendingToken.currentRgb.r && _blendingG == blendingToken.currentRgb.g && _blendingB == blendingToken.currentRgb.b, 'Target coin has changed');
+    
+    // Get the coin of the sender
+    Token storage token = tokens[msg.sender];
+
+    // Blend your coin with the other one
+    token.currentRgb.r = (token.currentRgb.r + blendingToken.currentRgb.r) / 2;
+    token.currentRgb.g = (token.currentRgb.g + blendingToken.currentRgb.g) / 2;
+    token.currentRgb.b = (token.currentRgb.b + blendingToken.currentRgb.b) / 2;
+
+    // Transfer the Ethers
+    _blendingPlayer.transfer(msg.value / 2);
+
+    // Emit the event
+    emit TokenBlended(msg.sender, token.currentRgb.r, token.currentRgb.g, token.currentRgb.b);
+
+    return true;
+  }
+
+  /* Sender blends his token with his default rgb code */
+  function blend() 
+    public
+    payable
+    gameInProgress 
+    onlyPlayer 
+    returns (bool)
+  {
+    // The sender must at least send 0.01 ethers
+    require(msg.value >= DEFAULT_BLENDING_PRICE, 'Not enough Ether');
+
+    // Get the default color of the sender
+     // Get the coin of the sender
+    Token storage token = tokens[msg.sender];
+
+    // Blend your coin with the other one
+    token.currentRgb.r = (token.currentRgb.r + token.defaultRgb.r) / 2;
+    token.currentRgb.g = (token.currentRgb.g + token.defaultRgb.g) / 2;
+    token.currentRgb.b = (token.currentRgb.b + token.defaultRgb.b) / 2;
+
+    // Emit the event
+    emit TokenBlended(msg.sender, token.currentRgb.r, token.currentRgb.g, token.currentRgb.b);
+
+    return true;
+  }
+
+  function claimVictory() 
+    public
+    onlyPlayer
+    returns (bool)
+  { 
+    if (isGameInProgress() && computeScore(msg.sender) == 0) {
+      msg.sender.transfer(address(this).balance);
+      return true;
+    } else if (!isGameInProgress()) {
+      /* Ensure player is a winner */
+      require(computeScore(msg.sender) == computeWinningScore(), 'You are not the winner');
+
+      /* Transfer Eth to winner*/
+      msg.sender.transfer(address(this).balance);
+
+      return true;
     }
     return false;
   }
 
-  function computeScore(address playerAddress) internal view returns (int) {
-    Player memory target = wallets[playerAddress];
-    int rValue = int(target.rgb.r);
-    int gValue = int(target.rgb.g);
-    int bValue = int(target.rgb.b);
-    int rScore = (rValue - 44) * (rValue - 44);
-    int gScore = (gValue - 86) * (gValue - 86);
-    int bScore = (bValue - 221) * (bValue - 221);
-    return (rScore + gScore + bScore);
+  function computeScore(
+    address _player
+  ) 
+    internal 
+    view 
+    returns (int) 
+  {
+    Rgb memory rgb = tokens[_player].currentRgb;
+    int targetR  = int(targetRgb.r);
+    int targetG = int(targetRgb.g);
+    int targetB = int(targetRgb.b);
+    int scoreR = (int(rgb.r) - targetR) * (int(rgb.r) - targetR);
+    int scoreG = (int(rgb.g) - targetG) * (int(rgb.g) - targetG);
+    int scoreB = (int(rgb.b) - targetB) * (int(rgb.b) - targetB);
+
+    return (scoreR + scoreG + scoreB);
+  }
+
+  function computeWinningScore()
+    internal
+    view
+    returns (int) 
+  {
+    int minScore = 0xffffff;
+    for (uint i; i < playerList.length; i++) {
+      int score = computeScore(playerList[i]);
+      if (score < minScore) {
+        minScore = score;
+      }
+    }    
+    return minScore;
   }
 }
