@@ -1,0 +1,27 @@
+{
+  "name": "workshop-x",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^3.0.1",
+    "ganache-cli": "^6.1.8",
+    "mnemonic-generator": "^1.0.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.1.5",
+    "redux": "^4.0.0",
+    "redux-saga": "^0.16.0",
+    "truffle-hdwallet-provider": "0.0.6",
+    "web3": "^1.0.0-beta.33"
+  },
+  "scripts": {
+    "ganache": "ganache-cli -m 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'",
+    "compile": "cd dapp && truffle compile",
+    "migrate": "cd dapp && truffle migrate --reset --compile-all && cd .. && cp -r dapp/build/contracts/. src/abis/",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

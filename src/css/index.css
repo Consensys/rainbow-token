@@ -1,0 +1,39 @@
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: rgb(245, 245, 245);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.loader {
+  border: 2vmin solid #bdc3c7;
+  width: 50px;
+  height: 50px;
+  margin: 15% auto;
+  border-top-color: rgb(60, 60, 60);
+  border-bottom-color: rgb(60, 60, 60);
+  border-radius: 50%;
+  animation: coloredSpin 2s linear infinite;
+}
+
+@keyframes coloredSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
