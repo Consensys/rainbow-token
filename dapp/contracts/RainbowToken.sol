@@ -37,9 +37,6 @@ contract RainbowToken {
   /* Default blending price is 0.01 ETH */
   uint constant DEFAULT_BLENDING_PRICE = 10000000000000000;
 
-  /* Rainbow Token game administrator */
-  address public admin;
-
   /* End time of the game */
   uint public endTime;
 
@@ -50,27 +47,17 @@ contract RainbowToken {
   mapping(address => Token) private tokens;
   address[] public players;
 
-  modifier onlyAdmin() {
-    require(msg.sender == admin, 'Only administrator');
-    _;
-  }
-
   /* Throw if the sender is not a player */
   modifier onlyPlayer() {
     require(isPlayer(msg.sender), 'You are not a player');
     _;
   }
 
-  /* Throw if the game is over */
+  /* Throw if game is over */
   modifier gameInProgress() {
     require(!isGameOver(), 'Game is over');
     _;
   }
-
-  /* Emitted when game end time is chaged */
-  event EndTimeSet(
-    uint endTime
-  );
 
   /* Emitted each time a player join the game */
   event PlayerCreated(
@@ -111,7 +98,6 @@ contract RainbowToken {
   ) 
     public
   {
-    admin = msg.sender;
     require(_r < 256 && _g < 256 && _b < 256, 'Target color is not valid');
     targetColor = Color(_r, _g, _b);
     endTime = now +  _time * 1 seconds;
@@ -133,6 +119,18 @@ contract RainbowToken {
     return (token.color.r, token.color.g, token.color.b, token.defaultColor.r, token.defaultColor.g, token.defaultColor.b, token.blendingPrice);
   }
 
+
+  /**
+   * @dev Check if game is over
+   */
+  function isGameOver() 
+    public
+    view
+    returns (bool)
+  {
+    return now > endTime;
+  } 
+
   /**
    * @dev Check if a player exist
    * @param _player Player address
@@ -149,33 +147,6 @@ contract RainbowToken {
   }
 
   /**
-   * @dev Check if game is over
-   */
-  function isGameOver() 
-    public
-    view
-    returns (bool)
-  {
-    return now > endTime;
-  } 
-
-  /**
-   * @dev Set game end time
-   * @param _time Time for the game to last (number of seconds)
-   */
-  function setEndTime(uint _time) 
-    public
-    onlyAdmin
-    returns (bool)
-  {
-    endTime = now + _time * 1 seconds;
-
-    emit EndTimeSet(endTime)
-
-    return true;
-  }
-
-  /**
    * @dev Register transaction sender has a new player
    */
   function play() 
@@ -188,7 +159,7 @@ contract RainbowToken {
     require(!isPlayer(msg.sender), 'Already a player');
     
     // Sender must have paid default price to start playing
-    require(msg.value >= DEFAULT_BLENDING_PRICE, 'You must pay to start playing')
+    require(msg.value >= DEFAULT_BLENDING_PRICE, 'You must pay to start playing');
 
     // Given player address, derive the corresponding initial color
     Color memory initialColor;
@@ -212,7 +183,7 @@ contract RainbowToken {
 
   /**
    * @dev Set blending price
-   * @param _time New price (must be strictly positive)
+   * @param _price New price (must be strictly positive)
    */
   function setBlendingPrice(
     uint _price
