@@ -1,9 +1,72 @@
-import { all } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import {
-  watchGetPlayers,
-  watchNewPlayer
+  startLoadingPlayers,
+  endLoadingPlayers,
+  setPlayers,
+  addPlayer,
 } from '../actions/players';
+import {
+  addError,
+  removeError,
+} from '../actions/errors'
+import {
+  GET_PLAYERS,
+  NEW_PLAYER,
+} from '../actionsType';
+import rainbow from '../../web3';
+import { computeScore } from '../../web3/utils';
+
+/********* WORKERS *********/
+
+function* getPlayersSaga() {
+  try {
+    yield put(startLoadingPlayers());
+    const playerAddresses = yield call(rainbow.getPlayers);
+    const tokens = yield Promise.all(playerAddresses.map(address => rainbow.getToken(address)));
+    const players = {}
+    for (i = 0; i < playerAddresses.length; i++) {
+      players[playerAddresses[i]] = {
+        address: playerAddresses[i],
+        pseudo: generator(playerAddresses[i]),
+        token: tokens[i],
+        score: computeScore(tokens[i].color, rainbow.targetColor),
+      }
+    }
+    yield put(setPlayers(players));
+  } catch(err) {
+    yield put(addError('Unable to retrieve the players.'));
+  } finally {
+    yield put(endLoadingPlayers());
+  }
+}
+
+function* newPlayerSaga(address) {
+  try {
+    const token = yield call(rainbow.getToken, address);
+    const player = {
+      address,
+      pseudo: generator(address),
+      token: token,
+      score: computeScore(token.color, rainbow.targetColor),
+    };
+    yield put(addPlayer(player));
+  } catch(err) {
+    yield put(addError('Unable to add a player.'));
+  } finally {
+
+  }
+}
+
+/********* WATCHERS *********/
+
+function* watchGetPlayers() {
+  yield takeLatest(GET_PLAYERS, getPlayersSaga);
+}
+
+function* watchNewPlayer() {
+  yield takeEvery(NEW_PLAYER, ({ payload }) => newPlayerSaga(payload))
+}
 
 function* playersSaga(){
   yield all([

@@ -25,7 +25,7 @@ import Loader from '../components/Loader';
 const mapStateToProps = state => ({
   user: state.user,
   players: state.players,
-  currentPlayer: state.players.data.find(player => (player.address == user.data.address)),
+  currentPlayer: state.players.data[user.data.address],
   errors: state.errors
 });
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = {
   updateUserColor,
   getPlayers,
   newPlayer,
-  updateToken,
+  updatePlayerToken,
   startPlaying: requestPlaying,
   blend: requestBlend,
 };
@@ -42,8 +42,14 @@ const mapDispatchToProps = {
 class HomepageContainer extends Component {
 
   componentDidMount() {
-    this.props.getUser();
-    this.props.loadPlayers();
+    const {
+      getPlayers,
+      getUser,
+      updatePlayerToken,
+    } = this.props;
+
+    getPlayers();
+    getUser();
 
     // Register event listeners
     RgbWallet_event.TokenBlended({}, (err, event) => {
@@ -52,9 +58,18 @@ class HomepageContainer extends Component {
     .on('data', event => {
       console.log('New Blending!');
       const { player, r, g, b } = event.returnValues;
-      const 
-      if (player === this.props.user.data.address) this.props.updateUserColor(color([r, g, b]));
-      this.props.updateToken(player, color([r, g, b]));
+      updatePlayerToken(player, color([r, g, b]));
+    })
+    .on('error', console.log);
+    
+    //
+    RgbWallet_event.BlendingPriceSet({}, (err, event) => {
+      console.log('New Blending!', event);
+    })
+    .on('data', event => {
+      console.log('New Blending!');
+      const { player, price } = event.returnValues;
+      updatePlayerToken(player, undefined, price);
     })
     .on('error', console.log);
 
@@ -64,7 +79,7 @@ class HomepageContainer extends Component {
     .on('data', event => {
       console.log('New Player!');
       const { player } = event.returnValues;
-      this.props.newPlayer(player);
+      newPlayer(player);
     })
     .on('error', console.log);
   }
@@ -89,7 +104,6 @@ class HomepageContainer extends Component {
     ) : (
       <HomepageVisitor
         inProgress={user.inProgress}
-        pseudo={user.data.pseudo}
         startPlaying
       />
     )

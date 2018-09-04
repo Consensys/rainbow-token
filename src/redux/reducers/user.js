@@ -1,5 +1,4 @@
 import {
-  START_PLAYING,
   START_LOADING_USER,
   END_LOADING_USER,
   SET_USER,
@@ -8,16 +7,13 @@ import {
 } from '../actionTypes';
 
 const DEFAULT_STATE = {
-  isPlaying: false,
-  isLoading: true,
+  isLoading: false,
   inProgress: false,
   data: {}
 };
 
 export default (state = DEFAULT_STATE, {type, payload}) => {
   switch (type) {
-    case START_PLAYING:
-      return { ...state, isPlaying: true };
     case START_LOADING_USER:
       return { ...state, isLoading: true };
     case END_LOADING_USER:

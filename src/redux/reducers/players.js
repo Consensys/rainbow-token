@@ -2,13 +2,13 @@ import {
   START_LOADING_PLAYERS,
   END_LOADING_PLAYERS,
   SET_PLAYERS,
-  UPDATE_TOKEN,
+  UPDATE_PLAYER_TOKEN,
   ADD_PLAYER,
 } from '../actionTypes';
 
 const DEFAULT_STATE = {
   isLoading: true,
-  data: []
+  data: {},
 };
 
 export default (state = DEFAULT_STATE, {type, payload}) => {
@@ -20,22 +20,31 @@ export default (state = DEFAULT_STATE, {type, payload}) => {
     case SET_PLAYERS:
       const data = JSON.parse(JSON.stringify(payload));
       return { ...state, data };
-    case UPDATE_TOKEN:
-      const updatedData = state.data.map(player => {
-        if (player.address === payload.address) {
-          return {
-            ...player,
-            color: payload.color,
-            score: payload.score,
-          };
-        }
-        return player;
-      })
-      return { ...state, data: updatedData };
     case ADD_PLAYER:
-      const newData = JSON.parse(JSON.stringify(state.data));
-      newData.push(payload);
-      return { ...state, data: newData }
+      return {
+        ...state, 
+        data: {
+          ...state.data,
+          [payload.address]: payload,
+        }
+      }
+    case UPDATE_PLAYER_TOKEN:
+      const player = state.data[payload.address]
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          [player.address]: {
+            ...player,
+            token: {
+              ...player.token,
+              color: payload.token.color || player.token.color,
+              score: payload.token.score || player.token.score,
+              blendingPrice: payload.token.blendingPrice || player.token.blendingPrice,
+            }
+          }
+        }
+      }
     default:
       return state;
   }
