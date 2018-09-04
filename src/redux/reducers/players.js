@@ -29,16 +29,17 @@ export default (state = DEFAULT_STATE, {type, payload}) => {
       }
     case UPDATE_PLAYER_TOKEN:
       const player = state.data[payload.address]
+      console.log('Reducing', payload)
       return {
         ...state,
         data: {
           ...state.data,
           [player.address]: {
             ...player,
+            score: payload.score || player.score,
             token: {
               ...player.token,
               color: payload.token.color || player.token.color,
-              score: payload.token.score || player.token.score,
               blendingPrice: payload.token.blendingPrice || player.token.blendingPrice,
             }
           }

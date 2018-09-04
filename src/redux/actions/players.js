@@ -43,9 +43,9 @@ export const updatePlayerToken  = (address, color=undefined, blendingPrice=undef
   type: UPDATE_PLAYER_TOKEN,
   payload: {
     address,
+    score: color ? computeScore(color, rainbow.targetColor): undefined,
     token: {
       color,
-      score: color ? computeScore(color, rainbow.targetColor): undefined,
       blendingPrice,
     }
   }

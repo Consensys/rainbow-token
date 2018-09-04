@@ -2,18 +2,13 @@ import Web3 from 'web3';
 import { computeToken, color } from './utils';
 import { abi } from './abis/RainbowToken.json';
 
-// const contractAddress = networks[Object.keys(networks)[0]].address;
-/* LOCAL */
-
-const contractAddress = '0xc61431eb6c69189f844a595234ce331b7c8a7a77';
-/* ROPSTEN */
-// const contractAddress = '0x38450358273ff0fdf12ceadb60eefd4ebd9614ee';
+const contractAddress = '0x5f98ac8afd523d7a66ba34de9f6644af0b7e2e89';
 
 export const web3 = new Web3(Web3.givenProvider);
 
-export const web3Ws = (process.env.NODE_ENV === 'development') 
+export const web3Ws = !(process.env.NODE_ENV === 'development') 
   ? new Web3('ws://localhost:7545')
-  : new Web3('wss://ropsten.infura.io/ws')
+  : new Web3(new Web3.providers.WebsocketProvider('wss://ropsten.infura.io/ws'))
  
 const RainbowToken = new web3.eth.Contract(abi, contractAddress);
 export const RainbowTokenWs = new web3Ws.eth.Contract(abi, contractAddress).events;

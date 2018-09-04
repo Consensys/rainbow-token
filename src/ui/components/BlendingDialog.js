@@ -19,20 +19,19 @@ const BlendingDialog = ({
   blendingPrice,
   blendingAddress
 }) => {
-  console.log("Resulting", color, blendingColor)
+
   const resultingColor = {
       r: Math.floor((Number(color.r) + Number(blendingColor.r)) / 2),
       g: Math.floor((Number(color.g) + Number(blendingColor.g)) / 2),
       b: Math.floor((Number(color.b) + Number(blendingColor.b)) / 2),
   }
-  console.log(resultingColor)
   const actionButton = withSelf ? (
     <Button onClick={e => {e.preventDefault(); blend(); handleClose()}} color="primary">
       Blend
     </Button>
   ) : (
     <Button onClick={e => {
-        e.preventDefault(); 
+        e.preventDefault();
         blend(blendingAddress, {blendingPrice, color: blendingColor}); 
         handleClose()
     }} color="primary">

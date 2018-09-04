@@ -1,6 +1,6 @@
 import {
   GET_USER,
-  REQUEST_PLAYING,
+  START_PLAYING,
   SET_USER,
   START_LOADING_USER,
   END_LOADING_USER,
@@ -29,10 +29,6 @@ export const setUser = (address) => ({
   payload: address
 })
 
-export const requestPlaying = () => ({
-  type: REQUEST_PLAYING
-})
-
 export const startTransaction = () => ({
   type: START_TRANSACTION,
 })
@@ -45,6 +41,13 @@ export const setBlendingPrice = (price) => ({
   type: SET_BLENDING_PRICE,
   payload: price
 })
+
+export const startPlaying = () => {
+  console.log('piou');
+  return {
+    type: START_PLAYING,
+  }
+}
 
 export const requestBlend = (
   blendingAddress=undefined, 

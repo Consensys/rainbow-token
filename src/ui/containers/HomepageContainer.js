@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import {
   getUser,
-  requestPlaying,
   requestBlend,
   setBlendingPrice,
+  startPlaying,
 } from '../../redux/actions/user';
 import { 
-  getPlayers,
-  newPlayer, 
+  getPlayers, 
   updatePlayerToken,
+  newPlayer,
 } from '../../redux/actions/players';
 
 import { RainbowTokenWs } from '../../web3';
@@ -32,8 +32,9 @@ const mapDispatchToProps = {
   getUser,
   updatePlayerToken,
   getPlayers,
-  newPlayer,
+  startPlaying,
   blend: requestBlend,
+  newPlayer,
   setBlendingPrice,
 };
 
@@ -44,6 +45,7 @@ class HomepageContainer extends Component {
       getPlayers,
       getUser,
       updatePlayerToken,
+      newPlayer,
     } = this.props;
 
     getPlayers();
@@ -56,6 +58,7 @@ class HomepageContainer extends Component {
     .on('data', event => {
       console.log('New Blending!');
       const { player, r, g, b } = event.returnValues;
+      console.log(color([r, g, b]))
       updatePlayerToken(player, color([r, g, b]));
     })
     .on('error', console.log);
@@ -98,7 +101,8 @@ class HomepageContainer extends Component {
       currentPlayer,
       newPlayer, 
       blend,
-      setBlendingPrice
+      setBlendingPrice,
+      startPlaying,
     } = this.props;
 
     const display = user.isLoading || players.isLoading ? (
@@ -114,7 +118,7 @@ class HomepageContainer extends Component {
     ) : (
       <HomepageVisitor
         inProgress={user.inProgress}
-        newPlayer={newPlayer}
+        startPlaying={startPlaying}
       />
     )
     return display;

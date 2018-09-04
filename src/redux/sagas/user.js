@@ -14,7 +14,7 @@ import {
 } from '../actions/errors'
 import {
   GET_USER,
-  REQUEST_PLAYING,
+  START_PLAYING,
   REQUEST_BLEND,
   SET_BLENDING_PRICE,
 } from '../actionTypes';
@@ -41,8 +41,11 @@ function* getUserSaga() {
 
 function* startPlayingSaga() {
   try {
-    yield put(startTransaction());
+    console.log('Piuo')
+    yield put(startTransaction());   
+    console.log('Start playing') 
     const address = yield select(state => state.user.data.address);
+    console.log('Start playin', address)
     yield call(rainbow.play, address);
   } catch(err) {
     yield put(addError('Unable to join the game.'));
@@ -67,6 +70,7 @@ function* blendSaga(blendingAddress, blendingToken) {
 function* setBlendingPriceSaga(price) {
   try {
     yield put(startTransaction());
+    
     const address = yield select(state => state.user.data.address);
     yield call(rainbow.setBlendingPrice, address, price);
   } catch(err) {
@@ -83,8 +87,8 @@ function* watchGetUser() {
   yield takeLatest(GET_USER, getUserSaga);
 }
 
-function* watchRequestPlaying() {
-  yield takeLatest(REQUEST_PLAYING, startPlayingSaga);
+function* watchStartPlaying() {
+  yield takeLatest(START_PLAYING, startPlayingSaga);
 }
 
 function* watchRequestBlend() {
@@ -104,7 +108,7 @@ function* watchSetBlendingPrice() {
 function* userSaga(){
   yield all([
     watchGetUser(),
-    watchRequestPlaying(),
+    watchStartPlaying(),
     watchRequestBlend(),
     watchSetBlendingPrice(),
   ])
