@@ -1,34 +1,37 @@
 import Web3 from 'web3';
-import { computeToken } from './utils';
+import { computeToken, color } from './utils';
 import { abi } from './abis/RainbowToken.json';
 
 // const contractAddress = networks[Object.keys(networks)[0]].address;
 /* LOCAL */
-const contractAddress = '0xf204a4ef082f5c04bb89f7d5e6568b796096735a';
+
+const contractAddress = '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a';
 /* ROPSTEN */
 // const contractAddress = '0x38450358273ff0fdf12ceadb60eefd4ebd9614ee';
 
 export const web3 = new Web3(Web3.givenProvider);
 
-export const web3_event = new Web3('ws://localhost:8545');
-// export const web3_event = new Web3(new Web3.providers.WebsocketProvider("wss://ropsten.infura.io/ws"));
-// export const web3_event = new Web3('wss://ropsten.infura.io/ws');
-// export const web3_event_main = new Web3(new Web3.providers.WebsocketProvider("wss://mainnet.infura.io/ws"));
-// export const web3_event_rinkeby = new Web3(new Web3.providers.WebsocketProvider("wss://rinkeby.infura.io/ws"));
-
+export const web3Ws = (process.env.NODE_ENV === 'development') 
+  ? new Web3('ws://localhost:7545')
+  : new Web3('wss://ropsten.infura.io/ws')
+ 
 const RainbowToken = new web3.eth.Contract(abi, contractAddress);
-export const RgbWallet_event = new web3_event.eth.Contract(abi, contractAddress).events;
+export const RainbowTokenWs = new web3Ws.eth.Contract(abi, contractAddress).events;
+const targetColor = color(44, 86, 221);
+const defaultBlendingPrice = 10000000000000000;
 
 export default {
-  targetColor: RainbowToken.methods.tokenColor().call(),
-  defaultBlendingPrice: RainbowToken.DEFAUT_BLENDING_PRICE.call(),
-  getToken: playerAddress => computeToken(RainbowToken.methods.getToken(playerAddress).call()),
+  targetColor,
+  defaultBlendingPrice,
+  endTime: () => RainbowToken.methods.endTime().call().then((res) => new Date(res * 1000)),
+  getToken: playerAddress => RainbowToken.methods.getToken(playerAddress).call().then(computeToken),
   isPlayer: address => RainbowToken.methods.isPlayer(address).call(),
-  getPlayers: () => RainbowToken.players.call(),
+  getPlayers: () => RainbowToken.methods.getPlayers().call(),
   play: address => {
-    return RainbowToken.play().send({
+    return RainbowToken.methods.play().send({
       from: address,
       value: defaultBlendingPrice,
+      gasLimit: 500000,
     })
     .on('transactionHash', hash => {
       console.log('Transaction hash: ', hash);
@@ -55,28 +58,29 @@ export default {
     })
   },
   blend: (address, blendingAddress, blendingToken) => {
+    let promise;
     if (blendingAddress) {
-      const promise = RainbowToken.methods.blend(blendingAddress, blendingToken.blendingPrice, blendingToken.color.r, blendingToken.color.g, blendingToken.color.b).send({
+      promise = RainbowToken.methods.blend(blendingAddress, blendingToken.blendingPrice, blendingToken.color.r, blendingToken.color.g, blendingToken.color.b).send({
         from: address,
-        value: blendingPrice,
+        value: blendingToken.blendingPrice,
       })
     } else {
       // this a default blend
-      const promise = RainbowToken.methods.blend().send({
+      promise = RainbowToken.methods.blend().send({
         from: address,
-        value: RainbowToken.defaultBlendingPrice,
+        value: defaultBlendingPrice,
       })
     }
     return promise
-    .on('transactionHash', hash => {
-      console.log('Transaction hash: ', hash);
-    })
-    .on('receipt', receipt => {
-      console.log('Receipt: ', receipt);
-    })
-    .on('error', err => {
+      .on('transactionHash', hash => {
+        console.log('Transaction hash: ', hash);
+      })
+      .on('receipt', receipt => {
+        console.log('Receipt: ', receipt);
+      })
+      .on('error', err => {
 
-    })
+      })
   },
   claimVictory: (address) => {
     return RainbowToken.methods.claimVictory().send({

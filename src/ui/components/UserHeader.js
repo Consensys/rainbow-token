@@ -21,7 +21,7 @@ const UserHeader = ({
         </span>
       </div>
       <div style={{ display: 'flex', flexDirection:'row', fontSize: '1.2em'}}>
-        <span>Current Token Color: RGB({currentPlayer.color.r}, {currentPlayer.color.g}, {currentPlayer.color.b})</span>
+        <span>Current Token Color: RGB({currentPlayer.token.color.r}, {currentPlayer.token.color.g}, {currentPlayer.token.color.b})</span>
         <span style={{ display:'inline-block', marginLeft: '1em', width: '20px', height: '20px', background: `rgb(${currentPlayer.token.color.r}, ${currentPlayer.token.color.g}, ${currentPlayer.token.color.b})`, borderRadius:'50%', boxShadow: '.3px .3px black' }}></span>
       </div>
       <Button variant='contained' color='primary' onClick={e => {e.preventDefault(); blend();}} disabled={inProgress}>

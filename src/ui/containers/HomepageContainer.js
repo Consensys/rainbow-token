@@ -4,17 +4,15 @@ import { connect } from 'react-redux';
 import {
   getUser,
   requestPlaying,
-  requestAUthoBlend,
   requestBlend,
-  updateUserColor,
 } from '../../redux/actions/user';
 import { 
   getPlayers,
-  updateToken, 
   newPlayer, 
+  updatePlayerToken,
 } from '../../redux/actions/players';
 
-import { RgbWallet_event, web3_event, web3_event_main, web3_event_rinkeby } from '../../web3';
+import { RainbowTokenWs } from '../../web3';
 import { color } from '../../web3/utils';
 
 import HomepageVisitor from '../components/HomepageVisitor';
@@ -25,16 +23,15 @@ import Loader from '../components/Loader';
 const mapStateToProps = state => ({
   user: state.user,
   players: state.players,
-  currentPlayer: state.players.data[user.data.address],
+  currentPlayer: state.players.data[state.user.data.address],
   errors: state.errors
 });
 
 const mapDispatchToProps = {
   getUser,
-  updateUserColor,
+  updatePlayerToken,
   getPlayers,
   newPlayer,
-  updatePlayerToken,
   startPlaying: requestPlaying,
   blend: requestBlend,
 };
@@ -52,7 +49,7 @@ class HomepageContainer extends Component {
     getUser();
 
     // Register event listeners
-    RgbWallet_event.TokenBlended({}, (err, event) => {
+    RainbowTokenWs.TokenBlended({}, (err, event) => {
       console.log('New Blending!', event);
     })
     .on('data', event => {
@@ -63,7 +60,7 @@ class HomepageContainer extends Component {
     .on('error', console.log);
     
     //
-    RgbWallet_event.BlendingPriceSet({}, (err, event) => {
+    RainbowTokenWs.BlendingPriceSet({}, (err, event) => {
       console.log('New Blending!', event);
     })
     .on('data', event => {
@@ -73,7 +70,7 @@ class HomepageContainer extends Component {
     })
     .on('error', console.log);
 
-    RgbWallet_event.PlayerCreated({}, (err, event) => {
+    RainbowTokenWs.PlayerCreated({}, (err, event) => {
       console.log('New Player!', event);
     })
     .on('data', event => {
@@ -97,14 +94,14 @@ class HomepageContainer extends Component {
     ) : currentPlayer ? (
       <HomepagePlayer
         inProgress={user.inProgress}
-        currentPlayer
+        currentPlayer={currentPlayer}
         players={players.data}
-        blend
+        blend={blend}
       />
     ) : (
       <HomepageVisitor
         inProgress={user.inProgress}
-        startPlaying
+        startPlaying={startPlaying}
       />
     )
     return display;

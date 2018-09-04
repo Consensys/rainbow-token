@@ -11,14 +11,14 @@ const HomepagePlayer = ({
 }) => (
   <div>
     <UserHeader
-      currentPlayer
-      inProgress
-      blend
+      currentPlayer={currentPlayer}
+      inProgress={inProgress}
+      blend={blend}
     />
     <PlayerTable
-      players
-      inProgress
-      blend
+      players={players}
+      inProgress={inProgress}
+      blend={blend}
     />
   </div>
 )

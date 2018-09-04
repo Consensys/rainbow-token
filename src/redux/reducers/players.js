@@ -18,9 +18,9 @@ export default (state = DEFAULT_STATE, {type, payload}) => {
     case END_LOADING_PLAYERS:
       return { ...state, isLoading: false };
     case SET_PLAYERS:
-      const data = JSON.parse(JSON.stringify(payload));
-      return { ...state, data };
+      return { ...state, data: payload };
     case ADD_PLAYER:
+
       return {
         ...state, 
         data: {

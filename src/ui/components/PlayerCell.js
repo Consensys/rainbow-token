@@ -1,4 +1,5 @@
 import React from 'react';
+import Web3 from 'web3';
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -27,9 +28,9 @@ const PlayerCell = ({
         variant='contained'
         color='primary'
         disabled={inProgress}
-        onClick={e => {e.preventDault(); blend(player.address, player.token);}}
+        onClick={e => {e.preventDefault(); blend(player.address, player.token);}}
       >
-        { player.token.blendingPrice }
+        { Web3.utils.fromWei(player.token.blendingPrice, 'ether') } ETH
       </Button>
     </TableCell>
   </TableRow>

@@ -1,4 +1,5 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import generator from 'mnemonic-generator';
 
 import {
   startLoadingUser,
@@ -6,7 +7,6 @@ import {
   setUser,
   startTransaction,
   endTransaction,
-  startPlaying,
 } from '../actions/user';
 import {
   addError,
@@ -16,7 +16,7 @@ import {
   GET_USER,
   REQUEST_PLAYING,
   REQUEST_BLEND,
-} from '../actionsType';
+} from '../actionTypes';
 import rainbow,{ web3 } from '../../web3';
 
 /********* WORKERS *********/
@@ -24,7 +24,7 @@ import rainbow,{ web3 } from '../../web3';
 function* getUserSaga() {
   try {
     yield put(startLoadingUser());
-    const [ address, ...others ] = yield call(web3.eth.getAccounts);
+    const [address, ...others] = yield call(web3.eth.getAccounts);
     const user = { 
       address, 
       pseudo: generator(address), 

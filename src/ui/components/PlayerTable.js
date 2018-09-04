@@ -14,12 +14,12 @@ const PlayerTable = ({
   inProgress, 
   blend 
 }) => {
-  const dashboard = players.map(player => (
+  const dashboard = Object.values(players).map(player => (
     <PlayerCell
       key={player.address}
-      player
-      inProgress
-      blend
+      player={player}
+      inProgress={inProgress}
+      blend={blend}
     />
   ));
   return (

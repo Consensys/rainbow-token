@@ -1,4 +1,11 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { 
+  call,
+  put,  
+  takeLatest, 
+  takeEvery, 
+  all,
+} from 'redux-saga/effects';
+import generator from 'mnemonic-generator';
 
 import {
   startLoadingPlayers,
@@ -8,12 +15,11 @@ import {
 } from '../actions/players';
 import {
   addError,
-  removeError,
 } from '../actions/errors'
 import {
   GET_PLAYERS,
   NEW_PLAYER,
-} from '../actionsType';
+} from '../actionTypes';
 import rainbow from '../../web3';
 import { computeScore } from '../../web3/utils';
 
@@ -24,8 +30,8 @@ function* getPlayersSaga() {
     yield put(startLoadingPlayers());
     const playerAddresses = yield call(rainbow.getPlayers);
     const tokens = yield Promise.all(playerAddresses.map(address => rainbow.getToken(address)));
-    const players = {}
-    for (i = 0; i < playerAddresses.length; i++) {
+    const players = {};
+    for (let i = 0; i < playerAddresses.length; i++) {
       players[playerAddresses[i]] = {
         address: playerAddresses[i],
         pseudo: generator(playerAddresses[i]),
@@ -35,6 +41,7 @@ function* getPlayersSaga() {
     }
     yield put(setPlayers(players));
   } catch(err) {
+    console.log(err);
     yield put(addError('Unable to retrieve the players.'));
   } finally {
     yield put(endLoadingPlayers());

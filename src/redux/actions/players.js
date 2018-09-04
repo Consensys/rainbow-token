@@ -3,10 +3,12 @@ import {
   START_LOADING_PLAYERS,
   END_LOADING_PLAYERS,
   SET_PLAYERS,
-  UPDATE_PlAYER_TOKEN,
+  UPDATE_PLAYER_TOKEN,
   NEW_PLAYER,
   ADD_PLAYER,
 } from '../actionTypes';
+import rainbow from '../../web3';
+import { computeScore } from '../../web3/utils';
 
 /********* ACTIONS *********/
 
@@ -38,7 +40,7 @@ export const addPlayer = (player) => ({
 })
 
 export const updatePlayerToken  = (address, color=undefined, blendingPrice=undefined) => ({
-  type: UPDATE_PlAYER_TOKEN,
+  type: UPDATE_PLAYER_TOKEN,
   payload: {
     address,
     token: {
