@@ -21,7 +21,7 @@ const PlayerCell = ({
       </div>
     </TableCell>
     <TableCell>
-      {player.score || 400}
+      { player.score }
     </TableCell>
     <TableCell>
       <Button

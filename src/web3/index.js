@@ -17,7 +17,7 @@ export const web3Ws = (process.env.NODE_ENV === 'development')
  
 const RainbowToken = new web3.eth.Contract(abi, contractAddress);
 export const RainbowTokenWs = new web3Ws.eth.Contract(abi, contractAddress).events;
-const targetColor = color(44, 86, 221);
+const targetColor = color([44, 86, 221]);
 const defaultBlendingPrice = 10000000000000000;
 
 export default {

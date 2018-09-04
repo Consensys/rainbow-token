@@ -39,6 +39,7 @@ function* getPlayersSaga() {
         score: computeScore(tokens[i].color, rainbow.targetColor),
       }
     }
+    console.log(players);
     yield put(setPlayers(players));
   } catch(err) {
     console.log(err);
