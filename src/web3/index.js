@@ -5,7 +5,7 @@ import { abi } from './abis/RainbowToken.json';
 // const contractAddress = networks[Object.keys(networks)[0]].address;
 /* LOCAL */
 
-const contractAddress = '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a';
+const contractAddress = '0xc61431eb6c69189f844a595234ce331b7c8a7a77';
 /* ROPSTEN */
 // const contractAddress = '0x38450358273ff0fdf12ceadb60eefd4ebd9614ee';
 

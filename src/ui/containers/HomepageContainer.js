@@ -33,7 +33,6 @@ const mapDispatchToProps = {
   updatePlayerToken,
   getPlayers,
   newPlayer,
-  startPlaying: requestPlaying,
   blend: requestBlend,
   setBlendingPrice,
 };
@@ -97,22 +96,25 @@ class HomepageContainer extends Component {
       user, 
       players, 
       currentPlayer,
-      startPlaying, 
-      blend 
+      newPlayer, 
+      blend,
+      setBlendingPrice
     } = this.props;
+
     const display = user.isLoading || players.isLoading ? (
-      <Loader />
+      <Loader inProgress={true} />
     ) : currentPlayer ? (
       <HomepagePlayer
         inProgress={user.inProgress}
         currentPlayer={currentPlayer}
         players={players.data}
         blend={blend}
+        setBlendingPrice={setBlendingPrice}
       />
     ) : (
       <HomepageVisitor
         inProgress={user.inProgress}
-        startPlaying={startPlaying}
+        newPlayer={newPlayer}
       />
     )
     return display;
