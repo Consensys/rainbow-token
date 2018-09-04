@@ -1,5 +1,5 @@
 var RainbowToken = artifacts.require("./RainbowToken.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(RainbowToken, 44, 86, 221, 10000);
+  deployer.deploy(RainbowToken, 44, 86, 221, 864000);
 };
