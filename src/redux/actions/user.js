@@ -7,6 +7,7 @@ import {
   START_TRANSACTION,
   END_TRANSACTION,
   REQUEST_BLEND,
+  SET_BLENDING_PRICE
 } from '../actionTypes';
 
 /********* ACTIONS *********/
@@ -40,6 +41,10 @@ export const endTransaction = () => ({
   type: END_TRANSACTION,
 })
 
+export const setBlendingPrice = (price) => ({
+  type: SET_BLENDING_PRICE,
+  payload: price
+})
 
 export const requestBlend = (
   blendingAddress=undefined, 

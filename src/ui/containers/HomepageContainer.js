@@ -5,6 +5,7 @@ import {
   getUser,
   requestPlaying,
   requestBlend,
+  setBlendingPrice,
 } from '../../redux/actions/user';
 import { 
   getPlayers,
@@ -34,6 +35,7 @@ const mapDispatchToProps = {
   newPlayer,
   startPlaying: requestPlaying,
   blend: requestBlend,
+  setBlendingPrice,
 };
 
 class HomepageContainer extends Component {
@@ -64,7 +66,7 @@ class HomepageContainer extends Component {
       console.log('New Blending!', event);
     })
     .on('data', event => {
-      console.log('New Blending!');
+      console.log('New price set!');
       const { player, price } = event.returnValues;
       updatePlayerToken(player, undefined, price);
     })
@@ -77,6 +79,15 @@ class HomepageContainer extends Component {
       console.log('New Player!');
       const { player } = event.returnValues;
       newPlayer(player);
+    })
+    .on('error', console.log);
+    
+    RainbowTokenWs.PlayerWon({}, (err, event) => {
+      console.log('Player Won!', event);
+    })
+    .on('data', event => {
+      const { player } = event.returnValues;
+      console.log(player, 'Won');      
     })
     .on('error', console.log);
   }

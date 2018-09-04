@@ -2,6 +2,7 @@ export const REQUEST_PLAYING = 'REQUEST_PLAYING';
 
 export const REQUEST_AUTO_BLEND = 'REQUEST_AUTO_BLEND';
 export const REQUEST_BLEND = 'REQUEST_BLEND';
+export const SET_BLENDING_PRICE = 'SET_BLENDING_PRICE';
 
 export const GET_USER = 'GET_USER';
 export const SET_USER = 'SET_USER';

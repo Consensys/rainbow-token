@@ -16,6 +16,7 @@ import {
   GET_USER,
   REQUEST_PLAYING,
   REQUEST_BLEND,
+  SET_BLENDING_PRICE,
 } from '../actionTypes';
 import rainbow,{ web3 } from '../../web3';
 
@@ -63,6 +64,19 @@ function* blendSaga(blendingAddress, blendingToken) {
   }
 }
 
+function* setBlendingPriceSaga(price) {
+  try {
+    yield put(startTransaction());
+    const address = yield select(state => state.user.data.address);
+    yield call(rainbow.setBlendingPrice, address, price);
+  } catch(err) {
+    console.log(err)
+    yield put(addError('Transaction has failed.'));
+  } finally {
+    yield put(endTransaction());
+  }
+}
+
 /********* WATCHERS *********/
 
 function* watchGetUser() {
@@ -79,13 +93,20 @@ function* watchRequestBlend() {
     ({payload: { blendingAddress, blendingToken }}) => blendSaga(blendingAddress, blendingToken));
 }
 
+function* watchSetBlendingPrice() {
+  yield takeLatest(
+    SET_BLENDING_PRICE,
+    ({ payload }) => setBlendingPriceSaga(payload));
+}
+
 /********* SAGA *********/
 
 function* userSaga(){
   yield all([
     watchGetUser(),
     watchRequestPlaying(),
-    watchRequestBlend()
+    watchRequestBlend(),
+    watchSetBlendingPrice(),
   ])
 }
 
