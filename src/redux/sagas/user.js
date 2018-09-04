@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects';
 
 import {
-  watchFetchingUser,
+  watchGetUser,
   watchRequestPlaying,
   watchRequestBlendingWithSelf,
   watchRequestBlendingWithOthers
@@ -9,10 +9,10 @@ import {
 
 function* userSaga(){
   yield all([
-    watchFetchingUser(),
+    watchGetUser(),
     watchRequestPlaying(),
-    watchRequestBlendingWithSelf(),
-    watchRequestBlendingWithOthers()
+    watchRequestAutoBlend(),
+    watchRequestBlend()
   ])
 }
 

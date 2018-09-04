@@ -1,13 +1,13 @@
 import { all } from 'redux-saga/effects';
 
 import {
-  watchFetchingPlayers,
+  watchGetPlayers,
   watchNewPlayer
 } from '../actions/players';
 
 function* playersSaga(){
   yield all([
-    watchFetchingPlayers(),
+    watchGetPlayers(),
     watchNewPlayer()
   ])
 }

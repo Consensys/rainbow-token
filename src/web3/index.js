@@ -1,5 +1,6 @@
 import Web3 from 'web3';
-import { abi } from '../abis/RgbWallet.json';
+import { computeToken } from './utils';
+import { abi } from './abis/RainbowToken.json';
 
 // const contractAddress = networks[Object.keys(networks)[0]].address;
 /* LOCAL */
@@ -15,17 +16,32 @@ export const web3_event = new Web3('ws://localhost:8545');
 // export const web3_event_main = new Web3(new Web3.providers.WebsocketProvider("wss://mainnet.infura.io/ws"));
 // export const web3_event_rinkeby = new Web3(new Web3.providers.WebsocketProvider("wss://rinkeby.infura.io/ws"));
 
-
-const RgbWalletContract = new web3.eth.Contract(abi, contractAddress);
+const RainbowToken = new web3.eth.Contract(abi, contractAddress);
 export const RgbWallet_event = new web3_event.eth.Contract(abi, contractAddress).events;
 
-export const RgbWalletMethods = {
-  getCurrentRgb: playerAddress => RgbWalletContract.methods.getCurrentRgb(playerAddress).call(),
-  getDefaultRgb: playerAddress => RgbWalletContract.methods.getDefaultRgb(playerAddress).call(),
-  isPlayer: address => RgbWalletContract.methods.isPlayer(address).call(),
-  getPlayers: () => RgbWalletContract.methods.getPlayers().call(),
+export default {
+  targetColor: () => RainbowToken.methods.tokenColor().call(),
+  defaultBlendingPrice: () => RainbowToken.DEFAUT_BLENDING_PRICE.call(),
+  getToken: playerAddress => RainbowToken.methods.getToken(playerAddress).call(),
+  isPlayer: address => RainbowToken.methods.isPlayer(address).call(),
+  getPlayers: () => RainbowToken.players.call(),
   play: address => {
-    return RgbWalletContract.methods.play().send({
+    return RainbowToken.play().send({
+      from: address,
+      value: defaultBlendingPrice,
+    })
+    .on('transactionHash', hash => {
+      console.log('Transaction hash: ', hash);
+    })
+    .on('receipt', receipt => {
+      console.log('Receipt: ', receipt);
+    })
+    .on('error', err => {
+
+    })
+  },
+  setBlendingPrice: (address, price) => {
+    return RainbowToken.methods.setBlendingPrice(price).send({
       from: address
     })
     .on('transactionHash', hash => {
@@ -38,10 +54,10 @@ export const RgbWalletMethods = {
 
     })
   },
-  blendWithYourself: address => {
-    return RgbWalletContract.methods.blendWithYourself().send({
+  autoBlend: address => {
+    return RainbowToken.methods.autoBlend().send({
       from: address,
-      value: web3.utils.toWei('0.02', 'ether')
+      value: defaultBlendingPrice,
     })
     .on('transactionHash', hash => {
       console.log('Transaction hash: ', hash);
@@ -53,10 +69,10 @@ export const RgbWalletMethods = {
 
     })
   },
-  blendWithOthers: (address, otherAddress, otherR, otherG, otherB) => {
-    return RgbWalletContract.methods.blendWithOthers(otherAddress, otherR, otherG, otherB).send({
+  blend: (address, blendingAddress, blendingPrice, blendingR, blendingG, blendingB) => {
+    return RainbowToken.methods.blend(blendingAddress, blendingPrice, blendingR, blendingG, blendingB).send({
       from: address,
-      value: web3.utils.toWei('0.02', 'ether')
+      value: blendingPrice,
     })
     .on('transactionHash', hash => {
       console.log('Transaction hash: ', hash);
@@ -67,5 +83,19 @@ export const RgbWalletMethods = {
     .on('error', err => {
 
     })
-  }
+  },
+  claimVictory: (address) => {
+    return RainbowToken.methods.claimVictory().send({
+      from: address
+    })
+    .on('transactionHash', hash => {
+      console.log('Transaction hash: ', hash);
+    })
+    .on('receipt', receipt => {
+      console.log('Receipt: ', receipt);
+    })
+    .on('error', err => {
+
+    })
+  },
 }

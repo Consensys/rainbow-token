@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import App from './containers/App';
 
 /* Styles */
-import './css/index.css';
+import './App.css';
 
 /* Methods & Functions */
 import registerServiceWorker from './registerServiceWorker';

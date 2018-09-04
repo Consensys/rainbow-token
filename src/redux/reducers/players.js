@@ -2,41 +2,39 @@ import {
   START_LOADING_PLAYERS,
   END_LOADING_PLAYERS,
   SET_PLAYERS,
-  UPDATE_PLAYER,
-  ADD_NEW_PLAYER
+  UPDATE_TOKEN,
+  ADD_PLAYER,
 } from '../actionTypes';
-
-import { computeScore } from '../../util/computeScore';
 
 const DEFAULT_STATE = {
   isLoading: true,
   data: []
 };
 
-export default (state = DEFAULT_STATE, action) => {
-  switch(action.type) {
+export default (state = DEFAULT_STATE, {type, payload}) => {
+  switch(type) {
     case START_LOADING_PLAYERS:
       return { ...state, isLoading: true };
     case END_LOADING_PLAYERS:
       return { ...state, isLoading: false };
     case SET_PLAYERS:
-      const data = JSON.parse(JSON.stringify(action.data));
+      const data = JSON.parse(JSON.stringify(payload));
       return { ...state, data };
-    case UPDATE_PLAYER:
+    case UPDATE_TOKEN:
       const updatedData = state.data.map(player => {
-        if (player.address === action.blender) {
+        if (player.address === payload.address) {
           return {
             ...player,
-            rgbCurrent: [ ...action.updatedRGB ],
-            score: computeScore(action.updatedRGB)
+            color: payload.color,
+            score: payload.score,
           };
         }
         return player;
       })
       return { ...state, data: updatedData };
-    case ADD_NEW_PLAYER:
+    case ADD_PLAYER:
       const newData = JSON.parse(JSON.stringify(state.data));
-      newData.push({ ...action.newPlayer });
+      newData.push(payload);
       return { ...state, data: newData }
     default:
       return state;

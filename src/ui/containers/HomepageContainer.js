@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  fetchUser,
+  getUser,
   requestPlaying,
-  requestBlendWithSelf,
-  requestBlendWithOthers,
-  updateUserRgb
-} from '../store/actions/user';
-import { fetchPlayers, updatePlayerRgb, addNewPlayer } from '../store/actions/players';
+  requestAUthoBlend,
+  requestBlend,
+  updateUserColor,
+} from '../../redux/actions/user';
+import { 
+  getPlayers,
+  updateToken, 
+  newPlayer, 
+} from '../../redux/actions/players';
 
-import { RgbWallet_event, web3_event, web3_event_main, web3_event_rinkeby } from '../util/connectors';
+import { RgbWallet_event, web3_event, web3_event_main, web3_event_rinkeby } from '../../web3';
+import { color } from '../../web3/utils';
 
 import HomepageVisitor from '../components/HomepageVisitor';
 import HomepagePlayer from '../components/HomepagePlayer';
@@ -24,22 +29,22 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadUser: () => dispatch(fetchUser()),
-  triggerUserUpdate: updatedRGB => dispatch(updateUserRgb(updatedRGB)),
-  loadPlayers: () => dispatch(fetchPlayers()),
-  triggerNewPlayer: playerAddress => dispatch(addNewPlayer(playerAddress)),
-  triggerPlayerUpdate: (blender, updatedRGB) => dispatch(updatePlayerRgb(blender, updatedRGB)),
+  loadUser: () => dispatch(getUser()),
+  triggerUserUpdate: updatedColor => dispatch(updateUserColor(updatedColor)),
+  loadPlayers: () => dispatch(getPlayers()),
+  triggerNewPlayer: playerAddress => dispatch(newPlayer(playerAddress)),
+  triggerPlayerUpdate: (address, color) => dispatch(updateToken(address, color)),
   onStartPlaying: e => {
     e.preventDefault();
     dispatch(requestPlaying());
   },
-  onBlendWithSelf: e => {
+  onAutoBlend: e => {
     e.preventDefault();
-    dispatch(requestBlendWithSelf());
+    dispatch(requestAutoBlend());
   },
-  onBlendWithOthers: (e, otherAddress, otherR, otherG, otherB) => {
+  onBlend: (e, blendingAddress, blendingPrice, blendingR, blendingG, blendingB) => {
     e.preventDefault();
-    dispatch(requestBlendWithOthers(otherAddress, otherR, otherG, otherB));
+    dispatch(requestBlend(blendingAddress, blendingPrice, blendingR, blendingG, blendingB));
   }
 });
 
@@ -49,23 +54,24 @@ class HomepageContainer extends Component {
     this.props.loadUser();
     this.props.loadPlayers();
 
-    RgbWallet_event.Blending({}, (err, event) => {
+    RgbWallet_event.TokenBlended({}, (err, event) => {
       console.log('New Blending!', event);
     })
     .on('data', event => {
       console.log('New Blending!');
-      const { blender, r, g, b } = event.returnValues;
-      if (blender === this.props.user.data.address) this.props.triggerUserUpdate([r, g, b]);
-      this.props.triggerPlayerUpdate(blender, [r, g, b]);
+      const { player, r, g, b } = event.returnValues;
+      const 
+      if (player === this.props.user.data.address) this.props.triggerUserUpdate(color([r, g, b]));
+      this.props.triggerPlayerUpdate(player, color([r, g, b]));
     })
     .on('error', console.log);
-    RgbWallet_event.NewPlayer({}, (err, event) => {
+    RgbWallet_event.PlayerCreated({}, (err, event) => {
       console.log('New Player!', event);
     })
     .on('data', event => {
       console.log('New Player!');
-      const { playerAddress } = event.returnValues;
-      this.props.triggerNewPlayer(playerAddress);
+      const { player } = event.returnValues;
+      this.props.triggerNewPlayer(player);
     })
     .on('error', console.log);
   }
