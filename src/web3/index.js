@@ -2,7 +2,8 @@ import Web3 from 'web3';
 import { computeToken, color } from './utils';
 import { abi } from './abis/RainbowToken.json';
 
-const contractAddress = '0x5f98ac8afd523d7a66ba34de9f6644af0b7e2e89';
+// const contractAddress = '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a';
+const contractAddress = '0x902c1d0c87ad347aa8edae05f7e2bead577432ac';
 
 export const web3 = new Web3(Web3.givenProvider);
 
@@ -19,7 +20,7 @@ export default {
   targetColor,
   defaultBlendingPrice,
   endTime: () => RainbowToken.methods.endTime().call().then((res) => new Date(res * 1000)),
-  getToken: playerAddress => RainbowToken.methods.getToken(playerAddress).call().then(computeToken),
+  getToken: playerAddress => RainbowToken.methods.getToken(playerAddress).call().then((res) => {console.log(res); return computeToken(res)}),
   isPlayer: address => RainbowToken.methods.isPlayer(address).call(),
   getPlayers: () => RainbowToken.methods.getPlayers().call(),
   play: address => {

@@ -9,8 +9,10 @@ export const color = (rawColor) => ({
   b: rawColor[2],
 })
 
-export const computeToken = (rawToken) => ({
-  blendingPrice: rawToken[6],
-  color: color([rawToken[0], rawToken[1], rawToken[2]]),
-  defaultColor: color([rawToken[3], rawToken[4], rawToken[5]]),
-})
+export const computeToken = (rawToken) => {
+  console.log('Compute token', rawToken)
+  return {
+    blendingPrice: rawToken[6],
+    color: color([rawToken[0], rawToken[1], rawToken[2]]),
+    defaultColor: color([rawToken[3], rawToken[4], rawToken[5]]),
+}}

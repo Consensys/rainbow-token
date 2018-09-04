@@ -56,9 +56,8 @@ class HomepageContainer extends Component {
       console.log('New Blending!', event);
     })
     .on('data', event => {
-      console.log('New Blending!');
       const { player, r, g, b } = event.returnValues;
-      console.log(color([r, g, b]))
+      console.log('New Blending!', r, g, b);
       updatePlayerToken(player, color([r, g, b]));
     })
     .on('error', console.log);

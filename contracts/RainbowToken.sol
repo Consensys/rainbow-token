@@ -123,7 +123,6 @@ contract RainbowToken {
   ) 
     public
     view 
-    onlyPlayer
     returns (uint, uint, uint, uint, uint, uint, uint) 
   { 
     Token memory token = tokens[_player];
