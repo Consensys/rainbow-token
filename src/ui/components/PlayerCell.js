@@ -4,15 +4,19 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Button from '@material-ui/core/Button';
 
-const PlayerCell = ({ player, inProgress, onBlend }) => (
+const PlayerCell = ({ 
+  player, 
+  inProgress, 
+  blend 
+}) => (
   <TableRow key={player.pseudo}>
     <TableCell>
       {player.pseudo}
     </TableCell>
     <TableCell style={{}}>
       <div style={{ display: 'flex', flexDirection:'row'}}>
-        <span>RGB({player.color.r}, {player.color.g}, {player.color.b})</span>
-        <span style={{ display:'inline-block', marginLeft: '1em', width: '15px', background: `rgb(${player.color.r}, ${player.color.g}, ${player.color.b})`, borderRadius:'50%' }}></span>
+        <span>RGB({player.token.color.r}, {player.token.color.g}, {player.token.color.b})</span>
+        <span style={{ display:'inline-block', marginLeft: '1em', width: '15px', background: `rgb(${player.token.color.r}, ${player.token.color.g}, ${player.token.color.b})`, borderRadius:'50%' }}></span>
       </div>
     </TableCell>
     <TableCell>
@@ -23,9 +27,9 @@ const PlayerCell = ({ player, inProgress, onBlend }) => (
         variant='contained'
         color='primary'
         disabled={inProgress}
-        onClick={e => onBlend(e, player.address, player.blendingPrice, player.color.r, player.color.g, player.color.b)}
+        onClick={e => {e.preventDault(); blend(player.address, player.token);}}
       >
-        Blend
+        { player.token.blendingPrice }
       </Button>
     </TableCell>
   </TableRow>

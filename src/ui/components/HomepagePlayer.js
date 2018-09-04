@@ -4,22 +4,21 @@ import UserHeader from './UserHeader';
 import PlayerTable from './PlayerTable';
 
 const HomepagePlayer = ({
-  user,
   players,
+  currentPlayer,
   inProgress,
-  onBlendWithSelf,
-  onBlendWithOthers
+  blend
 }) => (
   <div>
     <UserHeader
-      user={user}
-      inProgress={inProgress}
-      onBlendWithSelf={onBlendWithSelf}
+      currentPlayer
+      inProgress
+      blend
     />
     <PlayerTable
-      players={players}
-      inProgress={inProgress}
-      onBlendWithOthers={onBlendWithOthers}
+      players
+      inProgress
+      blend
     />
   </div>
 )

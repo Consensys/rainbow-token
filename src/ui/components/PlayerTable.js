@@ -1,7 +1,5 @@
 import React from 'react';
 
-import PlayerCell from './PlayerCell';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,13 +7,19 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-const PlayerTable = ({ players, inProgress, onBlendWithOthers }) => {
+import PlayerCell from './PlayerCell';
+
+const PlayerTable = ({ 
+  players, 
+  inProgress, 
+  blend 
+}) => {
   const dashboard = players.map(player => (
     <PlayerCell
       key={player.address}
-      player={player}
-      inProgress={inProgress}
-      onBlendWithOthers={onBlendWithOthers}
+      player
+      inProgress
+      blend
     />
   ));
   return (
@@ -24,21 +28,21 @@ const PlayerTable = ({ players, inProgress, onBlendWithOthers }) => {
         <TableHead>
           <TableRow>
             <TableCell>
-                Cool pseudonym
+              Cool pseudonym
             </TableCell>
             <TableCell>
-              Current coin
+              Token
             </TableCell>
             <TableCell>
               Score
             </TableCell>
             <TableCell>
-              Interact
+              Blend
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {dashboard}
+          { dashboard }
         </TableBody>
       </Table>
     </Paper>

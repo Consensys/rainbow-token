@@ -5,7 +5,8 @@ import {
   END_LOADING_PLAYERS,
   GET_PLAYERS,
   SET_PLAYERS,
-  UPDATE_TOKEN,
+  UPDATE_PlAYER_COLOR,
+  UPDATE_PLAYER_BLENDING_PRICE,
   NEW_PLAYER,
   ADD_PLAYER,
   ADD_ERROR
@@ -20,12 +21,20 @@ export const getPlayers = () => ({
   type: GET_PLAYERS
 });
 
-export const updateToken = (address, color) => ({
-  type: UPDATE_TOKEN,
+export const updatePlayerColor = (address, color) => ({
+  type: UPDATE_PlAYER_COLOR,
   payload: {
     address,
     color,
     score: computeScore(color, rainbow.targetColor),
+  }
+})
+
+export const updatePlayerBlendingPrice = (address, price) => ({
+  type: UPDATE_PLAYER_BLENDING_PRICE,
+  payload: {
+    address,
+    price,
   }
 })
 
@@ -54,8 +63,7 @@ function* setPlayers() {
     const payload = players.map((address, index) => ({
       address,
       pseudo: generator(address),
-      color: tokens[index].color,
-      defaultColor: tokens[index].defaultColor,
+      token: tokens[index],
       score: computeScore(tokens[index].color, rainbow.targetColor),
     }));
     yield put({ type: SET_PLAYERS, payload });
@@ -72,8 +80,7 @@ function* addPlayer(address) {
     const payload = {
       address,
       pseudo: generator(address),
-      color: token.color,
-      defaultColor: token.defaultColor,
+      token: token,
       score: computeScore(token.color, rainbow.targetColor),
     };
     yield put({ type: ADD_PLAYER, payload });

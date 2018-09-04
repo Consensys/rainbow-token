@@ -10,6 +10,6 @@ export const color = (rawColor) => ({
 
 export const computeToken = (rawToken) => ({
   blendingPrice: rawToken[0],
-  color: color(rawToken.slice(1,3)),
-  defaultColor: color(rawToken.slice(4,6)),
+  color: color(rawToken.slice(1,4)),
+  defaultColor: color(rawToken.slice(4,7)),
 })

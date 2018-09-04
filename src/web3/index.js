@@ -20,9 +20,9 @@ const RainbowToken = new web3.eth.Contract(abi, contractAddress);
 export const RgbWallet_event = new web3_event.eth.Contract(abi, contractAddress).events;
 
 export default {
-  targetColor: () => RainbowToken.methods.tokenColor().call(),
-  defaultBlendingPrice: () => RainbowToken.DEFAUT_BLENDING_PRICE.call(),
-  getToken: playerAddress => RainbowToken.methods.getToken(playerAddress).call(),
+  targetColor: RainbowToken.methods.tokenColor().call(),
+  defaultBlendingPrice: RainbowToken.DEFAUT_BLENDING_PRICE.call(),
+  getToken: playerAddress => computeToken(RainbowToken.methods.getToken(playerAddress).call()),
   isPlayer: address => RainbowToken.methods.isPlayer(address).call(),
   getPlayers: () => RainbowToken.players.call(),
   play: address => {
@@ -54,26 +54,20 @@ export default {
 
     })
   },
-  autoBlend: address => {
-    return RainbowToken.methods.autoBlend().send({
-      from: address,
-      value: defaultBlendingPrice,
-    })
-    .on('transactionHash', hash => {
-      console.log('Transaction hash: ', hash);
-    })
-    .on('receipt', receipt => {
-      console.log('Receipt: ', receipt);
-    })
-    .on('error', err => {
-
-    })
-  },
-  blend: (address, blendingAddress, blendingPrice, blendingR, blendingG, blendingB) => {
-    return RainbowToken.methods.blend(blendingAddress, blendingPrice, blendingR, blendingG, blendingB).send({
-      from: address,
-      value: blendingPrice,
-    })
+  blend: (address, blendingAddress, blendingToken) => {
+    if (blendingAddress) {
+      const promise = RainbowToken.methods.blend(blendingAddress, blendingToken.blendingPrice, blendingToken.color.r, blendingToken.color.g, blendingToken.color.b).send({
+        from: address,
+        value: blendingPrice,
+      })
+    } else {
+      // this a default blend
+      const promise = RainbowToken.methods.blend().send({
+        from: address,
+        value: RainbowToken.defaultBlendingPrice,
+      })
+    }
+    return promise
     .on('transactionHash', hash => {
       console.log('Transaction hash: ', hash);
     })

@@ -259,7 +259,7 @@ contract RainbowToken {
   /**
    * @dev Blend current player token with default token color
    */
-  function autoBlend() 
+  function blend() 
     public
     payable
     gameInProgress 

@@ -4,11 +4,9 @@ import { call, put, select, takeLatest } from 'redux-saga/effects'
 import {
   REQUEST_PLAYING,
   START_PLAYING,
-  REQUEST_AUTO_BLEND,
   REQUEST_BLEND,
   GET_USER,
   SET_USER,
-  UPDATE_USER_COLOR,
   START_LOADING_USER,
   END_LOADING_USER,
   START_TRANSACTION,
@@ -16,9 +14,7 @@ import {
   ADD_ERROR,
   REMOVE_ERROR
 } from '../actionTypes';
-import rainbow, { web3 } from '../../web3';
-import { computeScore } from '../../web3/utils';
-
+import { web3 } from '../../web3';
 
 /********* ACTIONS *********/
 
@@ -30,33 +26,21 @@ export const requestPlaying = () => ({
   type: REQUEST_PLAYING
 })
 
-export const requestAutoBlend = () => ({
-  type: REQUEST_AUTO_BLEND
-})
-
-export const requestBlend = (blendingAddress, blendingPrice, blendingR, blendingG, blendingB) => ({
+export const requestBlend = (
+  blendingAddress=undefined, 
+  blendingToken=undefined
+) => ({
   type: REQUEST_BLEND,
   payload: {
     blendingAddress,
-    blendingPrice,
-    blendingR,
-    blendingG,
-    blendingB
-  }
-})
-
-export const updateUserColor = color => ({
-  type: UPDATE_USER_COLOR,
-  payload: {
-    color,
-    score: computeScore(color, rainbow.targetColor),
+    blendingToken,
   }
 })
 
 /********* WATCHERS *********/
 
 export function* watchGetUser() {
-  yield takeLatest(GET_USER, setUser);
+  yield takeLatest(GET_USER, getUser);
 }
 
 export function* watchRequestPlaying() {
@@ -67,30 +51,22 @@ export function* watchRequestAutoBlend() {
   yield takeLatest(REQUEST_AUTO_BLEND, autoBlend);
 }
 
-export function* watchRequestBlend(otherAddress, otherR, otherG, otherB) {
+export function* watchRequestBlend() {
   yield takeLatest(
-    REQUEST_BLEND, 
-    ({ blendingAddress, blendingPrice, blendingR, blendingG, blendingB}) => blend(blendingAddress, blendingPrice, blendingR, blendingG, blendingB));
+    REQUEST_BLEND,
+    ({payload: { blendingAddress, blendingToken }}) => blend(blendingAddress, blendingToken));
 }
 
 /********* WORKERS *********/
 
-function* setUser() {
+function* getUser() {
   try {
     yield put({ type: START_LOADING_USER });
     const [ address, ...others ] = yield call(web3.eth.getAccounts);
-    const isPlaying = yield call(rainbow.isPlayer, address);
-    const token = yield call(rainbow.getToken, address);
-    // const rgbCurrent = yield call(RgbWalletMethods.getCurrentRgb, address);
-    // const rgbDefault = yield call(RgbWalletMethods.getDefaultRgb, address);
-    const data = { 
+    const user = { 
       address, 
       pseudo: generator(address), 
-      color: token.color,
-      defaultColor: token.defaultColor,
-      score: computeScore(token, rainbow.targetColor)
     };
-    const user = { isPlaying, isLoading: false, data };
     yield put({ type: SET_USER, payload: user });
     yield put({ type: REMOVE_ERROR });
   } catch(err) {
@@ -113,27 +89,14 @@ function* startPlaying() {
   }
 }
 
-function* autoBlend() {
+function* blend(blendingAddress, blendingToken) {
   try {
     yield put({ type: START_TRANSACTION });
     const address = yield select(state => state.user.data.address);
-    yield call(rainbow.autoBlend, address);
+    yield call(rainbow.blend, address, blendingAddress, blendingToken);
   } catch(err) {
     console.log(err)
-    yield put({ type: ADD_ERROR, error: 'Transaction have failed.' });
-  } finally {
-    yield put({ type: END_TRANSACTION });
-  }
-}
-
-function* blend(blendingAddress, blendingPrice, blendingR, blendingG, blendingB) {
-  try {
-    yield put({ type: START_TRANSACTION });
-    const address = yield select(state => state.user.data.address);
-    yield call(rainbow.blendWithOthers, blendingAddress, blendingPrice, blendingR, blendingG, blendingB);
-  } catch(err) {
-    console.log(err)
-    yield put({ type: ADD_ERROR, error: 'Transaction have failed.' });
+    yield put({ type: ADD_ERROR, error: 'Transaction has failed.' });
   } finally {
     yield put({ type: END_TRANSACTION });
   }
