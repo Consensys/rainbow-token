@@ -1,17 +1,25 @@
 import rootReducer from './reducers';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore as _createStore, applyMiddleware, compose as _compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import mySaga from './sagas';
 
-const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(
-  rootReducer,
-  compose(
-    applyMiddleware(sagaMiddleware)
-  )
-);
+// Enables redux-devtools extension
+const compose =
+    process.env.NODE_ENV === "development"
+        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _compose
+        : _compose;
 
-sagaMiddleware.run(mySaga);
+const createStore = () => {
+  const sagaMiddleware = createSagaMiddleware();
+  const store = _createStore(
+    rootReducer,
+    compose(
+      applyMiddleware(sagaMiddleware)
+    )
+  );
+  sagaMiddleware.run(mySaga);
+  return store
+}
 
-export default store;
+export default createStore;

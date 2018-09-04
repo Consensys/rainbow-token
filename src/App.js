@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* Configuration Objects */
-import store from './redux';
+import createStore from './redux';
 
 /* Configuration Components */
 import { Provider } from 'react-redux';
@@ -12,7 +12,7 @@ import HomepageContainer from './ui/containers/HomepageContainer';
 
 /* Styles */
 const App = () => (
-  <Provider store={store}>
+  <Provider store={createStore()}>
     <div className='App'>
       <HomepageContainer />
     </div>
