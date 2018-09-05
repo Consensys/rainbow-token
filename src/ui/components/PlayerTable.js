@@ -13,10 +13,10 @@ const th = {
     fontSize: '1.15em'
 }
 
-const PlayerTable = ({   
+const PlayerTable = ({
   currentPlayer,
-  players, 
-  inProgress, 
+  players,
+  inProgress,
   blend }) => {
   const dashboard = Object.values(players).map((player, index) => (
     <PlayerCell
@@ -30,7 +30,7 @@ const PlayerTable = ({
   ));
 
   return (
-    <Paper style={{width: '80%', margin: '3em auto' }}>
+    <Paper style={{ width: '80%', margin: '3em auto' }}>
       <Table>
         <TableHead>
           <TableRow>
