@@ -4,8 +4,8 @@ pragma solidity ^0.4.24;
  * @title RainbowToken
  *
  * @dev Rainbow Token contract
- * Rainbow Token is a game where players own a unique colored token that they should. Players can 
- * change their token color by blending it with other players tokens (by avering each RGB dimension). 
+ * Rainbow Token is a game where players own a unique colored token that they should. Players can
+ * change their token color by blending it with other players tokens (by avering each RGB dimension).
  * Players should try to give their token a target color that is set when deploying game contract
  *
  * Rules:
@@ -15,7 +15,7 @@ pragma solidity ^0.4.24;
  *    Half of the amount paid is given to the blending player the other half is given to the Rainbow Token contract
  * 3. Auto Blending: Players can change their token color by blending with their own default color that can be derived from player's address
  *    To auto blend a user should pay 0.01 ETH to Rainbow Token contract
- * 4. Game winner is 
+ * 4. Game winner is
  *    - first player to get a token of a target color
  *    - In case the game is over, game winner is the one with minimal score (calculated has the distance of its token color to target color)
  *    If a player successfully claims win, she/he get sall ETH that have been transfered to the Rainbow Token contract during the game
@@ -95,7 +95,7 @@ contract RainbowToken {
     uint _g,
     uint _b,
     uint _time
-  ) 
+  )
     public
   {
     require(_r < 256 && _g < 256 && _b < 256, 'Target color is not valid');
@@ -120,11 +120,11 @@ contract RainbowToken {
    */
   function getToken(
     address _player
-  ) 
+  )
     public
-    view 
-    returns (uint, uint, uint, uint, uint, uint, uint) 
-  { 
+    view
+    returns (uint, uint, uint, uint, uint, uint, uint)
+  {
     Token memory token = tokens[_player];
     return (token.color.r, token.color.g, token.color.b, token.defaultColor.r, token.defaultColor.g, token.defaultColor.b, token.blendingPrice);
   }
@@ -133,13 +133,13 @@ contract RainbowToken {
   /**
    * @dev Check if game is over
    */
-  function isGameOver() 
+  function isGameOver()
     public
     view
     returns (bool)
   {
     return now > endTime;
-  } 
+  }
 
   /**
    * @dev Check if a player exist
@@ -147,11 +147,11 @@ contract RainbowToken {
    */
   function isPlayer(
     address _player
-  ) 
-    public 
-    view 
-    returns (bool) 
-  { 
+  )
+    public
+    view
+    returns (bool)
+  {
     // Blending price can not be set to 0
     return tokens[_player].blendingPrice > 0;
   }
@@ -159,32 +159,36 @@ contract RainbowToken {
   /**
    * @dev Register transaction sender has a new player
    */
-  function play() 
+  function play()
     public
     payable
     gameInProgress
-    returns (bool)  
+    returns (bool)
   {
     // The sender must not be already a player
     require(!isPlayer(msg.sender), 'Already a player');
-    
+
     // Sender must have paid default price to start playing
     require(msg.value >= DEFAULT_BLENDING_PRICE, 'You must pay to start playing');
 
     // Given player address, derive the corresponding initial color
     Color memory initialColor;
-    if (uint(msg.sender) % 3 == 0) {
+    if (uint(msg.sender) % 5 == 0) {
       initialColor =  Color(255, 0, 0);
-    } else if (uint(msg.sender) % 3 == 1) {
+    } else if (uint(msg.sender) % 5 == 1) {
       initialColor =  Color(0, 255, 0);
-    } else {
+    } else if (uint(msg.sender) % 5 == 2) {
       initialColor =  Color(0, 0, 255);
+    } else if (uint(msg.sender) % 5 == 3) {
+      initialColor =  Color(0, 0, 0);
+    } else {
+      initialColor = Color(255, 255, 255);
     }
-  
+
     // Register player and rainbow token
     players.push(msg.sender);
     tokens[msg.sender] = Token(initialColor, initialColor, DEFAULT_BLENDING_PRICE);
-    
+
     // Emit event
     emit PlayerCreated(msg.sender);
 
@@ -202,11 +206,11 @@ contract RainbowToken {
      onlyPlayer
      gameInProgress
      returns (bool)
-  { 
+  {
     require(_price > 0, 'Blending price should be positive');
-    
+
     tokens[msg.sender].blendingPrice = _price;
-    
+
     emit BlendingPriceSet(msg.sender, _price);
 
     return true;
@@ -226,11 +230,11 @@ contract RainbowToken {
     uint _blendingR,
     uint _blendingG,
     uint _blendingB
-  ) 
+  )
     public
     payable
-    gameInProgress 
-    onlyPlayer 
+    gameInProgress
+    onlyPlayer
     returns (bool)
   {
     // Get token of player to blend with
@@ -257,9 +261,9 @@ contract RainbowToken {
     _blendingPlayer.transfer(msg.value / 2);
 
     emit TokenBlended(
-      msg.sender, 
-      token.color.r, 
-      token.color.g, 
+      msg.sender,
+      token.color.r,
+      token.color.g,
       token.color.b
     );
 
@@ -269,14 +273,14 @@ contract RainbowToken {
   /**
    * @dev Blend current player token with default token color
    */
-  function blend() 
+  function blend()
     public
     payable
-    gameInProgress 
-    onlyPlayer 
+    gameInProgress
+    onlyPlayer
     returns (bool)
   {
-    // Player needs to transfer minimum blending price 
+    // Player needs to transfer minimum blending price
     require(msg.value >= DEFAULT_BLENDING_PRICE, 'Not enough Ether');
 
     // Get current player token
@@ -289,9 +293,9 @@ contract RainbowToken {
 
     // Emit event
     emit TokenBlended(
-      msg.sender, 
-      token.color.r, 
-      token.color.g, 
+      msg.sender,
+      token.color.r,
+      token.color.g,
       token.color.b
     );
 
@@ -301,17 +305,17 @@ contract RainbowToken {
   /**
    * @dev Current player claim victory
    */
-  function claimVictory() 
+  function claimVictory()
     public
     onlyPlayer
     returns (bool)
-  { 
+  {
     // Compute current player score
     int score = computeScore(msg.sender);
 
     // Ensure either current player token has target color or game is over and player has a token with winning score
     require(score == 0 || (isGameOver() && score == computeWinningScore()), 'You are not winner');
-    
+
     // Transfer winning prize
     msg.sender.transfer(address(this).balance);
 
@@ -327,10 +331,10 @@ contract RainbowToken {
    */
   function computeScore(
     address _player
-  ) 
+  )
     public
     view
-    returns (int) 
+    returns (int)
   {
     int targetR  = int(targetColor.r);
     int targetG = int(targetColor.g);
@@ -350,7 +354,7 @@ contract RainbowToken {
   function computeWinningScore()
     public
     view
-    returns (int) 
+    returns (int)
   {
     int minScore = 0xffffff;
     for (uint i; i < players.length; i++) {
@@ -358,7 +362,7 @@ contract RainbowToken {
       if (score < minScore) {
         minScore = score;
       }
-    }    
+    }
     return minScore;
   }
 }
