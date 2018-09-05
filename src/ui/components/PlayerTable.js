@@ -44,7 +44,7 @@ const PlayerTable = ({
               Price ( Ξ )
             </TableCell>
             <TableCell style={th}>
-              The lower the closer
+              Matching ( % )
             </TableCell>
             <TableCell style={th}>
               Blend

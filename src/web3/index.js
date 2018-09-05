@@ -8,7 +8,7 @@ const contractAddress = '0x3568e7583efde314b955f22ba0d1b14db8270bc7'; //new addr
 
 export const web3 = new Web3(Web3.givenProvider);
 
-export const web3Ws = (process.env.NODE_ENV === 'development')
+export const web3Ws = !(process.env.NODE_ENV === 'development')
   ? new Web3('ws://localhost:7545')
   : new Web3(new Web3.providers.WebsocketProvider('wss://ropsten.infura.io/ws'))
 
