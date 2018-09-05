@@ -1,6 +1,6 @@
-FROM node:8.9-alpine
+FROM node:9.3
 
-RUN apk --no-cache add curl
+# RUN apk --no-cache add curl git
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -13,9 +13,6 @@ COPY package.json yarn.lock /usr/src/app/
 RUN yarn install && yarn cache clean
 
 COPY . /usr/src/app
-
-# Deploy contract
-RUN npm migrate
 
 # Build and optimize
 ARG GENERATE_SOURCEMAP
