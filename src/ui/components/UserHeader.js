@@ -127,7 +127,7 @@ class UserHeader extends Component {
             </div>
           </div>
           <Tooltip disableFocusListener disableTouchListener title={`RGB(44, 86, 221)`} placement="right">
-            <div style={{ backgroundImage: `url(${rainbowToken})`, width: '60px', height: '60px', backgroundColor: `rgb(44, 86, 221)`, borderRadius:'50%', boxShadow: '1.6px 1.6px rgba(10, 10, 10, 0.9)', border: '1.2px solid rgb(50, 50, 50)' }}></div>
+            <div className='token' style={{ backgroundImage: `url(${rainbowToken})`, width: '60px', height: '60px', backgroundColor: `rgb(44, 86, 221)`, borderRadius:'50%', boxShadow: '1.6px 1.6px rgba(10, 10, 10, 0.9)', border: '1.2px solid rgb(50, 50, 50)' }}></div>
           </Tooltip>
           <div style={{ fontSize: '1.3em', textAlign: 'right' }}>
             Reach the blue<br/> <strong>Consensys</strong> Token
@@ -140,7 +140,7 @@ class UserHeader extends Component {
               Your Default Token
             </div>
             <Tooltip disableFocusListener disableTouchListener title={`RGB(${currentPlayer.token.defaultColor.r}, ${currentPlayer.token.defaultColor.g}, ${currentPlayer.token.defaultColor.b})`} placement="right">
-              <div style={{ backgroundImage: `url(${rainbowToken})`, width: '60px', height: '60px', backgroundColor: `rgb(${currentPlayer.token.defaultColor.r}, ${currentPlayer.token.defaultColor.g}, ${currentPlayer.token.defaultColor.b})`, borderRadius:'50%', boxShadow: '1.6px 1.6px rgba(10, 10, 10, 0.9)', border: '1px solid rgb(50, 50, 50)' }}></div>
+              <div className='token' style={{ backgroundImage: `url(${rainbowToken})`, width: '60px', height: '60px', backgroundColor: `rgb(${currentPlayer.token.defaultColor.r}, ${currentPlayer.token.defaultColor.g}, ${currentPlayer.token.defaultColor.b})`, borderRadius:'50%', boxShadow: '1.6px 1.6px rgba(10, 10, 10, 0.9)', border: '1px solid rgb(50, 50, 50)' }}></div>
             </Tooltip>
             <Button
               style={{ fontSize: '0.7em', height: '30px', marginTop:'1em' }}
@@ -157,7 +157,7 @@ class UserHeader extends Component {
               Your Current Token
             </div>
             <Tooltip disableFocusListener disableTouchListener title={`RGB(${currentPlayer.token.color.r}, ${currentPlayer.token.color.g}, ${currentPlayer.token.color.b})`} placement="right">
-              <div style={{ marginBottom: '1em', backgroundImage: `url(${rainbowToken})`, width: '80px', height: '80px', backgroundColor: `rgb(${currentPlayer.token.color.r}, ${currentPlayer.token.color.g}, ${currentPlayer.token.color.b})`, borderRadius:'50%', boxShadow: '2px 2px rgba(10, 10, 10, 0.9)', border: '1.2px solid rgb(50, 50, 50)' }}></div>
+              <div className='token' style={{ marginBottom: '1em', backgroundImage: `url(${rainbowToken})`, width: '80px', height: '80px', backgroundColor: `rgb(${currentPlayer.token.color.r}, ${currentPlayer.token.color.g}, ${currentPlayer.token.color.b})`, borderRadius:'50%', boxShadow: '2px 2px rgba(10, 10, 10, 0.9)', border: '1.2px solid rgb(50, 50, 50)' }}></div>
             </Tooltip>
             <div style={{ width: '100%', fontSize: '0.6em' }}>{currentPlayer.score} % <progress style={{ marginLeft: '1em', width: '60%' }} value={currentPlayer.score} max='100'>{currentPlayer.score} %</progress></div>
           </div>

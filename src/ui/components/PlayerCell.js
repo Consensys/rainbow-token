@@ -97,7 +97,7 @@ class PlayerCell extends Component {
         </TableCell>
         <TableCell>
           <Tooltip disableFocusListener disableTouchListener title={`RGB(${player.token.color.r}, ${player.token.color.g}, ${player.token.color.b})`} placement="right">
-            <div style={{ backgroundImage: `url(${rainbowToken})`, marginLeft: '1em', width: '28px', height: '28px', backgroundColor: `rgb(${player.token.color.r}, ${player.token.color.g}, ${player.token.color.b})`, borderRadius:'50%', boxShadow: '.5px .5px rgba(10, 10, 10, 0.9)', border: '.5px solid rgb(50, 50, 50)' }}></div>
+            <div className='token' style={{ backgroundImage: `url(${rainbowToken})`, marginLeft: '1em', width: '28px', height: '28px', backgroundColor: `rgb(${player.token.color.r}, ${player.token.color.g}, ${player.token.color.b})`, borderRadius:'50%', boxShadow: '.5px .5px rgba(10, 10, 10, 0.9)', border: '.5px solid rgb(50, 50, 50)' }}></div>
           </Tooltip>
         </TableCell>
         <TableCell>
