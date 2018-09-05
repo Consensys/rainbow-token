@@ -5,10 +5,10 @@
 // import TableCell from '@material-ui/core/TableCell';
 // import Button from '@material-ui/core/Button';
 
-// const PlayerCell = ({ 
-//   player, 
-//   inProgress, 
-//   blend 
+// const PlayerCell = ({
+//   player,
+//   inProgress,
+//   blend
 // }) => (
 //   <TableRow key={player.pseudo}>
 //     <TableCell>
@@ -68,11 +68,11 @@ class PlayerCell extends Component {
   };
 
   render() {
-    const {  
+    const {
       currentPlayer,
-      player, 
-      inProgress, 
-      blend, 
+      player,
+      inProgress,
+      blend,
       index
     } = this.props;
     const { blendDialogOpen } = this.state;
@@ -104,7 +104,7 @@ class PlayerCell extends Component {
           {Web3.utils.fromWei(player.token.blendingPrice, 'ether')}
         </TableCell>
         <TableCell>
-          {player.score}
+          <span>{player.score} %<progress style={{ width: '50%', marginLeft: '1em' }} value={player.score} max='100'>{player.score} %</progress></span>
         </TableCell>
         <TableCell>
           <Button

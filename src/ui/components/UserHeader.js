@@ -2,9 +2,9 @@
 
 // import Button from '@material-ui/core/Button';
 
-// const UserHeader = ({ 
-//   currentPlayer, 
-//   inProgress, 
+// const UserHeader = ({
+//   currentPlayer,
+//   inProgress,
 //   blend,
 //   setBlendingPrice,
 // }) => (
@@ -88,15 +88,15 @@ class UserHeader extends Component {
   }
 
   render() {
-    const { 
-      currentPlayer, 
-      inProgress, 
+    const {
+      currentPlayer,
+      inProgress,
       blend,
       setBlendingPrice
     } = this.props;
-    const { 
-      priceDialogOpen, 
-      blendDialogOpen, 
+    const {
+      priceDialogOpen,
+      blendDialogOpen,
       blendingPriceInput
     } = this.state;
     return (
@@ -157,8 +157,9 @@ class UserHeader extends Component {
               Your Current Token
             </div>
             <Tooltip disableFocusListener disableTouchListener title={`RGB(${currentPlayer.token.color.r}, ${currentPlayer.token.color.g}, ${currentPlayer.token.color.b})`} placement="right">
-              <div style={{ backgroundImage: `url(${rainbowToken})`, width: '80px', height: '80px', backgroundColor: `rgb(${currentPlayer.token.color.r}, ${currentPlayer.token.color.g}, ${currentPlayer.token.color.b})`, borderRadius:'50%', boxShadow: '2px 2px rgba(10, 10, 10, 0.9)', border: '1.2px solid rgb(50, 50, 50)' }}></div>
+              <div style={{ marginBottom: '1em', backgroundImage: `url(${rainbowToken})`, width: '80px', height: '80px', backgroundColor: `rgb(${currentPlayer.token.color.r}, ${currentPlayer.token.color.g}, ${currentPlayer.token.color.b})`, borderRadius:'50%', boxShadow: '2px 2px rgba(10, 10, 10, 0.9)', border: '1.2px solid rgb(50, 50, 50)' }}></div>
             </Tooltip>
+            <div style={{ width: '100%', fontSize: '0.6em' }}>{currentPlayer.score} % <progress style={{ marginLeft: '1em', width: '60%' }} value={currentPlayer.score} max='100'>{currentPlayer.score} %</progress></div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ fontSize: '1em' }}>
