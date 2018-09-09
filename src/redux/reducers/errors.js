@@ -1,4 +1,7 @@
-import { ADD_ERROR, REMOVE_ERROR } from '../actionTypes';
+import {
+    ADD_ERROR,
+    REMOVE_ERROR,
+} from '../actionTypes';
 
 const DEFAULT_STATE = {
     message: null,

@@ -4,7 +4,7 @@ import React from 'react';
 import createStore from './redux';
 
 /* Configuration Components */
-import { Provider } from 'react-redux';
+import { Provider } from 'react-redux';
 
 /* Containers */
 import HomepageContainer from './ui/containers/HomepageContainer';

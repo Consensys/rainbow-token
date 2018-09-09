@@ -18,8 +18,8 @@ jobs:
       name: "test-contracts"
       script: npm run contract:test:coverage
     - stage: tests
-      name: "test-contract-lint"
+      name: "test-solidity-lint"
       script: npm run lint:sol
     - stage: tests
-      name: "test-dapp-lint"
-      script: npm run lint:sol
+      name: "test-js-lint"
+      script: npm run lint:js
