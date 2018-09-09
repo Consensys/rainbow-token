@@ -1,6 +1,7 @@
 pragma solidity ^0.4.24;
 
-import { RainbowToken } from '../RainbowToken.sol';
+import { RainbowToken } from "../RainbowToken.sol";
+
 
 contract RainbowTokenMock is RainbowToken {
   constructor(

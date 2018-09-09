@@ -1,5 +1,6 @@
 pragma solidity ^0.4.24;
 
+
 /**
  * @title RainbowToken
  *
@@ -53,13 +54,13 @@ contract RainbowToken {
 
   /* Throw if the sender is not a player */
   modifier onlyPlayer() {
-    require(isPlayer(msg.sender), 'You are not a player');
+    require(isPlayer(msg.sender), "You are not a player");
     _;
   }
 
   /* Throw if game is over */
   modifier gameInProgress() {
-    require(!isGameOver(), 'Game is over');
+    require(!isGameOver(), "Game is over");
     _;
   }
 
@@ -178,17 +179,17 @@ contract RainbowToken {
     returns (bool)
   {
     // The sender must not be already a player
-    require(!isPlayer(msg.sender), 'Already a player');
+    require(!isPlayer(msg.sender), "Already a player");
 
     // Sender must have paid gaming to start playing
-    require(msg.value >= PLAYING_FEE, 'Playing fee has not been paid');
+    require(msg.value >= PLAYING_FEE, "Playing fee has not been paid");
 
     // Compute player default color (try to make it tough for a player to anticipate default color)
     uint defaultColorSeed = uint(keccak256(abi.encodePacked(msg.sender, block.number)));
     Color memory defaultColor = Color(
-        ((defaultColorSeed & 1) > 0) ? uint(255): 0, 
-        ((defaultColorSeed & 2) > 0) ? uint(255): 0, 
-        ((defaultColorSeed & 4) > 0) ? uint(255): 0
+      defaultColorSeed & 1 > 0 ? uint(255): 0,
+      defaultColorSeed & 2 > 0 ? uint(255): 0,
+      defaultColorSeed & 4 > 0 ? uint(255): 0
     );
 
     // Register player
@@ -220,7 +221,7 @@ contract RainbowToken {
      returns (bool)
   {
     // Blending price must be positive
-    require(_price > 0, 'Blending price should be positive');
+    require(_price > 0, "Blending price should be positive");
 
     // Set price
     tokens[msg.sender].blendingPrice = _price;
@@ -256,19 +257,22 @@ contract RainbowToken {
     returns (bool)
   { 
     // Must blend with a player
-    require(isPlayer(_blendingPlayer), 'You must blend with a player');
+    require(isPlayer(_blendingPlayer), "You must blend with a player");
 
     // Get token of player to blend with
     Token memory blendingToken = tokens[_blendingPlayer];
 
     // Ensure blending token price has not increased while transaction was pending
-    require(_blendingPrice >= blendingToken.blendingPrice, 'Blending price has increased');
+    require(_blendingPrice >= blendingToken.blendingPrice, "Blending price has increased");
 
     // The sender must have transfer enough value to blend
-    require(msg.value >= blendingToken.blendingPrice, 'Not enought transfered Ether');
+    require(msg.value >= blendingToken.blendingPrice, "Not enought transfered Ether");
 
     // Ensure blending token color has not been modified while transaction was pending
-    require(_blendingR == blendingToken.color.r && _blendingG == blendingToken.color.g && _blendingB == blendingToken.color.b, 'Blending color has changed');
+    require(
+      _blendingR == blendingToken.color.r && _blendingG == blendingToken.color.g && _blendingB == blendingToken.color.b, 
+      "Blending color has changed"
+    );
 
     // Blend current player token
     Token storage token = tokens[msg.sender];
@@ -301,7 +305,7 @@ contract RainbowToken {
     returns (bool)
   {
     // Player needs to transfer minimum blending price
-    require(msg.value >= DEFAULT_BLENDING_PRICE, 'Default blending fee has not been paid');
+    require(msg.value >= DEFAULT_BLENDING_PRICE, "Default blending fee has not been paid");
 
     // Get current player token
     Token storage token = tokens[msg.sender];
@@ -333,7 +337,7 @@ contract RainbowToken {
   {
     // Test player token has a winning color
     Color memory color = tokens[msg.sender].color;
-    require(color.r == targetColor.r && color.g == targetColor.g && color.b == targetColor.b, 'Not winner');
+    require(color.r == targetColor.r && color.g == targetColor.g && color.b == targetColor.b, "Not winner");
 
     // Transfer winning prize
     msg.sender.transfer(address(this).balance);
