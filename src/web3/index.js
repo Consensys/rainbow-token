@@ -21,8 +21,7 @@ const defaultBlendingPrice = 10000000000000000;
 export default {
     targetColor,
     defaultBlendingPrice,
-    endTime: () => RainbowToken.methods.endTime().call().then((res) => new Date(res * 1000)),
-    getToken: playerAddress => RainbowToken.methods.getToken(playerAddress).call().then((res) => { console.log(res); return computeToken(res); }),
+    getToken: playerAddress => RainbowToken.methods.getToken(playerAddress).call().then(computeToken),
     isPlayer: address => RainbowToken.methods.isPlayer(address).call(),
     getPlayers: () => RainbowToken.methods.getPlayers().call(),
     play: address => {
