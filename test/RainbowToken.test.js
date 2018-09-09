@@ -39,7 +39,6 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
         });
     });
 
-
     describe('play', function () {
         it('revert if playing fee is too low', async function () {
             await assertRevert(this.game.play({
