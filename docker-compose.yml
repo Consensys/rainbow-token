@@ -4,9 +4,10 @@ services:
   web:
     build:
       context: .
+      dockerfile: Dockerfile.dev
       args:
-        NODE_ENV: production
-        GENERATE_SOURCEMAP: "false"
-    restart: always
+        NODE_ENV: development
+    volumes:
+      - .:/usr/src/app
     ports:
-      - 9000:3000
+      - 80:3000

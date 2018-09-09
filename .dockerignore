@@ -1,0 +1,17 @@
+# Source code
+README.md
+.git
+.gitignore
+Dockerfile
+Dockerfile-prod
+.dockerignore
+
+# Dependency directory
+node_modules
+
+# Logs
+logs
+*.log
+
+# Coverage directory used by tools like istanbul
+coverage
