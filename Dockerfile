@@ -34,11 +34,11 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.name="${NAME}" \
       org.label-schema.description="${DESCRIPTION}" \
       org.label-schema.vcs-ref="${VCS_REF}" \
-      org.label-schema.vendor="ConsenSys France" \
+      org.label-schema.vendor="ConsenSys France" \    
       org.label-schema.version="${VERSION}" \
-      org.label-schema.docker.cmd="NODE_ENV=production docker run --rm -p 80:3000 boilerplatereact" \
-      org.label-schema.docker.cmd.devel="NODE_ENV=development docker run --rm -p 80:3000 -v $(pwd):/usr/src/app boilerplatereact" \
-      org.label-schema.docker.cmd.test="NODE_ENV=development docker run -it --rm -v $(pwd):/usr/src/app boilerplatereact yarn test"
+      org.label-schema.docker.cmd="NODE_ENV=production docker run --rm -p 80:3000 rainbowtoken" \
+      org.label-schema.docker.cmd.devel="NODE_ENV=development docker run --rm -p 80:3000 -v $(pwd):/usr/src/app rainbowtoken" \
+      org.label-schema.docker.cmd.test="NODE_ENV=development docker run -it --rm -v $(pwd):/usr/src/app rainbowtoken yarn test"
 
 # Runtime
 USER node

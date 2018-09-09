@@ -13,5 +13,11 @@ node_modules
 logs
 *.log
 
+# Contract elements
+contracts
+ganache
+migrations
+test
+
 # Coverage directory used by tools like istanbul
 coverage
