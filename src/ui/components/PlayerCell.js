@@ -38,10 +38,8 @@
 
 // export default PlayerCell;
 
-
-
 import React, { Component } from 'react';
-import Web3 from 'web3'
+import Web3 from 'web3';
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -52,72 +50,72 @@ import BlendingDialog from './BlendingDialog';
 import rainbowToken from '../../static/svg/CircleTokenRainbow.svg';
 
 class PlayerCell extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      blendDialogOpen: false
+    constructor (props) {
+        super(props);
+        this.state = {
+            blendDialogOpen: false,
+        };
     }
-  }
 
   handleClickBlendOpen = () => {
-    this.setState({ blendDialogOpen: true });
+      this.setState({ blendDialogOpen: true });
   };
 
   handleBlendClose = () => {
-    this.setState({ blendDialogOpen: false });
+      this.setState({ blendDialogOpen: false });
   };
 
-  render() {
-    const {
-      currentPlayer,
-      player,
-      inProgress,
-      blend,
-      index
-    } = this.props;
-    const { blendDialogOpen } = this.state;
-    const style = index % 2 === 0 ? ({
-      backgroundColor: '#fafafa',
-      border: 'none'
-    }) : ({ border: 'none' });
-    return (
-      <TableRow key={player.pseudo} style={style}>
-        <BlendingDialog
-          blendDialogOpen={blendDialogOpen}
-          handleClose={this.handleBlendClose}
-          blend={blend}
-          color={currentPlayer.token.color}
-          blendingColor={player.token.color}
-          withSelf={false}
-          blendingPrice={player.token.blendingPrice}
-          blendingAddress={player.address}
-        />
-        <TableCell style={{ textTransform: 'capitalize'}}>
-          {player.pseudo}
-        </TableCell>
-        <TableCell>
-          <Tooltip disableFocusListener disableTouchListener title={`RGB(${player.token.color.r}, ${player.token.color.g}, ${player.token.color.b})`} placement="right">
-            <div className='token' style={{ backgroundImage: `url(${rainbowToken})`, marginLeft: '1em', width: '28px', height: '28px', backgroundColor: `rgb(${player.token.color.r}, ${player.token.color.g}, ${player.token.color.b})`, borderRadius:'50%', boxShadow: '.5px .5px rgba(10, 10, 10, 0.9)', border: '.5px solid rgb(50, 50, 50)' }}></div>
-          </Tooltip>
-        </TableCell>
-        <TableCell>
-          {Web3.utils.fromWei(player.token.blendingPrice, 'ether')}
-        </TableCell>
-        <TableCell>
-          <span>{player.score} %<progress style={{ width: '50%', marginLeft: '1em' }} value={player.score} max='100'>{player.score} %</progress></span>
-        </TableCell>
-        <TableCell>
-          <Button
-            variant='contained'
-            color='primary'
-            disabled={inProgress}
-            onClick={this.handleClickBlendOpen}
-          >
+  render () {
+      const {
+          currentPlayer,
+          player,
+          inProgress,
+          blend,
+          index,
+      } = this.props;
+      const { blendDialogOpen } = this.state;
+      const style = index % 2 === 0 ? ({
+          backgroundColor: '#fafafa',
+          border: 'none',
+      }) : ({ border: 'none' });
+      return (
+          <TableRow key={player.pseudo} style={style}>
+              <BlendingDialog
+                  blendDialogOpen={blendDialogOpen}
+                  handleClose={this.handleBlendClose}
+                  blend={blend}
+                  color={currentPlayer.token.color}
+                  blendingColor={player.token.color}
+                  withSelf={false}
+                  blendingPrice={player.token.blendingPrice}
+                  blendingAddress={player.address}
+              />
+              <TableCell style={{ textTransform: 'capitalize' }}>
+                  {player.pseudo}
+              </TableCell>
+              <TableCell>
+                  <Tooltip disableFocusListener disableTouchListener title={`RGB(${player.token.color.r}, ${player.token.color.g}, ${player.token.color.b})`} placement="right">
+                      <div className='token' style={{ backgroundImage: `url(${rainbowToken})`, marginLeft: '1em', width: '28px', height: '28px', backgroundColor: `rgb(${player.token.color.r}, ${player.token.color.g}, ${player.token.color.b})`, borderRadius: '50%', boxShadow: '.5px .5px rgba(10, 10, 10, 0.9)', border: '.5px solid rgb(50, 50, 50)' }}></div>
+                  </Tooltip>
+              </TableCell>
+              <TableCell>
+                  {Web3.utils.fromWei(player.token.blendingPrice, 'ether')}
+              </TableCell>
+              <TableCell>
+                  <span>{player.score} %<progress style={{ width: '50%', marginLeft: '1em' }} value={player.score} max='100'>{player.score} %</progress></span>
+              </TableCell>
+              <TableCell>
+                  <Button
+                      variant='contained'
+                      color='primary'
+                      disabled={inProgress}
+                      onClick={this.handleClickBlendOpen}
+                  >
             Blend
-          </Button>
-        </TableCell>
-      </TableRow>
-    )
+                  </Button>
+              </TableCell>
+          </TableRow>
+      );
   }
 }
 

@@ -1,6 +1,5 @@
 import assertRevert from './helpers/assertRevert';
 const RainbowToken = artifacts.require('mocks/RainbowTokenMock');
-const web3Abi = require('web3-eth-abi');
 
 const PLAYING_FEE = 1000000000000000;
 const DEFAULT_BLENDING_PRICE = 10000000000000000;
@@ -11,42 +10,41 @@ const EVENT_TOKEN_BLENDED = 'TokenBlended';
 const EVENT_PLAYER_WON = 'PlayerWon';
 
 contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
-
     beforeEach(async function () {
         this.rgb = [128, 243, 2];
         this.game = await RainbowToken.new(
             this.rgb[0],
-            this.rgb[1], 
-            this.rgb[2], 
+            this.rgb[1],
+            this.rgb[2],
             {
                 from: winningPlayer,
                 value: PLAYING_FEE,
-            }); 
+            });
     });
 
     describe('target color', function () {
         it('target color is set correctly', async function () {
-          const targetColor = await this.game.targetColor();
-          assert.equal(targetColor[0].toNumber(), this.rgb[0]);
-          assert.equal(targetColor[1].toNumber(), this.rgb[1]);
-          assert.equal(targetColor[2].toNumber(), this.rgb[2]);
+            const targetColor = await this.game.targetColor();
+            assert.equal(targetColor[0].toNumber(), this.rgb[0]);
+            assert.equal(targetColor[1].toNumber(), this.rgb[1]);
+            assert.equal(targetColor[2].toNumber(), this.rgb[2]);
         });
     });
 
-    describe('play', function() {
+    describe('play', function () {
         it('revert if playing fee is too low', async function () {
             await assertRevert(this.game.play({
                 from: player1,
-                value: PLAYING_FEE - 1
+                value: PLAYING_FEE - 1,
             }));
         });
-        
-        describe('when playing successful', function() {
+
+        describe('when playing successful', function () {
             beforeEach(async function () {
                 this.initialRainbowBalance = await web3.eth.getBalance(this.game.address);
                 const { logs } = await this.game.play({
                     from: player1,
-                    value: PLAYING_FEE
+                    value: PLAYING_FEE,
                 });
                 this.logs = logs;
             });
@@ -57,8 +55,8 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             });
 
             it('player is correctly registered', async function () {
-                const isPlayer = await this.game.isPlayer(player1)
-                assert.isTrue(isPlayer)
+                const isPlayer = await this.game.isPlayer(player1);
+                assert.isTrue(isPlayer);
             });
 
             it('PlayerCreated event is emitted', async function () {
@@ -69,33 +67,33 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             });
 
             it('player token has default values', async function () {
-                const token = await this.game.getToken(player1)
-                assert.equal(token[6].toNumber(), DEFAULT_BLENDING_PRICE, 'blending price is default')
-                assert.include([0, 255], token[0].toNumber(), 'r is 0 or 255')
-                assert.equal(token[0].toNumber(), token[3].toNumber())
-                assert.include([0, 255], token[1].toNumber(), 'g is 0 or 255')                
-                assert.equal(token[1].toNumber(), token[4].toNumber())
-                assert.include([0, 255], token[2].toNumber(), 'g is 0 or 255')                
-                assert.equal(token[2].toNumber(), token[5].toNumber())
+                const token = await this.game.getToken(player1);
+                assert.equal(token[6].toNumber(), DEFAULT_BLENDING_PRICE, 'blending price is default');
+                assert.include([0, 255], token[0].toNumber(), 'r is 0 or 255');
+                assert.equal(token[0].toNumber(), token[3].toNumber());
+                assert.include([0, 255], token[1].toNumber(), 'g is 0 or 255');
+                assert.equal(token[1].toNumber(), token[4].toNumber());
+                assert.include([0, 255], token[2].toNumber(), 'g is 0 or 255');
+                assert.equal(token[2].toNumber(), token[5].toNumber());
             });
 
             it('revert if player tries to play a second time', async function () {
                 await assertRevert(this.game.play({
                     from: player1,
-                    value: PLAYING_FEE
+                    value: PLAYING_FEE,
                 }));
             });
         });
     });
 
-    describe('setBlendingPrice', function() {
+    describe('setBlendingPrice', function () {
         beforeEach(async function () {
             await this.game.play({
                 from: player1,
-                value: PLAYING_FEE
+                value: PLAYING_FEE,
             });
         });
-        
+
         it('revert if not a player', async function () {
             await assertRevert(this.game.setBlendingPrice(0, {
                 from: unknown,
@@ -108,17 +106,17 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             }));
         });
 
-        describe('when new price is correct', function() {
+        describe('when new price is correct', function () {
             beforeEach(async function () {
-                const {logs } = await this.game.setBlendingPrice(12354728024758, {
+                const { logs } = await this.game.setBlendingPrice(12354728024758, {
                     from: player1,
                 });
-                this.logs = logs
+                this.logs = logs;
             });
 
             it('token price is set', async function () {
-                const token = await this.game.getToken(player1)
-                assert.equal(token[6].toNumber(), 12354728024758, 'Token price is new price')
+                const token = await this.game.getToken(player1);
+                assert.equal(token[6].toNumber(), 12354728024758, 'Token price is new price');
             });
 
             it('BlengingPriceSet event emmited', async function () {
@@ -130,22 +128,22 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
         });
     });
 
-    describe('blend', function() {
+    describe('blend', function () {
         beforeEach(async function () {
             await this.game.play({
                 from: player1,
-                value: PLAYING_FEE
+                value: PLAYING_FEE,
             });
-            this.blendingPrice = 12354728024758
+            this.blendingPrice = 12354728024758;
             await this.game.setBlendingPrice(this.blendingPrice, {
                 from: winningPlayer,
             });
         });
-        
+
         it('revert if not blending with a player', async function () {
-            const blendingToken = await this.game.getToken(winningPlayer)
+            const blendingToken = await this.game.getToken(winningPlayer);
             await assertRevert(this.game.blend(
-                unknown, 
+                unknown,
                 blendingToken[6],
                 blendingToken[0],
                 blendingToken[1],
@@ -158,9 +156,9 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
         });
 
         it('revert if blending price too low', async function () {
-            const blendingToken = await this.game.getToken(winningPlayer)
+            const blendingToken = await this.game.getToken(winningPlayer);
             await assertRevert(this.game.blend(
-                winningPlayer, 
+                winningPlayer,
                 blendingToken[6],
                 blendingToken[0],
                 blendingToken[1],
@@ -173,12 +171,12 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
         });
 
         it('revert if blending price increased', async function () {
-            const blendingToken = await this.game.getToken(winningPlayer)
+            const blendingToken = await this.game.getToken(winningPlayer);
             await this.game.setBlendingPrice(blendingToken[6] + 1, {
                 from: winningPlayer,
             });
             await assertRevert(this.game.blend(
-                winningPlayer, 
+                winningPlayer,
                 blendingToken[6],
                 blendingToken[0],
                 blendingToken[1],
@@ -190,14 +188,14 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             ));
         });
 
-        describe('when successful blending', function() {
+        describe('when successful blending', function () {
             beforeEach(async function () {
                 this.initialBlengingPlayerBalance = await web3.eth.getBalance(winningPlayer);
                 this.initialRainbowBalance = await web3.eth.getBalance(this.game.address);
                 this.initialToken = await this.game.getToken(player1);
                 this.blendingToken = await this.game.getToken(winningPlayer);
                 const { logs } = await this.game.blend(
-                    winningPlayer, 
+                    winningPlayer,
                     this.blendingToken[6],
                     this.blendingToken[0],
                     this.blendingToken[1],
@@ -213,26 +211,29 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             it('token color changed', async function () {
                 const token = await this.game.getToken(player1);
                 assert.equal(
-                    token[0].toNumber(), 
-                    Math.floor((this.initialToken[0].toNumber() + this.blendingToken[0].toNumber())/2)
+                    token[0].toNumber(),
+                    Math.floor((this.initialToken[0].toNumber() + this.blendingToken[0].toNumber()) / 2)
                 );
                 assert.equal(
-                    token[1].toNumber(), 
-                    Math.floor((this.initialToken[1].toNumber() + this.blendingToken[1].toNumber())/2)
+                    token[1].toNumber(),
+                    Math.floor((this.initialToken[1].toNumber() + this.blendingToken[1].toNumber()) / 2)
                 );
                 assert.equal(
-                    token[2].toNumber(), 
-                    Math.floor((this.initialToken[2].toNumber() + this.blendingToken[2].toNumber())/2)
+                    token[2].toNumber(),
+                    Math.floor((this.initialToken[2].toNumber() + this.blendingToken[2].toNumber()) / 2)
                 );
             });
 
             it('fees have been correctly transfered', async function () {
-                const finalBlendingPlayerBalance = await web3.eth.getBalance(winningPlayer)
+                const finalBlendingPlayerBalance = await web3.eth.getBalance(winningPlayer);
                 const finalRainbowBalance = await web3.eth.getBalance(this.game.address);
-                const blendingPlayerFee = Math.floor(this.blendingToken[6] / 2)
-                const rainbowFee = this.blendingToken[6] - blendingPlayerFee
-                assert.equal(finalRainbowBalance.sub(this.initialRainbowBalance).sub(rainbowFee).toNumber(), 0)
-                assert.equal(finalBlendingPlayerBalance.sub(this.initialBlengingPlayerBalance).sub(blendingPlayerFee).toNumber(), 0)
+                const blendingPlayerFee = Math.floor(this.blendingToken[6] / 2);
+                const rainbowFee = this.blendingToken[6] - blendingPlayerFee;
+                assert.equal(finalRainbowBalance.sub(this.initialRainbowBalance).sub(rainbowFee).toNumber(), 0);
+                assert.equal(
+                    finalBlendingPlayerBalance.sub(this.initialBlengingPlayerBalance).sub(blendingPlayerFee).toNumber(),
+                    0
+                );
             });
 
             it('TokenBlended event emmited', async function () {
@@ -241,15 +242,15 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
                 assert.equal(this.logs[0].event, EVENT_TOKEN_BLENDED, 'Event is correct');
                 assert.equal(this.logs[0].args.player, player1, 'Player arg is correct');
                 assert.equal(this.logs[0].args.r, token[0].toNumber(), 'R is correct');
-                assert.equal(this.logs[0].args.g, token[1].toNumber(),  'G is correct');
+                assert.equal(this.logs[0].args.g, token[1].toNumber(), 'G is correct');
                 assert.equal(this.logs[0].args.b, token[2].toNumber(), 'B is correct');
             });
         });
 
         it('revert if blending color does not match arguments', async function () {
-            const blendingToken = await this.game.getToken(winningPlayer)
+            const blendingToken = await this.game.getToken(winningPlayer);
             await assertRevert(this.game.blend(
-                winningPlayer, 
+                winningPlayer,
                 blendingToken[6],
                 124,
                 148,
@@ -262,17 +263,17 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
         });
     });
 
-    describe('defaultBlend', function() {
+    describe('defaultBlend', function () {
         beforeEach(async function () {
             await this.game.play({
                 from: player1,
-                value: PLAYING_FEE
+                value: PLAYING_FEE,
             });
 
             // Change token color
             const blendingToken = await this.game.getToken(winningPlayer);
             await this.game.blend(
-                winningPlayer, 
+                winningPlayer,
                 blendingToken[6],
                 blendingToken[0],
                 blendingToken[1],
@@ -283,7 +284,7 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
                 }
             );
         });
-        
+
         it('revert if not a player', async function () {
             await assertRevert(this.game.defaultBlend(
                 {
@@ -293,7 +294,7 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             ));
         });
 
-        it('revert if blending price is too low', async function () {         
+        it('revert if blending price is too low', async function () {
             await assertRevert(this.game.defaultBlend(
                 {
                     from: player1,
@@ -302,7 +303,7 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             ));
         });
 
-        describe('when successful blending', function() {
+        describe('when successful blending', function () {
             beforeEach(async function () {
                 this.initialRainbowBalance = await web3.eth.getBalance(this.game.address);
                 this.initialToken = await this.game.getToken(player1);
@@ -318,16 +319,16 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             it('token color changed', async function () {
                 const token = await this.game.getToken(player1);
                 assert.equal(
-                    token[0].toNumber(), 
-                    Math.floor((this.initialToken[0].toNumber() + this.initialToken[3].toNumber())/2)
+                    token[0].toNumber(),
+                    Math.floor((this.initialToken[0].toNumber() + this.initialToken[3].toNumber()) / 2)
                 );
                 assert.equal(
-                    token[1].toNumber(), 
-                    Math.floor((this.initialToken[1].toNumber() + this.initialToken[4].toNumber())/2)
+                    token[1].toNumber(),
+                    Math.floor((this.initialToken[1].toNumber() + this.initialToken[4].toNumber()) / 2)
                 );
                 assert.equal(
-                    token[2].toNumber(), 
-                    Math.floor((this.initialToken[2].toNumber() + this.initialToken[5].toNumber())/2)
+                    token[2].toNumber(),
+                    Math.floor((this.initialToken[2].toNumber() + this.initialToken[5].toNumber()) / 2)
                 );
             });
 
@@ -337,17 +338,17 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
                 assert.equal(this.logs[0].event, EVENT_TOKEN_BLENDED, 'Event is correct');
                 assert.equal(this.logs[0].args.player, player1, 'Player arg is correct');
                 assert.equal(this.logs[0].args.r, token[0].toNumber(), 'R is correct');
-                assert.equal(this.logs[0].args.g, token[1].toNumber(),  'G is correct');
+                assert.equal(this.logs[0].args.g, token[1].toNumber(), 'G is correct');
                 assert.equal(this.logs[0].args.b, token[2].toNumber(), 'B is correct');
             });
         });
     });
 
-    describe('claimVictory', function() {
+    describe('claimVictory', function () {
         beforeEach(async function () {
             await this.game.play({
                 from: player1,
-                value: PLAYING_FEE
+                value: PLAYING_FEE,
             });
         });
 
@@ -367,11 +368,11 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             ));
         });
 
-        describe('when successful winning claimed', function() {
+        describe('when successful winning claimed', function () {
             beforeEach(async function () {
                 this.initialRainbowBalance = await web3.eth.getBalance(this.game.address);
                 this.initialWinnerBalance = await web3.eth.getBalance(winningPlayer);
-                this.receipt  = await this.game.claimVictory({
+                this.receipt = await this.game.claimVictory({
                     from: winningPlayer,
                     gasPrice: 0,
                 });
@@ -380,29 +381,32 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             it('rainbow token balance has been transfered to winner', async function () {
                 const finalRainbowBalance = await web3.eth.getBalance(this.game.address);
                 const finalWinnerBalance = await web3.eth.getBalance(winningPlayer);
-                
-                assert.equal(finalRainbowBalance.toNumber(), 0)
-                assert.equal(finalWinnerBalance.sub(this.initialWinnerBalance).sub(this.initialRainbowBalance).toNumber(), 0)
+
+                assert.equal(finalRainbowBalance.toNumber(), 0);
+                assert.equal(
+                    finalWinnerBalance.sub(this.initialWinnerBalance).sub(this.initialRainbowBalance).toNumber(),
+                    0
+                );
             });
-            
-            describe('Game should be over', function() {
+
+            describe('Game should be over', function () {
                 it('gameOver should be set to false', async function () {
                     const gameOver = await this.game.gameOver();
-                    assert.isTrue(gameOver)
+                    assert.isTrue(gameOver);
                 });
 
-                describe('Methods should be innaccessible', function() {
+                describe('Methods should be innaccessible', function () {
                     it('play', async function () {
                         await assertRevert(this.game.play({
                             from: player2,
-                            value: PLAYING_FEE
+                            value: PLAYING_FEE,
                         }));
                     });
 
                     it('blend', async function () {
-                        this.blendingToken = await this.game.getToken(winningPlayer);                        
+                        this.blendingToken = await this.game.getToken(winningPlayer);
                         await assertRevert(this.game.blend(
-                            winningPlayer, 
+                            winningPlayer,
                             this.blendingToken[6],
                             this.blendingToken[0],
                             this.blendingToken[1],
@@ -414,18 +418,18 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
                         ));
                     });
 
-                    it('defaultBlend', async function () {                    
+                    it('defaultBlend', async function () {
                         await assertRevert(this.game.defaultBlend({
-                                from: player1,
-                                value: DEFAULT_BLENDING_PRICE,
-                            }
+                            from: player1,
+                            value: DEFAULT_BLENDING_PRICE,
+                        }
                         ));
                     });
 
-                    it('claimVictory', async function () {                    
+                    it('claimVictory', async function () {
                         await assertRevert(this.game.claimVictory({
-                                from: winningPlayer,
-                            }
+                            from: winningPlayer,
+                        }
                         ));
                     });
                 });

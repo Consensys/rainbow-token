@@ -10,53 +10,53 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 const th = {
-    fontSize: '1.15em'
-}
+    fontSize: '1.15em',
+};
 
 const PlayerTable = ({
-  currentPlayer,
-  players,
-  inProgress,
-  blend }) => {
-  const dashboard = Object.values(players).map((player, index) => (
-    <PlayerCell
-      key={player.address}
-      currentPlayer={currentPlayer}
-      player={player}
-      inProgress={inProgress}
-      blend={blend}
-      index={index}
-    />
-  ));
+    currentPlayer,
+    players,
+    inProgress,
+    blend }) => {
+    const dashboard = Object.values(players).map((player, index) => (
+        <PlayerCell
+            key={player.address}
+            currentPlayer={currentPlayer}
+            player={player}
+            inProgress={inProgress}
+            blend={blend}
+            index={index}
+        />
+    ));
 
-  return (
-    <Paper style={{ width: '80%', margin: '3em auto' }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell style={th}>
+    return (
+        <Paper style={{ width: '80%', margin: '3em auto' }}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell style={th}>
               Cool pseudonym
-            </TableCell>
-            <TableCell style={th}>
+                        </TableCell>
+                        <TableCell style={th}>
               Current token
-            </TableCell>
-            <TableCell style={th}>
+                        </TableCell>
+                        <TableCell style={th}>
               Price ( Ξ )
-            </TableCell>
-            <TableCell style={th}>
+                        </TableCell>
+                        <TableCell style={th}>
               Matching ( % )
-            </TableCell>
-            <TableCell style={th}>
+                        </TableCell>
+                        <TableCell style={th}>
               Blend
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {dashboard}
-        </TableBody>
-      </Table>
-    </Paper>
-  )
-}
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {dashboard}
+                </TableBody>
+            </Table>
+        </Paper>
+    );
+};
 
 export default PlayerTable;

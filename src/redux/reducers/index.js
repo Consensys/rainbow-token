@@ -4,9 +4,9 @@ import players from './players';
 import errors from './errors';
 
 const rootReducer = combineReducers({
-  user,
-  players,
-  errors
+    user,
+    players,
+    errors,
 });
 
 export default rootReducer;
