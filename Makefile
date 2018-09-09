@@ -10,12 +10,6 @@
 # Linting commands
 .PHONY: test-lint lint
 
-# Executables
-NODE_MODULES=./node_modules
-BIN=$(NODE_MODULES)/.bin
-TRUFFLE=$(BIN)/truffle
-SOLIDITY_COVERAGE=$(BIN)/solidity-coverage
-
 # ganache options
 GANACHE=ganache/docker-compose.yml
 ACCOUNTS=ganache/accounts.txt
@@ -55,10 +49,10 @@ develop: start-ganache start-dapp
 stop-develop: stop-ganache stop-dapp
 
 test:
-	@$(TRUFFLE) test --network development
+	@npm run contract:test
 
 run-coverage:
-	@$(SOLIDITY_COVERAGE)
+	@npm run contract:test:coverage
 
 coverage: run-coverage
 	@xdg-open coverage/index.html

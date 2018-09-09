@@ -22,7 +22,7 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             });
     });
 
-    describe('target color', function () {
+    describe('targetColor', function () {
         it('target color is set correctly', async function () {
             const targetColor = await this.game.targetColor();
             assert.equal(targetColor[0].toNumber(), this.rgb[0]);
@@ -30,6 +30,15 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             assert.equal(targetColor[2].toNumber(), this.rgb[2]);
         });
     });
+
+    describe('getPlayers', function () {
+        it('only winning player is registered', async function () {
+            const players = await this.game.getPlayers();
+            assert.lengthOf(players, 1);
+            assert.equal(players[0], winningPlayer);
+        });
+    });
+
 
     describe('play', function () {
         it('revert if playing fee is too low', async function () {

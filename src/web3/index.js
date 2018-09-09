@@ -37,7 +37,7 @@ export default {
                 console.log('Receipt: ', receipt);
             })
             .on('error', err => {
-
+                console.log(err);
             });
     },
     setBlendingPrice: (address, price) => {
@@ -51,7 +51,7 @@ export default {
                 console.log('Receipt: ', receipt);
             })
             .on('error', err => {
-
+                console.log(err);
             });
     },
     blend: (address, blendingAddress, blendingToken) => {
@@ -76,7 +76,7 @@ export default {
                 console.log('Receipt: ', receipt);
             })
             .on('error', err => {
-
+                console.log(err);
             });
     },
     claimVictory: (address) => {
@@ -90,7 +90,7 @@ export default {
                 console.log('Receipt: ', receipt);
             })
             .on('error', err => {
-
+                console.log(err);
             });
     },
 };
