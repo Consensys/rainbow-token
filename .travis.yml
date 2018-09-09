@@ -1,0 +1,22 @@
+stages:
+  - test
+
+sudo: false
+
+language: node_js
+node_js:
+  - "9.1"
+
+cache:
+  directories:
+    - node_modules
+
+jobs:
+  fast_finish: true 
+  include:
+    - stage: tests
+      name: "contract tests"
+      script: npm run contract:test:coverage
+    - stage: tests
+      name: "test-lint"
+      script: npm run lint:sol
