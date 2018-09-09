@@ -17,6 +17,8 @@ jobs:
     - stage: tests
       name: "test-contracts"
       script: npm run contract:test:coverage
+      after_script:
+        - cat coverage/lcov.info | coveralls
     - stage: tests
       name: "test-solidity-lint"
       script: npm run lint:sol

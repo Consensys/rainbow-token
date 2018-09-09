@@ -398,7 +398,7 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             });
 
             describe('Game should be over', function () {
-                it('gameOver should be set to false', async function () {
+                it('gameOver should be set to true', async function () {
                     const gameOver = await this.game.gameOver();
                     assert.isTrue(gameOver);
                 });
