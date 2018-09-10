@@ -1,6 +1,5 @@
 pragma solidity ^0.4.24;
 
-
 /**
  * @title RainbowToken
  *
@@ -185,12 +184,9 @@ contract RainbowToken {
     require(msg.value >= PLAYING_FEE, "Playing fee has not been paid");
 
     // Compute player default color (try to make it tough for a player to anticipate default color)
-    uint defaultColorSeed = uint(keccak256(abi.encodePacked(msg.sender, block.number)));
-    Color memory defaultColor = Color(
-      defaultColorSeed & 1 > 0 ? uint(255): 0,
-      defaultColorSeed & 2 > 0 ? uint(255): 0,
-      defaultColorSeed & 4 > 0 ? uint(255): 0
-    );
+    bytes32 defaultColorSeed = keccak256(abi.encodePacked(msg.sender, blockhash(block.number - 1), block.coinbase, now));
+    uint[3] memory defaultRgb = getRgb(uint(defaultColorSeed));
+    Color memory defaultColor = Color(defaultRgb[0], defaultRgb[1], defaultRgb[2]);
 
     // Register player
     players.push(msg.sender);
@@ -206,6 +202,24 @@ contract RainbowToken {
     );
 
     return true;
+  }
+
+  /** 
+   * @dev Compute RGB values based on a seed
+   * @param _seed New price (must be strictly positive)
+   */
+  function getRgb(
+    uint _seed
+  )
+    public
+    pure
+    returns (uint[3])
+  { 
+    return [
+      uint((_seed & 0xff0000) / 0xffff),
+      uint((_seed & 0xff00) / 0xff),
+      uint(_seed & 0xff)
+    ];
   }
 
   /**
