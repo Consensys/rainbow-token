@@ -14,9 +14,6 @@
 GANACHE=ganache/docker-compose.yml
 ACCOUNTS=ganache/accounts.txt
 
-# remix-ide options
-REMIX_IDE=remix-ide/docker-compose.yml
-
 yarn:
 	@yarn install
 
