@@ -2,15 +2,6 @@ import Web3 from 'web3';
 import { computeToken, color } from './utils';
 import { abi } from './abis/RainbowToken.json';
 
-import {
-    startTransaction,
-    endTransaction,
-} from '../redux/actions/user';
-
-import {
-    put
-} from 'redux-saga/effects';
-
 // const contractAddress = '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a';
 // const contractAddress = '0x902c1d0c87ad347aa8edae05f7e2bead577432ac'; //old address
 // const contractAddress = '0x3568e7583efde314b955f22ba0d1b14db8270bc7'; //new address
@@ -58,7 +49,6 @@ export default {
         })
             .on('transactionHash', hash => {
                 console.log('Transaction hash: ', hash);
-                put(startTransaction());
             })
             .on('receipt', receipt => {
                 console.log('Receipt: ', receipt);
