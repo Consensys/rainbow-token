@@ -9,9 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-const th = {
-    fontSize: '1.15em',
-};
+import { playerTableStyle } from '../styles';
 
 const PlayerTable = ({
     currentPlayer,
@@ -30,33 +28,34 @@ const PlayerTable = ({
     ));
 
     return (
-        <Paper style={{ width: '80%', margin: '3em auto' }}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell style={th}>
-              Cool pseudonym
-                        </TableCell>
-                        <TableCell style={th}>
-              Current token
-                        </TableCell>
-                        <TableCell style={th}>
-              Price ( Ξ )
-                        </TableCell>
-                        <TableCell style={th}>
-              Matching ( % )
-                        </TableCell>
-                        <TableCell style={th}>
-              Blend
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {dashboard}
-                </TableBody>
-            </Table>
-        </Paper>
+      <Paper style={playerTableStyle.paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell style={playerTableStyle.cell}>
+                Cool pseudonym
+              </TableCell>
+              <TableCell style={playerTableStyle.cell}>
+                Current token
+              </TableCell>
+              <TableCell style={playerTableStyle.cell}>
+                Price ( Ξ )
+              </TableCell>
+              <TableCell style={playerTableStyle.cell}>
+                Matching ( % )
+              </TableCell>
+              <TableCell style={playerTableStyle.cell}>
+                Blend
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+              {dashboard}
+          </TableBody>
+        </Table>
+      </Paper>
     );
 };
+
 
 export default PlayerTable;

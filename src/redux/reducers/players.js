@@ -29,22 +29,25 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         };
     case UPDATE_PLAYER_TOKEN:
         const player = state.data[payload.address];
-        console.log('Reducing', payload);
-        return {
-            ...state,
-            data: {
-                ...state.data,
-                [player.address]: {
-                    ...player,
-                    score: payload.score || player.score,
-                    token: {
-                        ...player.token,
-                        color: payload.token.color || player.token.color,
-                        blendingPrice: payload.token.blendingPrice || player.token.blendingPrice,
-                    },
-                },
-            },
-        };
+        if (player) {
+          return {
+              ...state,
+              data: {
+                  ...state.data,
+                  [player.address]: {
+                      ...player,
+                      score: payload.score || player.score,
+                      token: {
+                          ...player.token,
+                          color: payload.token.color || player.token.color,
+                          blendingPrice: payload.token.blendingPrice || player.token.blendingPrice,
+                      },
+                  },
+              },
+          };
+        } else {
+          return state;
+        }
     default:
         return state;
     }

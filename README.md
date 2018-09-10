@@ -3,6 +3,8 @@
 # Rainbow-Token
 Colorful World of Rainbow-Token
 
-Start dev
+Start Ganache
+ACCOUNTS=`cat accounts.txt` docker-compose up
 
-ACCOUNTS=`cat accounts.txt` docker-compose -f docker-compose.dev.yml up
+Start dev
+docker-compose up

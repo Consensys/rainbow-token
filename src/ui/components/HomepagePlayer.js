@@ -1,32 +1,3 @@
-// import React from 'react';
-
-// import UserHeader from './UserHeader';
-// import PlayerTable from './PlayerTable';
-
-// const HomepagePlayer = ({
-//   players,
-//   currentPlayer,
-//   inProgress,
-//   blend,
-//   setBlendingPrice
-// }) => (
-//   <div>
-//     <UserHeader
-//       currentPlayer={currentPlayer}
-//       inProgress={inProgress}
-//       blend={blend}
-//       setBlendingPrice={setBlendingPrice}
-//     />
-//     <PlayerTable
-//       players={players}
-//       inProgress={inProgress}
-//       blend={blend}
-//     />
-//   </div>
-// )
-
-// export default HomepagePlayer;
-
 import React from 'react';
 
 import UserHeader from './UserHeader';

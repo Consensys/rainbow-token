@@ -41,11 +41,8 @@ function *getUserSaga () {
 
 function *startPlayingSaga () {
     try {
-        console.log('Piuo');
         yield put(startTransaction());
-        console.log('Start playing');
         const address = yield select(state => state.user.data.address);
-        console.log('Start playin', address);
         yield call(rainbow.play, address);
     } catch (err) {
         yield put(addError('Unable to join the game.'));
@@ -70,7 +67,6 @@ function *blendSaga (blendingAddress, blendingToken) {
 function *setBlendingPriceSaga (price) {
     try {
         yield put(startTransaction());
-
         const address = yield select(state => state.user.data.address);
         yield call(rainbow.setBlendingPrice, address, price);
     } catch (err) {

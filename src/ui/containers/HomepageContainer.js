@@ -43,7 +43,7 @@ class HomepageContainer extends Component {
             getPlayers,
             getUser,
             updatePlayerToken,
-            newPlayer,
+            newPlayer
         } = this.props;
 
         getPlayers();
@@ -96,7 +96,6 @@ class HomepageContainer extends Component {
             user,
             players,
             currentPlayer,
-            newPlayer,
             blend,
             setBlendingPrice,
             startPlaying,
