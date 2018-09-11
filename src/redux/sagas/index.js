@@ -6,7 +6,7 @@ import playersSaga from './players';
 function *mySaga () {
     yield all([
         userSaga(),
-        playersSaga(),
+        playersSaga()
     ]);
 }
 

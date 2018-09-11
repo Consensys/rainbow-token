@@ -66,7 +66,7 @@ export default {
             });
         } else {
             // this a default blend
-            promise = RainbowToken.methods.blend().send({
+            promise = RainbowToken.methods.defaultBlend().send({
                 from: address,
                 value: defaultBlendingPrice,
             });

@@ -1,31 +1,36 @@
 import React from 'react';
 
+/* Components */
 import Button from '@material-ui/core/Button';
 import Loader from './Loader';
 
+/* Images */
 import rainbowToken from '../../static/svg/RainbowTokenWorkshop.svg';
 
+/* Styles */
 import { homepageVisitorStyle } from '../styles'
+import { withStyles } from "@material-ui/core/styles";
 
 
 const HomepageVisitor = ({
     inProgress,
     startPlaying,
+    classes
 }) => (
-    <div style={homepageVisitorStyle.global}>
-      <div style={homepageVisitorStyle.sidePanel}>
+    <div className={classes.global}>
+      <div className={classes.rightPanel}>
         <img
-          style={homepageVisitorStyle.imgSidePanel}
+          className={classes.imgSidePanel}
           src={rainbowToken}
           alt='rainbowBackground'
         />
       </div>
-      <div style={homepageVisitorStyle.mainPanel}>
-        <h1 style={homepageVisitorStyle.title} className='text-pop-up-top'>
+      <div className={classes.mainPanel}>
+        <h1 className={classes.title}>
           Welcome to the <br /> Rainbow Token Amazing Game
         </h1>
         <Button
-          style={homepageVisitorStyle.btn}
+          className={classes.btn}
           variant='contained'
           color='primary'
           onClick={e => { e.preventDefault(); startPlaying(); }}
@@ -34,21 +39,21 @@ const HomepageVisitor = ({
           Start playing
         </Button>
         <Loader inProgress={inProgress} />
-        <div style={homepageVisitorStyle.footer}>
-          <div style={homepageVisitorStyle.footerElement}>
-            You will need the <a style={homepageVisitorStyle.anchorTag} href='https://metamask.io/'>Metamask extension</a> to play this game
+        <div className={classes.footer}>
+          <div className={classes.footerElement}>
+            You will need the <a className={classes.anchorTag} href='https://metamask.io/'>Metamask extension</a> to play this game
           </div>
-          <div style={homepageVisitorStyle.footerElement}>
+          <div className={classes.footerElement}>
             Once connected to Metamask, connect to the Ropsten test network
           </div>
           <div>
-            Use the <a style={homepageVisitorStyle.anchorTag} href='https://faucet.metamask.io/'>Ropsten Faucet</a> to ask for one Ether
+            Use the <a className={classes.anchorTag} href='https://faucet.metamask.io/'>Ropsten Faucet</a> to ask for one Ether
           </div>
         </div>
       </div>
-      <div style={{ ...homepageVisitorStyle.sidePanel, transform: 'scaleX(-1)' }}>
+      <div className={classes.leftPanel}>
         <img
-          style={homepageVisitorStyle.imgSidePanel}
+          className={classes.imgSidePanel}
           src={rainbowToken}
           alt='rainbowBackground'
         />
@@ -56,4 +61,4 @@ const HomepageVisitor = ({
     </div>
 );
 
-export default HomepageVisitor;
+export default withStyles(homepageVisitorStyle)(HomepageVisitor);

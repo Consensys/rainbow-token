@@ -1,5 +1,6 @@
 import React from 'react';
 
+/* Components */
 import UserHeader from './UserHeader';
 import PlayerTable from './PlayerTable';
 import Snackbar from '@material-ui/core/Snackbar';

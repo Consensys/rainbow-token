@@ -43,7 +43,6 @@ export const setBlendingPrice = (price) => ({
 });
 
 export const startPlaying = () => {
-    console.log('piou');
     return {
         type: START_PLAYING,
     };

@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import BlendingDialog from './BlendingDialog';
 import Token from './Token';
 
+/* Styles */
+import { withStyles } from "@material-ui/core/styles";
 import { playerCellStyle } from '../styles'
 
 class PlayerCell extends Component {
@@ -32,6 +34,7 @@ class PlayerCell extends Component {
           inProgress,
           blend,
           index,
+          classes
       } = this.props;
       const { blendDialogOpen } = this.state;
       const style = index % 2 === 0 ? ({
@@ -49,7 +52,7 @@ class PlayerCell extends Component {
                 blendingPrice={player.token.blendingPrice}
                 blendingAddress={player.address}
             />
-            <TableCell style={playerCellStyle.pseudo}>
+            <TableCell className={classes.pseudo}>
                 {player.pseudo}
             </TableCell>
             <TableCell>
@@ -67,7 +70,7 @@ class PlayerCell extends Component {
               <span>
                 {player.score} %
                 <progress
-                  style={playerCellStyle.playerProgress}
+                  className={classes.playerProgress}
                   value={player.score} max='100'
                 >
                   {player.score} %
@@ -89,4 +92,4 @@ class PlayerCell extends Component {
   }
 }
 
-export default PlayerCell;
+export default withStyles(playerCellStyle)(PlayerCell);

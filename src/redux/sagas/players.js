@@ -4,6 +4,7 @@ import {
     takeLatest,
     takeEvery,
     all,
+    take
 } from 'redux-saga/effects';
 import generator from 'mnemonic-generator';
 
@@ -12,6 +13,8 @@ import {
     endLoadingPlayers,
     setPlayers,
     addPlayer,
+    updatePlayerToken,
+    newPlayer,
 } from '../actions/players';
 import {
     addError,
@@ -21,7 +24,13 @@ import {
     NEW_PLAYER,
 } from '../actionTypes';
 import rainbow from '../../web3';
-import { computeScore } from '../../web3/utils';
+import { computeScore, color } from '../../web3/utils';
+
+import {
+  blendingPriceSetEmitter,
+  tokenBlendedEmitter,
+  playerCreatedEmitter
+} from './eventEmitters';
 
 /** ******* WORKERS *********/
 
@@ -79,7 +88,51 @@ function *playersSaga () {
     yield all([
         watchGetPlayers(),
         watchNewPlayer(),
+        listenBlendingPrice(),
+        listenTokenBlended(),
+        listenPlayerCreated()
     ]);
+}
+
+
+
+/** ******* EVENT LISTENERS *********/
+
+function *listenBlendingPrice() {
+  const chan = yield call(blendingPriceSetEmitter);
+  try {
+    while (true) {
+      let { player, price } = yield take(chan);
+      console.log('HOLA');
+      yield put(updatePlayerToken(player, undefined, price));
+    }
+  } finally {
+
+  }
+}
+
+function *listenTokenBlended() {
+  const chan = yield call(tokenBlendedEmitter);
+  try {
+    while (true) {
+      let { player, r, g, b } = yield take(chan);
+      yield put(updatePlayerToken(player, color([r, g, b])));
+    }
+  } finally {
+
+  }
+}
+
+function *listenPlayerCreated() {
+  const chan = yield call(playerCreatedEmitter);
+  try {
+    while (true) {
+        let { player }  = yield take(chan);
+        yield put(newPlayer(player));
+    }
+  } finally {
+
+  }
 }
 
 export default playersSaga;

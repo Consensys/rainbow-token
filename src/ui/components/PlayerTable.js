@@ -1,7 +1,9 @@
 import React from 'react';
 
+/* Component */
 import PlayerCell from './PlayerCell';
 
+/* Material ui components */
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,13 +11,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+/* Styles */
+import { withStyles } from "@material-ui/core/styles";
 import { playerTableStyle } from '../styles';
 
 const PlayerTable = ({
     currentPlayer,
     players,
     inProgress,
-    blend }) => {
+    blend,
+    classes
+  }) => {
     const dashboard = Object.values(players).map((player, index) => (
         <PlayerCell
             key={player.address}
@@ -28,23 +34,23 @@ const PlayerTable = ({
     ));
 
     return (
-      <Paper style={playerTableStyle.paper}>
+      <Paper className={classes.paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell style={playerTableStyle.cell}>
+              <TableCell className={classes.cell}>
                 Cool pseudonym
               </TableCell>
-              <TableCell style={playerTableStyle.cell}>
+              <TableCell className={classes.cell}>
                 Current token
               </TableCell>
-              <TableCell style={playerTableStyle.cell}>
+              <TableCell className={classes.cell}>
                 Price ( Ξ )
               </TableCell>
-              <TableCell style={playerTableStyle.cell}>
+              <TableCell className={classes.cell}>
                 Matching ( % )
               </TableCell>
-              <TableCell style={playerTableStyle.cell}>
+              <TableCell className={classes.cell}>
                 Blend
               </TableCell>
             </TableRow>
@@ -58,4 +64,4 @@ const PlayerTable = ({
 };
 
 
-export default PlayerTable;
+export default withStyles(playerTableStyle)(PlayerTable);

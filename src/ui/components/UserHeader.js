@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 
+/* Material ui components */
 import Button from '@material-ui/core/Button';
 
+/* Components */
 import PriceDialog from './PriceDialog';
 import BlendingDialog from './BlendingDialog';
 import Token from './Token';
 
+/* Styles */
 import { headerUserStyle } from '../styles';
+import { withStyles } from "@material-ui/core/styles";
 
 class UserHeader extends Component {
     constructor (props) {
@@ -47,6 +51,7 @@ class UserHeader extends Component {
           inProgress,
           blend,
           setBlendingPrice,
+          classes
       } = this.props;
       const {
           priceDialogOpen,
@@ -54,7 +59,7 @@ class UserHeader extends Component {
           blendingPriceInput,
       } = this.state;
       return (
-          <div style={ headerUserStyle.global }>
+          <div className={ classes.global }>
             <PriceDialog
                 blendingPriceInput={blendingPriceInput}
                 priceDialogOpen={priceDialogOpen}
@@ -71,12 +76,12 @@ class UserHeader extends Component {
                 withSelf={true}
                 blendingPrice={'0.01'}
             />
-            <div style={headerUserStyle.halfHeader}>
-              <div style={headerUserStyle.flexColumn}>
-                <div style={headerUserStyle.pseudo}>
+            <div className={classes.halfHeader}>
+              <div className={classes.flexColumn}>
+                <div className={classes.pseudo}>
                   Welcome <strong>{currentPlayer.pseudo}</strong>
                 </div>
-                <div style={headerUserStyle.address}>
+                <div className={classes.address}>
                   Address: {currentPlayer.address.substring(0, 6)}...{currentPlayer.address.substring(39, 42)}
                 </div>
               </div>
@@ -86,14 +91,14 @@ class UserHeader extends Component {
                 boxShadowSize='1.6'
                 borderSize='1.2'
               />
-              <div style={headerUserStyle.consensysRightEl}>
+              <div className={classes.consensysRightEl}>
                 Reach the blue<br/> <strong>Consensys</strong> Token
               </div>
             </div>
             <hr className='rainbow2' />
-            <div style={headerUserStyle.halfHeader}>
-              <div style={headerUserStyle.flexColumnCentered}>
-                <div style={headerUserStyle.defaultTokenTitle}>
+            <div className={classes.halfHeader}>
+              <div className={classes.flexColumnCentered}>
+                <div className={classes.defaultTokenTitle}>
                   Your Default Token
                 </div>
                 <Token
@@ -103,7 +108,7 @@ class UserHeader extends Component {
                   borderSize='1.2'
                 />
                 <Button
-                  style={headerUserStyle.defaultTokenBtn}
+                  className={classes.defaultTokenBtn}
                   variant='contained'
                   color='primary'
                   onClick={this.handleClickBlendOpen}
@@ -112,8 +117,8 @@ class UserHeader extends Component {
                   Blend with your default color
                 </Button>
               </div>
-              <div style={headerUserStyle.flexColumnCentered}>
-                <div style={headerUserStyle.currentTokenTitle}>
+              <div className={classes.flexColumnCentered}>
+                <div className={classes.currentTokenTitle}>
                   Your Current Token
                 </div>
                 <Token
@@ -122,10 +127,10 @@ class UserHeader extends Component {
                   boxShadowSize='2'
                   borderSize='1.2'
                 />
-                <div style={headerUserStyle.currentTokenProgress}>
+                <div className={classes.currentTokenProgress}>
                   {currentPlayer.score} %
                   <progress
-                    style={headerUserStyle.currentTokenBar}
+                    className={classes.currentTokenBar}
                     value={currentPlayer.score}
                     max='100'
                   >
@@ -133,15 +138,15 @@ class UserHeader extends Component {
                   </progress>
                 </div>
               </div>
-              <div style={headerUserStyle.flexColumnCentered}>
-                <div style={headerUserStyle.priceTitle}>
+              <div className={classes.flexColumnCentered}>
+                <div className={classes.priceTitle}>
                   Set your price
                 </div>
-                <div style={headerUserStyle.priceText}>
+                <div className={classes.priceText}>
                   {Web3.utils.fromWei(currentPlayer.token.blendingPrice, 'ether')} <i className="fab fa-ethereum"></i>
                 </div>
                 <Button
-                  style={headerUserStyle.priceBtn}
+                  className={classes.priceBtn}
                   variant='contained'
                   color='primary'
                   onClick={this.handleClickPriceOpen}
@@ -156,4 +161,4 @@ class UserHeader extends Component {
   }
 }
 
-export default UserHeader;
+export default withStyles(headerUserStyle)(UserHeader);

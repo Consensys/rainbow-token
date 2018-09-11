@@ -1,4 +1,4 @@
-export const playerCellStyle = {
+export const playerCellStyle = theme => ({
   pseudo: {
     textTransform: 'capitalize'
   },
@@ -6,9 +6,9 @@ export const playerCellStyle = {
     width: '50%',
     marginLeft: '1em'
   }
-}
+})
 
-export const homepageVisitorStyle = {
+export const homepageVisitorStyle = theme => ({
     global: {
       display: 'flex',
       flexDirection: 'row',
@@ -20,12 +20,20 @@ export const homepageVisitorStyle = {
       textDecoration: 'none',
       fontWeight: 'bold'
     },
-    sidePanel: {
+    rightPanel: {
       flex: '1 1 25%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       overflow: 'hidden'
+    },
+    leftPanel: {
+      flex: '1 1 25%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      overflow: 'hidden',
+      transform: 'scaleX(-1)'
     },
     imgSidePanel: {
       maxWidth: '100%',
@@ -58,9 +66,9 @@ export const homepageVisitorStyle = {
     btn: {
       marginTop: '1.5em'
     }
-};
+});
 
-export const playerTableStyle = {
+export const playerTableStyle = theme => ({
   paper: {
     width: '80%',
     margin: '3em auto'
@@ -68,9 +76,9 @@ export const playerTableStyle = {
   cell: {
     fontSize: '1.15em'
   }
-};
+});
 
-export const headerUserStyle = {
+export const headerUserStyle = theme => ({
     global: {
         color: 'white',
         textShadow: '0px 0px 4px rgb(10, 10, 10)',
@@ -139,4 +147,4 @@ export const headerUserStyle = {
      marginTop: '1.8em',
      fontSize: '0.8em'
    }
-};
+});
