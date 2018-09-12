@@ -112,7 +112,7 @@ class UserHeader extends Component {
                   variant='contained'
                   color='primary'
                   onClick={this.handleClickBlendOpen}
-                  disabled={inProgress}
+                  disabled={inProgress !== undefined}
                 >
                   Blend with your default color
                 </Button>
@@ -150,7 +150,7 @@ class UserHeader extends Component {
                   variant='contained'
                   color='primary'
                   onClick={this.handleClickPriceOpen}
-                  disabled={inProgress}
+                  disabled={inProgress !== undefined}
                 >
                   Update
                 </Button>

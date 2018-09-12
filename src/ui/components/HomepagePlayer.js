@@ -28,11 +28,11 @@ const HomepagePlayer = ({
         />
         <Snackbar
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            open={inProgress}
+            open={inProgress !== undefined}
             ContentProps={{
                 'aria-describedby': 'message-id',
             }}
-            message={<div id="message-id" style={{ textAlign: 'center' }}><div>Your transaction is pending...</div><div>Please, wait until your transaction has been included in a mined block.</div></div>}
+            message={<div id="message-id" style={{ textAlign: 'center' }}><div>Your transaction is pending... Look <a href={`https://ropsten.etherscan.io/tx/${inProgress}`}>here!</a></div><div>Please, wait until your transaction has been included in a mined block.</div></div>}
         />
     </div>
 );

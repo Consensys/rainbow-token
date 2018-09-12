@@ -74,6 +74,47 @@ function *newPlayerSaga (address) {
     }
 }
 
+/** ******* EVENT LISTENERS *********/
+
+function *listenBlendingPrice() {
+  const chan = yield call(blendingPriceSetEmitter);
+  try {
+    while (true) {
+      let { player, price } = yield take(chan);
+      console.log('BlendingPrice event!');
+      yield put(updatePlayerToken(player, undefined, price));
+    }
+  } finally {
+
+  }
+}
+
+function *listenTokenBlended() {
+  const chan = yield call(tokenBlendedEmitter);
+  try {
+    while (true) {
+      let { player, r, g, b } = yield take(chan);
+      console.log('Token Blended event!');
+      yield put(updatePlayerToken(player, color([r, g, b])));
+    }
+  } finally {
+
+  }
+}
+
+function *listenPlayerCreated() {
+  const chan = yield call(playerCreatedEmitter);
+  try {
+    while (true) {
+        let { player }  = yield take(chan);
+        console.log('New Player event!');
+        yield put(newPlayer(player));
+    }
+  } finally {
+
+  }
+}
+
 /** ******* WATCHERS *********/
 
 function *watchGetPlayers () {
@@ -92,47 +133,6 @@ function *playersSaga () {
         listenTokenBlended(),
         listenPlayerCreated()
     ]);
-}
-
-
-
-/** ******* EVENT LISTENERS *********/
-
-function *listenBlendingPrice() {
-  const chan = yield call(blendingPriceSetEmitter);
-  try {
-    while (true) {
-      let { player, price } = yield take(chan);
-      console.log('HOLA');
-      yield put(updatePlayerToken(player, undefined, price));
-    }
-  } finally {
-
-  }
-}
-
-function *listenTokenBlended() {
-  const chan = yield call(tokenBlendedEmitter);
-  try {
-    while (true) {
-      let { player, r, g, b } = yield take(chan);
-      yield put(updatePlayerToken(player, color([r, g, b])));
-    }
-  } finally {
-
-  }
-}
-
-function *listenPlayerCreated() {
-  const chan = yield call(playerCreatedEmitter);
-  try {
-    while (true) {
-        let { player }  = yield take(chan);
-        yield put(newPlayer(player));
-    }
-  } finally {
-
-  }
 }
 
 export default playersSaga;

@@ -81,7 +81,7 @@ class PlayerCell extends Component {
                 <Button
                     variant='contained'
                     color='primary'
-                    disabled={inProgress}
+                    disabled={inProgress !== undefined}
                     onClick={this.handleClickBlendOpen}
                 >
                   Blend

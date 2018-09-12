@@ -29,8 +29,9 @@ export const setUser = (address) => ({
     payload: address,
 });
 
-export const startTransaction = () => ({
+export const startTransaction = (txHash) => ({
     type: START_TRANSACTION,
+    payload: txHash
 });
 
 export const endTransaction = () => ({

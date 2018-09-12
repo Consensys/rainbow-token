@@ -8,7 +8,7 @@ import {
 
 const DEFAULT_STATE = {
     isLoading: false,
-    inProgress: false,
+    inProgress: undefined,
     data: {},
 };
 
@@ -21,9 +21,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case SET_USER:
         return { ...state, data: payload };
     case START_TRANSACTION:
-        return { ...state, inProgress: true };
+        return { ...state, inProgress: payload };
     case END_TRANSACTION:
-        return { ...state, inProgress: false };
+        return { ...state, inProgress: undefined };
     default:
         return state;
     }

@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import { call, put, select, takeLatest, all, take } from 'redux-saga/effects';
 import generator from 'mnemonic-generator';
 
 import {
@@ -40,41 +40,81 @@ function *getUserSaga () {
 }
 
 function *startPlayingSaga () {
-    try {
-        yield put(startTransaction());
-        const address = yield select(state => state.user.data.address);
-        yield call(rainbow.play, address);
-    } catch (err) {
-        yield put(addError('Unable to join the game.'));
-    } finally {
-        yield put(endTransaction());
+  const address = yield select(state => state.user.data.address);
+  const chan = yield call(rainbow.play, address);
+  try {
+    while (true) {
+      let { txHash, receipt, error } = yield take(chan);
+      if (txHash && !receipt && !error) {
+        console.log('TX HASH');
+        yield put(startTransaction(txHash));
+      } else if(!txHash && receipt && !error) {
+        console.log('RECEIPT');
+        chan.close();
+      } else if(!txHash && !receipt && error) {
+        console.log('ERROR')
+        yield put(addError('Transaction has failed.'));
+        chan.close();
+      } else {
+        console.log('WOOPS');
+        chan.close();
+      }
     }
+  } finally {
+    yield put(endTransaction());
+  }
 }
 
 function *blendSaga (blendingAddress, blendingToken) {
-    try {
-        yield put(startTransaction());
-        const address = yield select(state => state.user.data.address);
-        yield call(rainbow.blend, address, blendingAddress, blendingToken);
-    } catch (err) {
-        console.log(err);
+  const address = yield select(state => state.user.data.address);
+  const chan = yield call(rainbow.blend, address, blendingAddress, blendingToken);
+  try {
+    while (true) {
+      let { txHash, receipt, error } = yield take(chan);
+      if (txHash && !receipt && !error) {
+        console.log('TX HASH');
+        yield put(startTransaction(txHash));
+      } else if(!txHash && receipt && !error) {
+        console.log('RECEIPT');
+        chan.close();
+      } else if(!txHash && !receipt && error) {
+        console.log('ERROR')
         yield put(addError('Transaction has failed.'));
-    } finally {
-        yield put(endTransaction());
+        chan.close();
+      } else {
+        console.log('WOOPS');
+        chan.close();
+      }
     }
+  } finally {
+    yield put(endTransaction());
+  }
 }
 
 function *setBlendingPriceSaga (price) {
-    try {
-        yield put(startTransaction());
-        const address = yield select(state => state.user.data.address);
-        yield call(rainbow.setBlendingPrice, address, price);
-    } catch (err) {
-        console.log(err);
+  const address = yield select(state => state.user.data.address);
+  const chan = yield call(rainbow.setBlendingPrice, address, price);
+  try {
+    while (true) {
+      let { txHash, receipt, error } = yield take(chan);
+      if (txHash && !receipt && !error) {
+        console.log('TX HASH');
+        yield put(startTransaction(txHash));
+      } else if(!txHash && receipt && !error) {
+        console.log('RECEIPT');
+        chan.close();
+      } else if(!txHash && !receipt && error) {
+        console.log('ERROR')
         yield put(addError('Transaction has failed.'));
-    } finally {
-        yield put(endTransaction());
+        chan.close();
+      } else {
+        console.log('WOOPS');
+        chan.close();
+      }
     }
+  } finally {
+    yield put(endTransaction());
+  }
 }
 
 /** ******* WATCHERS *********/

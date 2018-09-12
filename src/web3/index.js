@@ -1,4 +1,5 @@
 import Web3 from 'web3';
+import { eventChannel } from 'redux-saga';
 import { computeToken, color } from './utils';
 import { abi } from './abis/RainbowToken.json';
 
@@ -28,72 +29,95 @@ export default {
     isPlayer: address => RainbowToken.methods.isPlayer(address).call(),
     getPlayers: () => RainbowToken.methods.getPlayers().call(),
     play: address => {
-        return RainbowToken.methods.play().send({
+      return eventChannel(emitter => {
+        RainbowToken.methods.play().send({
             from: address,
             value: defaultBlendingPrice,
             gasLimit: 500000,
         })
-            .on('transactionHash', hash => {
-                console.log('Transaction hash: ', hash);
+            .on('transactionHash', txHash => {
+                console.log('Transaction hash: ', txHash);
+                emitter({ txHash, receipt: undefined, error: undefined })
             })
             .on('receipt', receipt => {
                 console.log('Receipt: ', receipt);
+                emitter({ txHash: undefined, receipt, error: undefined })
             })
-            .on('error', err => {
-                console.log(err);
+            .on('error', error => {
+                console.log(error);
+                emitter({ txHash: undefined, receipt: undefined, error })
             });
+            return () => false;
+      })
     },
     setBlendingPrice: (address, price) => {
-        return RainbowToken.methods.setBlendingPrice(price).send({
+      return eventChannel(emitter => {
+        RainbowToken.methods.setBlendingPrice(price).send({
             from: address,
         })
-            .on('transactionHash', hash => {
-                console.log('Transaction hash: ', hash);
+            .on('transactionHash', txHash => {
+                console.log('Transaction hash: ', txHash);
+                emitter({ txHash, receipt: undefined, error: undefined })
             })
             .on('receipt', receipt => {
                 console.log('Receipt: ', receipt);
+                emitter({ txHash: undefined, receipt, error: undefined })
             })
-            .on('error', err => {
-                console.log(err);
+            .on('error', error => {
+                console.log(error);
+                emitter({ txHash: undefined, receipt: undefined, error })
             });
+            return () => false;
+      })
     },
     blend: (address, blendingAddress, blendingToken) => {
-        let promise;
+        let eventEmitter;
         if (blendingAddress) {
-            promise = RainbowToken.methods.blend(blendingAddress, blendingToken.blendingPrice, blendingToken.color.r, blendingToken.color.g, blendingToken.color.b).send({
+            eventEmitter = RainbowToken.methods.blend(blendingAddress, blendingToken.blendingPrice, blendingToken.color.r, blendingToken.color.g, blendingToken.color.b).send({
                 from: address,
                 value: blendingToken.blendingPrice,
             });
         } else {
             // this a default blend
-            promise = RainbowToken.methods.defaultBlend().send({
+            eventEmitter = RainbowToken.methods.defaultBlend().send({
                 from: address,
                 value: defaultBlendingPrice,
             });
         }
-        return promise
-            .on('transactionHash', hash => {
-                console.log('Transaction hash: ', hash);
+        return eventChannel(emitter => {
+          eventEmitter
+            .on('transactionHash', txHash => {
+                console.log('Transaction hash: ', txHash);
+                emitter({ txHash, receipt: undefined, error: undefined })
             })
             .on('receipt', receipt => {
                 console.log('Receipt: ', receipt);
+                emitter({ txHash: undefined, receipt, error: undefined })
             })
-            .on('error', err => {
-                console.log(err);
+            .on('error', error => {
+                console.log(error);
+                emitter({ txHash: undefined, receipt: undefined, error })
             });
+            return () => false;
+        })
     },
     claimVictory: (address) => {
-        return RainbowToken.methods.claimVictory().send({
+      return eventChannel(emitter => {
+        RainbowToken.methods.claimVictory().send({
             from: address,
         })
-            .on('transactionHash', hash => {
-                console.log('Transaction hash: ', hash);
+            .on('transactionHash', txHash => {
+                console.log('Transaction hash: ', txHash);
+                emitter({ txHash, receipt: undefined, error: undefined })
             })
             .on('receipt', receipt => {
                 console.log('Receipt: ', receipt);
+                emitter({ txHash: undefined, receipt, error: undefined })
             })
-            .on('error', err => {
-                console.log(err);
+            .on('error', error => {
+                console.log(error);
+                emitter({ txHash: undefined, receipt: undefined, error })
             });
+      })
     },
 };
