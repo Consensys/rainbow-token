@@ -57,10 +57,8 @@ function *getPlayersSaga () {
     }
 }
 
-function *newPlayerSaga (address) {
+function *newPlayerSaga ({ address, token }) {
     try {
-        const token = yield call(rainbow.getToken, address);
-        console.log('TOKEN:', token);
         const player = {
             address,
             pseudo: generator(address),
@@ -108,9 +106,9 @@ function *listenPlayerCreated() {
   const chan = yield call(playerCreatedEmitter);
   try {
     while (true) {
-        let { player }  = yield take(chan);
+        let { address, token }  = yield take(chan);
         console.log('New Player event!');
-        yield put(newPlayer(player));
+        yield put(newPlayer({ address, token }));
     }
   } finally {
 
@@ -124,7 +122,7 @@ function *watchGetPlayers () {
 }
 
 function *watchNewPlayer () {
-    yield takeEvery(NEW_PLAYER, ({ payload }) => newPlayerSaga(payload));
+    yield takeEvery(NEW_PLAYER, ({ payload }) => newPlayerSaga({ address: payload.address, token: payload.token }));
 }
 
 function *playersSaga () {

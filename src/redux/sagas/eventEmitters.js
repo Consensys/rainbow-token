@@ -31,8 +31,13 @@ export function playerCreatedEmitter() {
   return eventChannel(emitter => {
     RainbowTokenWs.PlayerCreated({}, undefined)
         .on('data', event => {
-            const { player } = event.returnValues;
-            emitter({ player });
+            const { player, r, g, b, blendingPrice } = event.returnValues;
+            const token = {
+              blendingPrice,
+              color: { r, g, b},
+              defaultColor: { r, g, b }
+            };
+            emitter({ address: player, token });
         })
         .on('error', console.log);
       return () => false;
