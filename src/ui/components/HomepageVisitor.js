@@ -13,6 +13,8 @@ import { withStyles } from "@material-ui/core/styles";
 
 
 const HomepageVisitor = ({
+    onRopsten,
+    connectedToMetamask,
     inProgress,
     startPlaying,
     classes
@@ -29,15 +31,17 @@ const HomepageVisitor = ({
         <h1 className={classes.title}>
           Welcome to the <br /> Rainbow Token Amazing Game
         </h1>
-        <Button
-          className={classes.btn}
-          variant='contained'
-          color='primary'
-          onClick={e => { e.preventDefault(); startPlaying(); }}
-          disabled={inProgress}
-        >
-          Start playing
-        </Button>
+        {onRopsten && connectedToMetamask && (
+          <Button
+            className={classes.btn}
+            variant='contained'
+            color='primary'
+            onClick={e => { e.preventDefault(); startPlaying(); }}
+            disabled={inProgress !== undefined}
+          >
+            Start playing
+          </Button>
+        )}
         <Loader inProgress={inProgress} />
         <div className={classes.footer}>
           <div className={classes.footerElement}>

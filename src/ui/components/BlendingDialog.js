@@ -1,5 +1,8 @@
 import React from 'react';
 
+import Web3 from 'web3';
+
+/* Styles */
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -41,7 +44,7 @@ const BlendingDialog = ({
             aria-labelledby="form-dialog-title"
         >
             <DialogTitle>
-       Blend your token for {/* Web3.utils.fromWei(blendingPrice.toString(), 'ether') */} Ξ
+              Blend your token for {Web3.utils.fromWei(blendingPrice, 'ether')} Ξ
             </DialogTitle>
             <DialogContent style={{ width: '500px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>

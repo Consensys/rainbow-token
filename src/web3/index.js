@@ -3,13 +3,11 @@ import { eventChannel } from 'redux-saga';
 import { computeToken, color } from './utils';
 import { abi } from './abis/RainbowToken.json';
 
-// const contractAddress = '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a';
-// const contractAddress = '0x902c1d0c87ad347aa8edae05f7e2bead577432ac'; //old address
-// const contractAddress = '0x3568e7583efde314b955f22ba0d1b14db8270bc7'; //new address
-// const contractAddress = '0x804417a5177173cc9edfb20d0e4235b653a9bb35'; // very new address
+// Ropsten
+const contractAddress = '0x7c3d91748a49efef9b4a1c55e58471bf9161cd2c';
 
 // ganache
-const contractAddress = '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a';
+// const contractAddress = '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a';
 
 export const web3 = new Web3(Web3.givenProvider);
 

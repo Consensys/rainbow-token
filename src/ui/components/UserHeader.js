@@ -74,7 +74,7 @@ class UserHeader extends Component {
                 color={currentPlayer.token.color}
                 blendingColor={currentPlayer.token.defaultColor}
                 withSelf={true}
-                blendingPrice={'0.01'}
+                blendingPrice={'10000000000000000'}
             />
             <div className={classes.halfHeader}>
               <div className={classes.flexColumn}>

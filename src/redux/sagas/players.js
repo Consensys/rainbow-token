@@ -60,12 +60,14 @@ function *getPlayersSaga () {
 function *newPlayerSaga (address) {
     try {
         const token = yield call(rainbow.getToken, address);
+        console.log('TOKEN:', token);
         const player = {
             address,
             pseudo: generator(address),
             token: token,
             score: computeScore(token.color, rainbow.targetColor),
         };
+        console.log('IN SAGA newPlayerSaga');
         yield put(addPlayer(player));
     } catch (err) {
         yield put(addError('Unable to add a player.'));

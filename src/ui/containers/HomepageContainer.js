@@ -31,15 +31,38 @@ const mapDispatchToProps = {
 };
 
 class HomepageContainer extends Component {
-    componentDidMount () {
-        const {
-            getPlayers,
-            getUser
-        } = this.props;
-
-        getPlayers();
-        getUser();
+  constructor(props) {
+    super(props);
+    this.state = {
+      web3Loading: true,
+      onRopsten: false
     }
+  }
+
+  componentDidMount () {
+      const {
+          getPlayers,
+          getUser
+      } = this.props;
+
+      window.web3.version.getNetwork((err, netId) => {
+        switch (netId) {
+          case "3":
+            this.setState({
+              web3Loading: false,
+              onRopsten: true
+            });
+            break
+          default:
+            this.setState({
+              web3Loading: false,
+              onRopsten: false
+            });
+          }
+        });
+      getPlayers();
+      getUser();
+  }
 
     render () {
         const {
@@ -50,8 +73,9 @@ class HomepageContainer extends Component {
             setBlendingPrice,
             startPlaying,
         } = this.props;
-
-        const display = user.isLoading || players.isLoading ? (
+        const { web3Loading, onRopsten } = this.state;
+        console.log(web3Loading);
+        const display = user.isLoading || players.isLoading || web3Loading ? (
             <Loader inProgress={true} />
         ) : currentPlayer ? (
             <HomepagePlayer
@@ -63,6 +87,8 @@ class HomepageContainer extends Component {
             />
         ) : (
             <HomepageVisitor
+                connectedToMetamask={'address' in user.data}
+                onRopsten={onRopsten}
                 inProgress={user.inProgress}
                 startPlaying={startPlaying}
             />
