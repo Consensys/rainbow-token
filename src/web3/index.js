@@ -11,9 +11,10 @@ const contractAddress = '0x7c3d91748a49efef9b4a1c55e58471bf9161cd2c';
 
 export const web3 = new Web3(Web3.givenProvider);
 
-export const web3Ws = process.env.NODE_ENV === 'development'
-    ? new Web3('ws://localhost:7545')
-    : new Web3(new Web3.providers.WebsocketProvider('wss://ropsten.infura.io/ws'));
+// export const web3Ws = process.env.NODE_ENV === 'development'
+//     ? new Web3('ws://localhost:7545')
+//     : new Web3(new Web3.providers.WebsocketProvider('wss://ropsten.infura.io/ws'));
+export const web3Ws = new Web3(new Web3.providers.WebsocketProvider('wss://ropsten.infura.io/ws'));
 
 const RainbowToken = new web3.eth.Contract(abi, contractAddress);
 export const RainbowTokenWs = new web3Ws.eth.Contract(abi, contractAddress).events;
