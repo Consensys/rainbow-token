@@ -61,14 +61,14 @@ class HomepageContainer extends Component {
               });
             }
           });
-        getPlayers();
-        getUser();
       } else {
         this.setState({
           web3Loading: false,
           onRopsten: false
         });
       }
+      getPlayers();
+      getUser();
   }
 
     render () {
