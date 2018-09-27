@@ -127,7 +127,7 @@ class UserHeader extends Component {
             <div className={classes.halfHeader}>
               <div className={classes.flexColumnCentered}>
                 <div className={classes.defaultTokenTitle}>
-                  Your Default Token
+                  Your Default Color
                 </div>
                 <Token
                   color={currentPlayer.token.defaultColor}
@@ -147,7 +147,7 @@ class UserHeader extends Component {
               </div>
               <div className={classes.flexColumnCentered}>
                 <div className={classes.currentTokenTitle}>
-                  Your Current Token
+                  Your Token
                 </div>
                 <Token
                   color={currentPlayer.token.color}
@@ -168,7 +168,7 @@ class UserHeader extends Component {
               </div>
               <div className={classes.flexColumnCentered}>
                 <div className={classes.priceTitle}>
-                  Set your price
+                  Your blending price
                 </div>
                 <div className={classes.priceText}>
                   {Web3.utils.fromWei(currentPlayer.token.blendingPrice, 'ether')} <i className="fab fa-ethereum"></i>
@@ -180,7 +180,7 @@ class UserHeader extends Component {
                   onClick={this.handleClickPriceOpen}
                   disabled={inProgress !== undefined}
                 >
-                  Update
+                  Set blending price
                 </Button>
               </div>
             </div>

@@ -45,23 +45,30 @@ class HomepageContainer extends Component {
           getUser
       } = this.props;
 
-      window.web3.version.getNetwork((err, netId) => {
-        switch (netId) {
-          case "3":
-            this.setState({
-              web3Loading: false,
-              onRopsten: true
-            });
-            break
-          default:
-            this.setState({
-              web3Loading: false,
-              onRopsten: false
-            });
-          }
+      if (window.web3) {
+        window.web3.version.getNetwork((err, netId) => {
+          switch (netId) {
+            case "3":
+              this.setState({
+                web3Loading: false,
+                onRopsten: true
+              });
+              break
+            default:
+              this.setState({
+                web3Loading: false,
+                onRopsten: false
+              });
+            }
+          });
+        getPlayers();
+        getUser();
+      } else {
+        this.setState({
+          web3Loading: false,
+          onRopsten: false
         });
-      getPlayers();
-      getUser();
+      }
   }
 
     render () {
@@ -74,7 +81,6 @@ class HomepageContainer extends Component {
             startPlaying,
         } = this.props;
         const { web3Loading, onRopsten } = this.state;
-        console.log(web3Loading);
         const display = user.isLoading || players.isLoading || web3Loading ? (
             <Loader inProgress={true} />
         ) : currentPlayer ? (

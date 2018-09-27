@@ -29,7 +29,7 @@ const HomepageVisitor = ({
       </div>
       <div className={classes.mainPanel}>
         <h1 className={classes.title}>
-          Welcome to the <br /> wonderful world of Rainbow Token
+          Welcome to the <br /> colourful world of Rainbow Tokens
         </h1>
         {onRopsten && connectedToMetamask && (
           <Button
@@ -45,13 +45,13 @@ const HomepageVisitor = ({
         <Loader inProgress={inProgress} />
         <div className={classes.footer}>
           <div className={classes.footerElement}>
-            You will need the <a className={classes.anchorTag} href='https://metamask.io/'>Metamask extension</a> to play this game
+            To play you need having <a className={classes.anchorTag} href='https://metamask.io/'>Metamask extension</a> installed.
           </div>
           <div className={classes.footerElement}>
-            Once connected to Metamask, connect to the Ropsten test network
+            Once MetaMask downloaded and open, please connect to Ropsten test network
           </div>
           <div>
-            Use the <a className={classes.anchorTag} href='https://faucet.metamask.io/'>Ropsten Faucet</a> to ask for one Ether
+            If you need ETH you can get some from MetaMask's <a className={classes.anchorTag} href='https://faucet.metamask.io/'>Ropsten Faucet</a>
           </div>
         </div>
       </div>

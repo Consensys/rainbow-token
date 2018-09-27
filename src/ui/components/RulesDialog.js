@@ -21,35 +21,61 @@ const RulesDialog = ({
       aria-labelledby="scroll-dialog-title"
     >
       <DialogTitle id="scroll-dialog-title">Now What?</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          <p>
-            By joining the game, you have been assigned a Rainbow Token with a
-            random color. Your goal is to blend it with other Rainbow Tokens in
-            order to reach the Consensys Rainbow Token. How does it work?
-          </p>
-          <p>
-            By blending your token with another one, only your token changes,
-            not the one of the target. However, in order to blend with someone
-            else, you have to pay the blending price set by the player himself.
-            Half of the ether you sent goes to the target player, the other half
-            goes to a common pot.
-          </p>
-          <p>
-            You may also blend your token with your default color which you
-            began with. The blending price is here fixed to 0.01 ether and
-            everything goes to the common pot.
-          </p>
-          <p>
-            If you succeed and reach the Consensys Rainbow Token, you may claim
-            victory and the common pot is now yours. Unfortunately this feature
-            is not yet displayed at the front end level so please, ask someone who
-            knows how to send transactions from somewhere else :).<br/>
-            <a href='https://github.com/ConsenSys/rainbow-token'>Here</a> is the
-            link to the GitHub for the winner and the curious ones!
-          </p>
-        </DialogContentText>
-      </DialogContent>
+        <DialogContent>
+          <DialogContentText>
+            <p>
+              When joining the game, you have been assigned your Rainbow Token with a default color. 
+              This token is the only you will ever owns in this game.
+            </p>
+            <p>
+              You can change the color of your token by blending it with Rainbow tokens owned by other players. 
+              Each time you blend you need to contribute to a common pot.
+            </p>
+            <p>
+              If you succeed in giving your token the target color: ConsenSys blue (#2c56dd) 
+              you will be allowed to claim victory and collect the entire common pot.
+            </p>
+            <p>
+              Below are the 4 possible actions you can perform in this game
+            </p>
+            <h3>1. Blend</h3>
+            <p>
+              At any time you can blend your token with another player's token. 
+              When blending your token color will transform into the mixed color.
+            </p>
+            <p> 
+              When blending you need to pay a fee in ETH. This fee is split: half goes to the other player, half goes to the common pot. 
+            </p>
+            <p> 
+              <em>Remark: when blending only the color of the player that requested the blend changes, other player's token remains unchanged.</em>              
+            </p>
+            <h3>2. Set your blending Price</h3>
+            <p>
+              Your blending price is the price other players need to pay you to blend with your token.
+            </p>
+            <p>
+              Typically a player having a token which color is closed to the target color will raise price.
+            </p>
+            <h3>3. Blend with your default Color</h3>
+            <p>
+              At any time you can blend your token with your default color (the one you
+              started the game with).
+            </p>
+            <p> 
+              When blending with your default color you need to pay a fee of 0.01 ETH to the common pot.
+            </p>
+            <h3>4. Claim Victory</h3>
+            <p>
+              If you succeed in giving your token the target color: ConsenSys blue (#2c56dd), you may claim
+              victory and the common pot is yours!
+            </p>
+            <p>                 
+              <em>Disclaimer: Scatterbrain as we are we forgot to implement a button that allow to claim victory...
+              So you will need to find another to claim victory... :-) Everything you need to know is in 
+              <a href='https://github.com/ConsenSys/rainbow-token'> Rainbow-Token GitHub</a> repository.</em>
+            </p>
+          </DialogContentText>
+        </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           Close
