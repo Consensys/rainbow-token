@@ -120,7 +120,7 @@ class UserHeader extends Component {
                 <div style={{ marginRight: '1em' }}>
                   Reach the blue<br/> <strong>Consensys</strong> Token
                 </div>
-                <div id='helpIcon' onClick={this.handleRulesDialogOpen('paper')}><i class="fas fa-question-circle"></i></div>
+                <div id='helpIcon' onClick={this.handleRulesDialogOpen('paper')}><i className="fas fa-question-circle"></i></div>
               </div>
             </div>
             <hr className='rainbow2' />

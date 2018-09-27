@@ -5,9 +5,9 @@ pragma solidity ^0.4.24;
  * @title RainbowToken
  *
  * @dev Rainbow Token contract
- * Rainbow Token is a game in which players own a colored token. 
+ * Rainbow Token is a game in which players own a colored token.
  * Players can change their token color by blending it with another player tokens.
- * Players are required to pay some fee to perform action in the game 
+ * Players are required to pay some fee to perform action in the game
  * Players should try to give their token a target color that is set when deploying game contract
  *
  * Rules:
@@ -19,7 +19,6 @@ pragma solidity ^0.4.24;
  *    To auto blend a user should pay 0.01 ETH to Rainbow Token contract
  * 4. Game winner is
  *    - first player to get a token of a target color
- *    - In case the game is over, game winner is the one with minimal score (calculated has the distance of its token color to target color)
  *    If a player successfully claims win, she/he get sall ETH that have been transfered to the Rainbow Token contract during the game
  */
 contract RainbowToken {
@@ -104,7 +103,7 @@ contract RainbowToken {
     int _b
   )
     public
-  { 
+  {
     // Set target color
     targetColor = Color(uint(_r), uint(_g), uint(_b));
   }
@@ -133,12 +132,12 @@ contract RainbowToken {
   {
     Token memory token = tokens[_player];
     return [
-      token.color.r, 
-      token.color.g, 
-      token.color.b, 
-      token.defaultColor.r, 
-      token.defaultColor.g, 
-      token.defaultColor.b, 
+      token.color.r,
+      token.color.g,
+      token.color.b,
+      token.defaultColor.r,
+      token.defaultColor.g,
+      token.defaultColor.b,
       token.blendingPrice
     ];
   }
@@ -203,8 +202,8 @@ contract RainbowToken {
     // Emit event
     emit PlayerCreated(
       msg.sender,
-      defaultColor.r, 
-      defaultColor.g, 
+      defaultColor.r,
+      defaultColor.g,
       defaultColor.b,
       DEFAULT_BLENDING_PRICE
     );
@@ -212,7 +211,7 @@ contract RainbowToken {
     return true;
   }
 
-  /** 
+  /**
    * @dev Compute RGB values based on a seed
    * @param _seed New price (must be strictly positive)
    */
@@ -222,7 +221,7 @@ contract RainbowToken {
     public
     pure
     returns (uint[3])
-  { 
+  {
     return [
       uint((_seed & 0xff0000) / 0xffff),
       uint((_seed & 0xff00) / 0xff),
@@ -250,7 +249,7 @@ contract RainbowToken {
 
     // Emit event
     emit BlendingPriceSet(
-      msg.sender, 
+      msg.sender,
       _price
     );
 
@@ -277,7 +276,7 @@ contract RainbowToken {
     gameInProgress
     onlyPlayer
     returns (bool)
-  { 
+  {
     // Must blend with a player
     require(isPlayer(_blendingPlayer), "You must blend with a player");
 
@@ -292,7 +291,7 @@ contract RainbowToken {
 
     // Ensure blending token color has not been modified while transaction was pending
     require(
-      _blendingR == blendingToken.color.r && _blendingG == blendingToken.color.g && _blendingB == blendingToken.color.b, 
+      _blendingR == blendingToken.color.r && _blendingG == blendingToken.color.g && _blendingB == blendingToken.color.b,
       "Blending color has changed"
     );
 
@@ -373,5 +372,5 @@ contract RainbowToken {
     );
 
     return true;
-  } 
+  }
 }
