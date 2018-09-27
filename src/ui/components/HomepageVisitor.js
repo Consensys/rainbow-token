@@ -29,7 +29,7 @@ const HomepageVisitor = ({
       </div>
       <div className={classes.mainPanel}>
         <h1 className={classes.title}>
-          Welcome to the <br /> Rainbow Token Amazing Game
+          Welcome to the <br /> wonderful world of Rainbow Token
         </h1>
         {onRopsten && connectedToMetamask && (
           <Button
