@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 /* Components */
 import PriceDialog from './PriceDialog';
 import BlendingDialog from './BlendingDialog';
+import RulesDialog from './RulesDialog';
 import Token from './Token';
 
 /* Styles */
@@ -14,29 +15,45 @@ import { headerUserStyle } from '../styles';
 import { withStyles } from "@material-ui/core/styles";
 
 class UserHeader extends Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-            blendingPriceInput: Web3.utils.fromWei(props.currentPlayer.token.blendingPrice, 'ether'),
-            priceDialogOpen: false,
-            blendDialogOpen: false,
-        };
-    }
+
+  constructor (props) {
+    super(props);
+    this.state = {
+      blendingPriceInput: Web3.utils.fromWei(props.currentPlayer.token.blendingPrice, 'ether'),
+      priceDialogOpen: false,
+      blendDialogOpen: false,
+      rulesDialogOpen: false,
+      rulesScroll: 'paper',
+    };
+  }
+
+  handleRulesDialogOpen = rulesScroll => () => {
+    this.setState((state, props) => ({
+      ...state,
+      rulesDialogOpen: true,
+      rulesScroll
+    }));
+  };
+
+  handleRulesDialogClose = () => {
+    this.setState((state, props) => ({ ...state, rulesDialogOpen: false }));
+  };
+
 
   handleClickPriceOpen = () => {
-      this.setState({ priceDialogOpen: true });
+      this.setState((state, props) => ({ ...state, priceDialogOpen: true }));
   };
 
   handlePriceClose = () => {
-      this.setState({ priceDialogOpen: false });
+      this.setState((state, props) => ({ ...state, priceDialogOpen: false }));
   };
 
   handleClickBlendOpen = () => {
-      this.setState({ blendDialogOpen: true });
+      this.setState((state, props) => ({ ...state, blendDialogOpen: true }));
   };
 
   handleBlendClose = () => {
-      this.setState({ blendDialogOpen: false });
+      this.setState((state, props) => ({ ...state, blendDialogOpen: false }));
   };
 
   handleChange = e => {
@@ -57,6 +74,8 @@ class UserHeader extends Component {
           priceDialogOpen,
           blendDialogOpen,
           blendingPriceInput,
+          rulesDialogOpen,
+          rulesScroll
       } = this.state;
       return (
           <div className={ classes.global }>
@@ -76,6 +95,12 @@ class UserHeader extends Component {
                 withSelf={true}
                 blendingPrice={'10000000000000000'}
             />
+            <RulesDialog
+              open={rulesDialogOpen}
+              scroll={rulesScroll}
+              handleClose={this.handleRulesDialogClose}
+              handleClickOpen={this.handleClickOpen}
+            />
             <div className={classes.halfHeader}>
               <div className={classes.flexColumn}>
                 <div className={classes.pseudo}>
@@ -92,7 +117,10 @@ class UserHeader extends Component {
                 borderSize='1.2'
               />
               <div className={classes.consensysRightEl}>
-                Reach the blue<br/> <strong>Consensys</strong> Token
+                <div style={{ marginRight: '1em' }}>
+                  Reach the blue<br/> <strong>Consensys</strong> Token
+                </div>
+                <div id='helpIcon' onClick={this.handleRulesDialogOpen('paper')}><i class="fas fa-question-circle"></i></div>
               </div>
             </div>
             <hr className='rainbow2' />

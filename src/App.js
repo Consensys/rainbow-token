@@ -25,3 +25,6 @@ const App = () => (
 );
 
 export default App;
+
+
+// @channel For educational purpose, Paris team has recently been working on a token model named Rainbow Token :rainbow::rainbow:, we are currently beta testing the dapp on Ropsten. 

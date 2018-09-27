@@ -92,6 +92,11 @@ hr.rainbow2{
             animation: flicker-4 4s linear infinite both; */
 }
 
+/** HELP ICON */
+#helpIcon:hover {
+  cursor: pointer;
+}
+
 /**
  * ----------------------------------------
  * animation rotate-vert-center

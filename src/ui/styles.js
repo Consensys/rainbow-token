@@ -106,7 +106,9 @@ export const headerUserStyle = theme => ({
    },
    consensysRightEl: {
      fontSize: '1.3em',
-     textAlign: 'right'
+     textAlign: 'right',
+     display: 'flex',
+     alignItems: 'center'
    },
    flexColumnCentered: {
      display: 'flex',
