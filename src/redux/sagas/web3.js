@@ -43,14 +43,14 @@ function* setUpWeb3() {
     const wsProvider = networkConfig.networks[networkId];
     const onAvailableNetwork = !!wsProvider;
     const web3Ws = new Web3(new Web3.providers.WebsocketProvider(wsProvider)) || undefined;
-    const metamaskUnlocked = (yield call([web3.eth, 'getAccounts'])).length > 0;
+    const [account] = yield call([web3.eth, 'getAccounts']);
+    const metamaskUnlocked = !!account;
     const contracts = setUpContracts(web3.eth.Contract, networkId) || undefined;
     const contractEvents = setUpContractEvents(web3Ws.eth.Contract, networkId) || undefined;
     yield put(setWeb3({
       onAvailableNetwork,
       metamaskUnlocked,
-      web3,
-      web3Ws,
+      account,
       contracts,
       contractEvents
     }));

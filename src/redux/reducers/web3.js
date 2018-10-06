@@ -9,7 +9,8 @@ const DEFAULT_STATE = {
     onAvailableNetwork: false,
     web3: undefined,
     web3Ws: undefined,
-    contracts: undefined
+    contracts: undefined,
+    txs: []
 };
 
 export default (state = DEFAULT_STATE, { type, payload }) => {

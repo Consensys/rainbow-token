@@ -7,7 +7,7 @@ import {
 } from '../actionTypes';
 
 const DEFAULT_STATE = {
-    isLoading: true,
+    isLoading: false,
     data: {},
 };
 

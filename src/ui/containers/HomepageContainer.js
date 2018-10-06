@@ -43,9 +43,7 @@ class HomepageContainer extends Component {
             metamaskUnlocked,
             web3Loading
         } = this.props;
-        const display = user.isLoading || players.isLoading || web3Loading ? (
-            <Loader inProgress={true} />
-        ) : currentPlayer ? (
+        const display = currentPlayer ? (
             <HomepagePlayer
                 inProgress={user.inProgress}
                 currentPlayer={currentPlayer}
