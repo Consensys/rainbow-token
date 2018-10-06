@@ -23,3 +23,9 @@ export const END_TRANSACTION = 'END_TRANSACTION';
 
 export const ADD_ERROR = 'ADD_ERROR';
 export const REMOVE_ERROR = 'REMOVE_ERROR';
+
+
+export const START_LOADING_WEB3 = 'START_LOADING_WEB3';
+export const END_LOADING_WEB3 = 'END_LOADING_WEB3';
+export const SET_UP_WEB3 = 'SET_UP_WEB3';
+export const SET_WEB3 = 'SET_WEB3';

@@ -10,7 +10,6 @@ export const color = (rawColor) => ({
 });
 
 export const computeToken = (rawToken) => {
-  console.log(rawToken)
     return {
         blendingPrice: rawToken[6],
         color: color([rawToken[0], rawToken[1], rawToken[2]]),

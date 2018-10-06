@@ -10,63 +10,23 @@ import {
 import {
     getPlayers
 } from '../../redux/actions/players';
+import {
+  setUpWeb3
+} from '../../redux/actions/web3';
 
 import HomepageVisitor from '../components/HomepageVisitor';
 import HomepagePlayer from '../components/HomepagePlayer';
 import Loader from '../components/Loader';
 
-const mapStateToProps = state => ({
-    user: state.user,
-    players: state.players,
-    currentPlayer: state.players.data[state.user.data.address],
-    errors: state.errors,
-});
-
-const mapDispatchToProps = {
-    getUser,
-    getPlayers,
-    startPlaying,
-    blend: requestBlend,
-    setBlendingPrice,
-};
-
 class HomepageContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      web3Loading: true,
-      onRopsten: false
-    }
-  }
-
   componentDidMount () {
       const {
           getPlayers,
-          getUser
+          getUser,
+          setUpWeb3
       } = this.props;
 
-      if (window.web3) {
-        window.web3.version.getNetwork((err, netId) => {
-          switch (netId) {
-            case "3":
-              this.setState({
-                web3Loading: false,
-                onRopsten: true
-              });
-              break
-            default:
-              this.setState({
-                web3Loading: false,
-                onRopsten: false
-              });
-            }
-          });
-      } else {
-        this.setState({
-          web3Loading: false,
-          onRopsten: false
-        });
-      }
+      setUpWeb3();
       getPlayers();
       getUser();
   }
@@ -79,8 +39,10 @@ class HomepageContainer extends Component {
             blend,
             setBlendingPrice,
             startPlaying,
+            onAvailableNetwork,
+            metamaskUnlocked,
+            web3Loading
         } = this.props;
-        const { web3Loading, onRopsten } = this.state;
         const display = user.isLoading || players.isLoading || web3Loading ? (
             <Loader inProgress={true} />
         ) : currentPlayer ? (
@@ -93,8 +55,8 @@ class HomepageContainer extends Component {
             />
         ) : (
             <HomepageVisitor
-                connectedToMetamask={'address' in user.data}
-                onRopsten={onRopsten}
+                metamaskUnlocked={metamaskUnlocked}
+                onAvailableNetwork={onAvailableNetwork}
                 inProgress={user.inProgress}
                 startPlaying={startPlaying}
             />
@@ -102,6 +64,25 @@ class HomepageContainer extends Component {
         return display;
     }
 }
+
+const mapStateToProps = state => ({
+    user: state.user,
+    players: state.players,
+    currentPlayer: state.players.data[state.user.data.address],
+    errors: state.errors,
+    onAvailableNetwork: state.web3.onAvailableNetwork,
+    metamaskUnlocked: state.web3.metamaskUnlocked,
+    web3Loading: state.web3.isLoading,
+});
+
+const mapDispatchToProps = {
+    getUser,
+    getPlayers,
+    startPlaying,
+    blend: requestBlend,
+    setBlendingPrice,
+    setUpWeb3
+};
 
 export default connect(
     mapStateToProps,

@@ -13,7 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 
 const HomepageVisitor = ({
-    onRopsten,
+    onAvailableNetwork,
     connectedToMetamask,
     inProgress,
     startPlaying,
@@ -31,7 +31,7 @@ const HomepageVisitor = ({
         <h1 className={classes.title}>
           Welcome to the <br /> colourful world of Rainbow Tokens
         </h1>
-        {onRopsten && connectedToMetamask && (
+        {onAvailableNetwork && connectedToMetamask && (
           <Button
             className={classes.btn}
             variant='contained'

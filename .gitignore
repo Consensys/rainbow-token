@@ -81,3 +81,6 @@ build
 # IDEs
 .idea
 .vscode
+
+#ENV
+.env
