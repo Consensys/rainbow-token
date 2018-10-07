@@ -30,10 +30,14 @@ const App = () => {
     <Provider store={createStore()}>
       <div className='App'>
         <MuiThemeProvider theme={materialUiTheme}>
-          < Wrappers.Web3Handler >
-            <NonCurrentPlayer />
-            <CurrentPlayer />
-          </ Wrappers.Web3Handler >
+          <Wrappers.Web3Handler >
+            <Wrappers.PlayerHandler >
+              <Wrappers.LoadingHandler >
+                <NonCurrentPlayer />
+                <CurrentPlayer />
+              </Wrappers.LoadingHandler >
+            </Wrappers.PlayerHandler >
+          </Wrappers.Web3Handler >
         </MuiThemeProvider>
       </div>
     </Provider>

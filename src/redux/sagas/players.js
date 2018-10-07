@@ -4,7 +4,8 @@ import {
     takeLatest,
     takeEvery,
     all,
-    take
+    take,
+    select
 } from 'redux-saga/effects';
 import generator from 'mnemonic-generator';
 
@@ -23,29 +24,27 @@ import {
     GET_PLAYERS,
     NEW_PLAYER,
 } from '../actionTypes';
-import rainbow from '../../web3';
+
 import { computeScore, color } from '../../web3/utils';
 
-import {
-  blendingPriceSetEmitter,
-  tokenBlendedEmitter,
-  playerCreatedEmitter
-} from './eventEmitters';
+import { EVENTS_SET } from '../actions/web3';
 
 /** ******* WORKERS *********/
 
 function *getPlayersSaga () {
     try {
         yield put(startLoadingPlayers());
-        const playerAddresses = yield call(rainbow.getPlayers);
-        const tokens = yield Promise.all(playerAddresses.map(address => rainbow.getToken(address)));
+        const { getPlayers, getToken } = yield select(state => state.web3.contracts.RainbowToken.call);
+        const { targetColor } = yield select(state => state.web3.contracts.RainbowToken.constants);
+        const playerAddresses = yield call(getPlayers);
+        const tokens = yield Promise.all(playerAddresses.map(address => getToken(address)));
         const players = {};
         for (let i = 0; i < playerAddresses.length; i++) {
             players[playerAddresses[i]] = {
                 address: playerAddresses[i],
                 pseudo: generator(playerAddresses[i]),
                 token: tokens[i],
-                score: computeScore(tokens[i].color, rainbow.targetColor),
+                score: computeScore(tokens[i].color, targetColor),
             };
         }
         yield put(setPlayers(players));
@@ -59,16 +58,17 @@ function *getPlayersSaga () {
 
 function *newPlayerSaga ({ address, token }) {
     try {
-        const player = {
-            address,
-            pseudo: generator(address),
-            token: token,
-            score: computeScore(token.color, rainbow.targetColor),
-        };
-        console.log('IN SAGA newPlayerSaga');
-        yield put(addPlayer(player));
+      const { targetColor } = yield select(state => state.web3.contracts.RainbowToken.constants);
+      const player = {
+          address,
+          pseudo: generator(address),
+          token: token,
+          score: computeScore(token.color, targetColor),
+      };
+      console.log('IN SAGA newPlayerSaga');
+      yield put(addPlayer(player));
     } catch (err) {
-        yield put(addError('Unable to add a player.'));
+      yield put(addError('Unable to add a player.'));
     } finally {
 
     }
@@ -77,7 +77,9 @@ function *newPlayerSaga ({ address, token }) {
 /** ******* EVENT LISTENERS *********/
 
 function *listenBlendingPrice() {
-  const chan = yield call(blendingPriceSetEmitter);
+  yield take(EVENTS_SET)
+  const blendingPriceSet = yield select(state => state.web3.contracts.RainbowToken.events.blendingPriceSet);
+  const chan = yield call(blendingPriceSet);
   try {
     while (true) {
       let { player, price } = yield take(chan);
@@ -90,7 +92,9 @@ function *listenBlendingPrice() {
 }
 
 function *listenTokenBlended() {
-  const chan = yield call(tokenBlendedEmitter);
+  yield take(EVENTS_SET)
+  const tokenBlended = yield select(state => state.web3.contracts.RainbowToken.events.tokenBlended);
+  const chan = yield call(tokenBlended);
   try {
     while (true) {
       let { player, r, g, b } = yield take(chan);
@@ -103,12 +107,19 @@ function *listenTokenBlended() {
 }
 
 function *listenPlayerCreated() {
-  const chan = yield call(playerCreatedEmitter);
+  yield take(EVENTS_SET)
+  const playerCreated = yield select(state => state.web3.contracts.RainbowToken.events.playerCreated);
+  const chan = yield call(playerCreated);
   try {
     while (true) {
-        let { address, token }  = yield take(chan);
+        let { player, r, g, b, blendingPrice }  = yield take(chan);
+        const token = {
+          blendingPrice,
+          color: { r, g, b},
+          defaultColor: { r, g, b }
+        };
         console.log('New Player event!');
-        yield put(newPlayer({ address, token }));
+        yield put(newPlayer({ address: player, token }));
     }
   } finally {
 

@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const OnlyVisibleForPlayer = Component => {
-  const CurrentPlayer = ({ currentPlayer }) => {
-    console.log('YO', currentPlayer);
-    if (currentPlayer) {
+  const CurrentPlayer = ({ isPlayer }) => {
+    if (isPlayer) {
       return (
         <Component />
       )
@@ -14,7 +13,7 @@ const OnlyVisibleForPlayer = Component => {
   }
 
   const mapStateToProps = state => ({
-    currentPlayer: state.players.data[state.user.data.address] || false
+    isPlayer: state.status.user.isPlayer
   })
 
   return connect(mapStateToProps, null)(CurrentPlayer);

@@ -1,4 +1,5 @@
 import { abi, networks as rainbowNetworks  } from './abis/RainbowToken';
+import RainbowTokenFormatter from './RainbowToken';
 
 export default {
   networks: {
@@ -11,7 +12,8 @@ export default {
       address: {
         '3': rainbowNetworks['3'].address,
         '90451': rainbowNetworks['90451'].address
-      }
+      },
+      formatter: RainbowTokenFormatter
     }
   }
 };

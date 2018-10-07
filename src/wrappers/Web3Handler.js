@@ -4,9 +4,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setUpWeb3 } from '../redux/actions/web3';
 
-/* Components */
-import Loader from '../components/Loader/Loader';
-
 class Web3Handler extends Component {
   componentDidMount() {
     const { setUpWeb3 } = this.props;
@@ -14,27 +11,17 @@ class Web3Handler extends Component {
 
   }
   render() {
-    const { children, isLoading } = this.props;
-    if (!isLoading) {
-      return (
-        <div id='Web3Handler'>
-          {children}
-        </div>
-      )
-    } else {
-      return (
-        <Loader inProgress={true} />
-      )
-    }
+    const { children } = this.props;
+    return (
+      <div id='Web3Handler'>
+        {children}
+      </div>
+    )
   }
 }
-
-const mapStateToProps = state => ({
-  isLoading: state.web3.isLoading
-})
 
 const mapDispatchToProps = {
   setUpWeb3
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Web3Handler);
+export default connect(null, mapDispatchToProps)(Web3Handler);

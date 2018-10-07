@@ -6,8 +6,8 @@ import { startPlaying } from '../../redux/actions/user';
 import StartPlayingButton from '../../components/Homepage/StartPlayingButton';
 
 const mapStateToProps = state => ({
-  txInProgress: state.web3.txs.length > 0 || false,
-  locked: !(state.web3.onAvailableNetwork && state.web3.metamaskUnlocked)
+  txInProgress: state.web3.txHash,
+  locked: !(state.status.web3.onAvailableNetwork && state.status.web3.metamaskUnlocked),
 })
 
 const mapDispatchToProps = {

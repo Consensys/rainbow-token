@@ -1,12 +1,12 @@
-import { call, put, select, takeLatest, all, take } from 'redux-saga/effects';
+import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 import generator from 'mnemonic-generator';
 
 import {
     startLoadingUser,
     endLoadingUser,
     setUser,
-    startTransaction,
-    endTransaction,
+    GET_USER_STATUS,
+    setUserStatus
 } from '../actions/user';
 import {
     addError,
@@ -18,14 +18,15 @@ import {
     REQUEST_BLEND,
     SET_BLENDING_PRICE,
 } from '../actionTypes';
-import rainbow, { web3 } from '../../web3';
+
+import transactionHandler from './transactionHandler';
 
 /** ******* WORKERS *********/
 
 function *getUserSaga () {
     try {
         yield put(startLoadingUser());
-        const [address] = yield call(web3.eth.getAccounts);
+        const { address } = yield select(state => state.web3.accounts);
         const user = {
             address,
             pseudo: generator(address),
@@ -40,80 +41,44 @@ function *getUserSaga () {
 }
 
 function *startPlayingSaga () {
-  const address = yield select(state => state.user.data.address);
-  const chan = yield call(rainbow.play, address);
-  try {
-    while (true) {
-      let { txHash, receipt, error } = yield take(chan);
-      if (txHash && !receipt && !error) {
-        console.log('TX HASH');
-        yield put(startTransaction(txHash));
-      } else if(!txHash && receipt && !error) {
-        console.log('RECEIPT');
-        chan.close();
-      } else if(!txHash && !receipt && error) {
-        console.log('ERROR')
-        yield put(addError('Transaction has failed.'));
-        chan.close();
-      } else {
-        console.log('WOOPS');
-        chan.close();
-      }
-    }
-  } finally {
-    yield put(endTransaction());
-  }
+  const { address } = yield select(state => state.web3.accounts);
+  const { play } = yield select(state => state.web3.contracts.RainbowToken.transactions);
+  const chan = yield call(play, address);
+  yield call(transactionHandler, chan);
 }
 
 function *blendSaga (blendingAddress, blendingToken) {
-  const address = yield select(state => state.user.data.address);
-  const chan = yield call(rainbow.blend, address, blendingAddress, blendingToken);
-  try {
-    while (true) {
-      let { txHash, receipt, error } = yield take(chan);
-      if (txHash && !receipt && !error) {
-        console.log('TX HASH');
-        yield put(startTransaction(txHash));
-      } else if(!txHash && receipt && !error) {
-        console.log('RECEIPT');
-        chan.close();
-      } else if(!txHash && !receipt && error) {
-        console.log('ERROR')
-        yield put(addError('Transaction has failed.'));
-        chan.close();
-      } else {
-        console.log('WOOPS');
-        chan.close();
-      }
-    }
-  } finally {
-    yield put(endTransaction());
-  }
+  const { address } = yield select(state => state.web3.accounts);
+  const { blend } = yield select(state => state.web3.contracts.RainbowToken.transactions);
+  const chan = yield call(blend, address, blendingAddress, blendingToken);
+  yield transactionHandler(chan);
+}
+
+function *defaultBlendSaga () {
+  const { address } = yield select(state => state.web3.accounts);
+  const { defaultBlend } = yield select(state => state.web3.contracts.RainbowToken.transactions);
+  const chan = yield call(defaultBlend, address);
+  yield transactionHandler(chan);
 }
 
 function *setBlendingPriceSaga (price) {
-  const address = yield select(state => state.user.data.address);
-  const chan = yield call(rainbow.setBlendingPrice, address, price);
+  const { address } = yield select(state => state.web3.accounts);
+  const { setBlendingPrice } = yield select(state => state.web3.contracts.RainbowToken.transactions );
+  const chan = yield call(setBlendingPrice, address, price);
+  yield transactionHandler(chan);
+}
+
+function *getUserStatusSaga() {
   try {
-    while (true) {
-      let { txHash, receipt, error } = yield take(chan);
-      if (txHash && !receipt && !error) {
-        console.log('TX HASH');
-        yield put(startTransaction(txHash));
-      } else if(!txHash && receipt && !error) {
-        console.log('RECEIPT');
-        chan.close();
-      } else if(!txHash && !receipt && error) {
-        console.log('ERROR')
-        yield put(addError('Transaction has failed.'));
-        chan.close();
-      } else {
-        console.log('WOOPS');
-        chan.close();
-      }
-    }
+    yield put(startLoadingUser());
+    const address = yield select(state => state.web3.accounts.address);
+    const { isPlayer } = yield select(state => state.web3.contracts.RainbowToken.call);
+    const userStatus = yield call(isPlayer, address);
+    yield put(setUserStatus(userStatus));
+  } catch(err) {
+    yield put(addError('Unable to fetch the status of the player.'));
   } finally {
-    yield put(endTransaction());
+    yield put(endLoadingUser());
   }
 }
 
@@ -129,14 +94,25 @@ function *watchStartPlaying () {
 
 function *watchRequestBlend () {
     yield takeLatest(
-        REQUEST_BLEND,
-        ({ payload: { blendingAddress, blendingToken } }) => blendSaga(blendingAddress, blendingToken));
+      REQUEST_BLEND,
+      ({ payload: { blendingAddress, blendingToken } }) => {
+        if (blendingAddress && blendingToken) {
+          blendSaga(blendingAddress, blendingToken);
+        } else {
+          defaultBlendSaga();
+        }
+      }
+    );
 }
 
 function *watchSetBlendingPrice () {
     yield takeLatest(
         SET_BLENDING_PRICE,
         ({ payload }) => setBlendingPriceSaga(payload));
+}
+
+function *watchGetUserStatus() {
+  yield takeLatest(GET_USER_STATUS, getUserStatusSaga);
 }
 
 /** ******* SAGA *********/
@@ -147,6 +123,7 @@ function *userSaga () {
         watchStartPlaying(),
         watchRequestBlend(),
         watchSetBlendingPrice(),
+        watchGetUserStatus()
     ]);
 }
 

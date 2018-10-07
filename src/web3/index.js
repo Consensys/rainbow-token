@@ -120,5 +120,3 @@ export default {
       })
     },
 };
-
-export const networkConfig = { '3': 'Ropsten', '90451': 'localhost' }
