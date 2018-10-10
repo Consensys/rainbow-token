@@ -1,8 +1,7 @@
 import Web3 from 'web3';
-import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 
 import {
-  SET_UP_WEB3,
   setNetworkId,
   checkNetwork,
   checkUnlockingMetamask,
@@ -51,7 +50,7 @@ function* accountHandler(eth) {
   yield put(checkUnlockingMetamask(metamaskUnlocked));
 }
 
-function* setUpWeb3() {
+export function* setUpWeb3() {
   try {
     yield put(startLoadingWeb3());
     const web3 = new Web3(Web3.givenProvider)
@@ -67,20 +66,3 @@ function* setUpWeb3() {
     yield put(endLoadingWeb3());
   }
 }
-
-
-/** ******* WATCHERS *********/
-
-function *watchSetUpWeb3 () {
-    yield takeLatest(SET_UP_WEB3, setUpWeb3);
-}
-
-/** ******* SAGA *********/
-
-function *web3Saga () {
-    yield all([
-      watchSetUpWeb3()
-    ]);
-}
-
-export default web3Saga;

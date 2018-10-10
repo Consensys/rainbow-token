@@ -1,7 +1,7 @@
 import {
     START_LOADING_USER,
     END_LOADING_USER,
-    SET_USER_STATUS
+    SET_USER_AS_PLAYER
 } from '../../actions/user';
 
 const DEFAULT_STATE = {
@@ -15,8 +15,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           return { ...state, isLoading: true };
       case END_LOADING_USER:
           return { ...state, isLoading: false };
-      case SET_USER_STATUS:
-          return { ...state, isPlayer: payload }
+      case SET_USER_AS_PLAYER:
+          return { ...state, isPlayer: true }
       default:
           return state;
     }

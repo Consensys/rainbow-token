@@ -6,12 +6,9 @@ import createStore from './redux';
 /* Configuration Components */
 import { Provider } from 'react-redux';
 
-/* Containers */
-// import HomepageContainer from './ui/containers/HomepageContainer';
-
 /* Components */
 import Homepage from './components/Homepage/Homepage';
-// import Dashboard from './ui/components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 
 /* Theme related */
 import { MuiThemeProvider } from "@material-ui/core/styles";
@@ -22,22 +19,16 @@ import Wrappers from './wrappers';
 
 /* Styles */
 const App = () => {
-  const CurrentPlayer = Wrappers.OnlyVisibleForPlayer(() => (
-    <div>HOLA</div>
-  ))
-  const NonCurrentPlayer = Wrappers.OnlyVisibleForNonPlayer(Homepage)
+  const CurrentPlayer = Wrappers.OnlyVisibleForPlayer(Dashboard);
+  const NonCurrentPlayer = Wrappers.OnlyVisibleForNonPlayer(Homepage);
   return (
     <Provider store={createStore()}>
       <div className='App'>
         <MuiThemeProvider theme={materialUiTheme}>
-          <Wrappers.Web3Handler >
-            <Wrappers.PlayerHandler >
-              <Wrappers.LoadingHandler >
-                <NonCurrentPlayer />
-                <CurrentPlayer />
-              </Wrappers.LoadingHandler >
-            </Wrappers.PlayerHandler >
-          </Wrappers.Web3Handler >
+          <Wrappers.InitializerHandler >
+            <NonCurrentPlayer />
+            <CurrentPlayer />
+          </Wrappers.InitializerHandler >
         </MuiThemeProvider>
       </div>
     </Provider>
@@ -45,6 +36,3 @@ const App = () => {
 }
 
 export default App;
-
-
-// @channel For educational purpose, Paris team has recently been working on a token model named Rainbow Token :rainbow::rainbow:, we are currently beta testing the dapp on Ropsten.

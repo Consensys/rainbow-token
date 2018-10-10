@@ -24,12 +24,6 @@ export const setPlayers = (players) => ({
     payload: players,
 });
 
-export const NEW_PLAYER = 'NEW_PLAYER';
-export const newPlayer = (payload) => ({
-    type: NEW_PLAYER,
-    payload,
-});
-
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const addPlayer = (player) => ({
     type: ADD_PLAYER,

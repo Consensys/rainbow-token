@@ -2,7 +2,6 @@ import {
     call,
     put,
     takeLatest,
-    takeEvery,
     all,
     take,
     select
@@ -15,19 +14,20 @@ import {
     setPlayers,
     addPlayer,
     updatePlayerToken,
-    newPlayer,
+    GET_PLAYERS,
 } from '../actions/players';
+
 import {
     addError,
 } from '../actions/errors';
-import {
-    GET_PLAYERS,
-    NEW_PLAYER,
-} from '../actionTypes';
 
-import { computeScore, color } from '../../web3/utils';
+import {
+  setUserAsPlayer
+} from '../actions/user';
 
 import { EVENTS_SET } from '../actions/web3';
+
+import { computeScore, color } from '../../web3/utils';
 
 /** ******* WORKERS *********/
 
@@ -36,9 +36,14 @@ function *getPlayersSaga () {
         yield put(startLoadingPlayers());
         const { getPlayers, getToken } = yield select(state => state.web3.contracts.RainbowToken.call);
         const { targetColor } = yield select(state => state.web3.contracts.RainbowToken.constants);
+        const { players } = yield select(state => state.data)
         const playerAddresses = yield call(getPlayers);
-        const tokens = yield Promise.all(playerAddresses.map(address => getToken(address)));
-        const players = {};
+        const tokens = yield Promise.all(
+          playerAddresses
+          .filter(address => !(address in players))
+          .map(address => getToken(address))
+        );
+        const missingPlayers = {};
         for (let i = 0; i < playerAddresses.length; i++) {
             players[playerAddresses[i]] = {
                 address: playerAddresses[i],
@@ -47,7 +52,7 @@ function *getPlayersSaga () {
                 score: computeScore(tokens[i].color, targetColor),
             };
         }
-        yield put(setPlayers(players));
+        yield put(setPlayers(missingPlayers));
     } catch (err) {
         console.log(err);
         yield put(addError('Unable to retrieve the players.'));
@@ -58,6 +63,7 @@ function *getPlayersSaga () {
 
 function *newPlayerSaga ({ address, token }) {
     try {
+      const userAddress = yield select(state => state.web3.accounts.address);
       const { targetColor } = yield select(state => state.web3.contracts.RainbowToken.constants);
       const player = {
           address,
@@ -65,12 +71,10 @@ function *newPlayerSaga ({ address, token }) {
           token: token,
           score: computeScore(token.color, targetColor),
       };
-      console.log('IN SAGA newPlayerSaga');
       yield put(addPlayer(player));
+      if (userAddress === address) yield put(setUserAsPlayer());
     } catch (err) {
       yield put(addError('Unable to add a player.'));
-    } finally {
-
     }
 }
 
@@ -78,51 +82,39 @@ function *newPlayerSaga ({ address, token }) {
 
 function *listenBlendingPrice() {
   yield take(EVENTS_SET)
-  const blendingPriceSet = yield select(state => state.web3.contracts.RainbowToken.events.blendingPriceSet);
+  const { blendingPriceSet } = yield select(state => state.web3.contracts.RainbowToken.events);
   const chan = yield call(blendingPriceSet);
-  try {
-    while (true) {
-      let { player, price } = yield take(chan);
-      console.log('BlendingPrice event!');
-      yield put(updatePlayerToken(player, undefined, price));
-    }
-  } finally {
-
+  while (true) {
+    let { player, price } = yield take(chan);
+    console.log('BlendingPrice event!');
+    yield put(updatePlayerToken(player, undefined, price));
   }
 }
 
 function *listenTokenBlended() {
   yield take(EVENTS_SET)
-  const tokenBlended = yield select(state => state.web3.contracts.RainbowToken.events.tokenBlended);
+  const { tokenBlended } = yield select(state => state.web3.contracts.RainbowToken.events);
   const chan = yield call(tokenBlended);
-  try {
-    while (true) {
-      let { player, r, g, b } = yield take(chan);
-      console.log('Token Blended event!');
-      yield put(updatePlayerToken(player, color([r, g, b])));
-    }
-  } finally {
-
+  while (true) {
+    let { player, r, g, b } = yield take(chan);
+    console.log('Token Blended event!');
+    yield put(updatePlayerToken(player, color([r, g, b])));
   }
 }
 
 function *listenPlayerCreated() {
   yield take(EVENTS_SET)
-  const playerCreated = yield select(state => state.web3.contracts.RainbowToken.events.playerCreated);
+  const { playerCreated } = yield select(state => state.web3.contracts.RainbowToken.events);
   const chan = yield call(playerCreated);
-  try {
-    while (true) {
-        let { player, r, g, b, blendingPrice }  = yield take(chan);
-        const token = {
-          blendingPrice,
-          color: { r, g, b},
-          defaultColor: { r, g, b }
-        };
-        console.log('New Player event!');
-        yield put(newPlayer({ address: player, token }));
-    }
-  } finally {
-
+  while (true) {
+      let { player, r, g, b, blendingPrice }  = yield take(chan);
+      const token = {
+        blendingPrice,
+        color: { r, g, b},
+        defaultColor: { r, g, b }
+      };
+      console.log('New Player event!');
+      yield call(newPlayerSaga, { address: player, token });
   }
 }
 
@@ -132,14 +124,9 @@ function *watchGetPlayers () {
     yield takeLatest(GET_PLAYERS, getPlayersSaga);
 }
 
-function *watchNewPlayer () {
-    yield takeEvery(NEW_PLAYER, ({ payload }) => newPlayerSaga({ address: payload.address, token: payload.token }));
-}
-
 function *playersSaga () {
     yield all([
         watchGetPlayers(),
-        watchNewPlayer(),
         listenBlendingPrice(),
         listenTokenBlended(),
         listenPlayerCreated()

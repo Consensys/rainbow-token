@@ -3,10 +3,9 @@ export const getUserStatus = () => ({
   type: GET_USER_STATUS
 })
 
-export const SET_USER_STATUS = 'SET_USER_STATUS';
-export const setUserStatus = payload => ({
-  type: SET_USER_STATUS,
-  payload
+export const SET_USER_AS_PLAYER = 'SET_USER_AS_PLAYER';
+export const setUserAsPlayer = () => ({
+  type: SET_USER_AS_PLAYER,
 })
 
 export const GET_USER = 'GET_USER';
