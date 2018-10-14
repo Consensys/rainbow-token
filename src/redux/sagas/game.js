@@ -9,6 +9,10 @@ import {
 } from './user';
 
 import {
+  getPlayers
+} from './players'
+
+import {
   INITIALIZE_GAME,
   gameInitialized
 } from '../actions/game';
@@ -27,6 +31,8 @@ function *initializeGame() {
       metamaskUnlocked
     } = yield select(state => state.status.web3)
     if (onAvailableNetwork && metamaskUnlocked) yield call(getUserStatus);
+    const { isPlayer } = yield select(state => state.status.user);
+    if (isPlayer) yield call(getPlayers);
     yield put(gameInitialized());
   } catch(err) {
     yield put(addError('Unable to initialize the game.'));

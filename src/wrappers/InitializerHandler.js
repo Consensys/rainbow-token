@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { initializeGame } from '../redux/actions/game';
 
 /* Components */
-import Loader from '../components/Loader/Loader';
+import LoadingPage from '../components/LoadingPage/LoadingPage';
 
 class InitializerHandler extends Component {
   componentDidMount() {
@@ -14,8 +14,8 @@ class InitializerHandler extends Component {
   }
 
   render() {
-    const { children, initialized } = this.props;
-    if (initialized) {
+    const { children, initialized, playersLoading } = this.props;
+    if (initialized && !playersLoading) {
       return (
         <div id='initializer-handler'>
           {children}
@@ -23,14 +23,15 @@ class InitializerHandler extends Component {
       )
     } else {
       return (
-        <Loader inProgress={true} />
+        <LoadingPage />
       )
     }
   }
 }
 
 const mapStateToProps = state => ({
-  initialized: state.status.game.initialized
+  initialized: state.status.game.initialized,
+  playersLoading: state.status.players.isLoading
 })
 
 const mapDispatchToProps = {

@@ -1,5 +1,5 @@
-import rainbow from '../../web3';
-import { computeScore } from '../../web3/utils';
+import { targetColor } from '../../web3/formatters/RainbowToken';
+import { computeScore } from '../../utils';
 
 /** ******* ACTIONS *********/
 
@@ -35,7 +35,7 @@ export const updatePlayerToken = (address, color = undefined, blendingPrice = un
     type: UPDATE_PLAYER_TOKEN,
     payload: {
         address,
-        score: color ? computeScore(color, rainbow.targetColor) : undefined,
+        score: color ? computeScore(color, targetColor) : undefined,
         token: {
             color,
             blendingPrice,

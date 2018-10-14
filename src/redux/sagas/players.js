@@ -1,10 +1,10 @@
 import {
     call,
     put,
-    takeLatest,
     all,
     take,
-    select
+    select,
+    takeLatest
 } from 'redux-saga/effects';
 import generator from 'mnemonic-generator';
 
@@ -14,7 +14,6 @@ import {
     setPlayers,
     addPlayer,
     updatePlayerToken,
-    GET_PLAYERS,
 } from '../actions/players';
 
 import {
@@ -22,16 +21,17 @@ import {
 } from '../actions/errors';
 
 import {
-  setUserAsPlayer
+  setUserAsPlayer,
+  SET_USER_AS_PLAYER
 } from '../actions/user';
 
 import { EVENTS_SET } from '../actions/web3';
 
-import { computeScore, color } from '../../web3/utils';
+import { computeScore, color } from '../../utils';
 
 /** ******* WORKERS *********/
 
-function *getPlayersSaga () {
+export function *getPlayers () {
     try {
         yield put(startLoadingPlayers());
         const { getPlayers, getToken } = yield select(state => state.web3.contracts.RainbowToken.call);
@@ -43,7 +43,7 @@ function *getPlayersSaga () {
           .filter(address => !(address in players))
           .map(address => getToken(address))
         );
-        const missingPlayers = {};
+        console.log('TOKENS', tokens)
         for (let i = 0; i < playerAddresses.length; i++) {
             players[playerAddresses[i]] = {
                 address: playerAddresses[i],
@@ -52,7 +52,7 @@ function *getPlayersSaga () {
                 score: computeScore(tokens[i].color, targetColor),
             };
         }
-        yield put(setPlayers(missingPlayers));
+        yield put(setPlayers(players));
     } catch (err) {
         console.log(err);
         yield put(addError('Unable to retrieve the players.'));
@@ -120,13 +120,13 @@ function *listenPlayerCreated() {
 
 /** ******* WATCHERS *********/
 
-function *watchGetPlayers () {
-    yield takeLatest(GET_PLAYERS, getPlayersSaga);
+function *watchUserAsPlayer() {
+  yield takeLatest(SET_USER_AS_PLAYER, getPlayers);
 }
 
 function *playersSaga () {
     yield all([
-        watchGetPlayers(),
+        watchUserAsPlayer(),
         listenBlendingPrice(),
         listenTokenBlended(),
         listenPlayerCreated()

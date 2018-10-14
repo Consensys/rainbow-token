@@ -1,5 +1,5 @@
 import { abi, networks as rainbowNetworks  } from './abis/RainbowToken';
-import RainbowTokenFormatter from './RainbowToken';
+import RainbowTokenFormatter from './formatters/RainbowToken';
 
 export default {
   networks: {

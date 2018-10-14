@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* Components */
-import Loader from '../Loader/Loader';
+import HomepageLoader from '../../containers/Homepage/Loader';
 import Footer from './Footer';
 
 /* Containers */
@@ -81,7 +81,7 @@ const Homepage = ({
           Welcome to the <br /> colourful world of Rainbow Tokens
         </h1>
         <StartPlayingButton />
-        <Loader inProgress={inProgress} />
+        <HomepageLoader />
         <Footer />
       </div>
       <div className={classes.leftPanel}>

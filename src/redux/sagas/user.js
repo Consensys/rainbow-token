@@ -3,21 +3,15 @@ import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 import {
     startLoadingUser,
     endLoadingUser,
-    setUserAsPlayer
+    setUserAsPlayer,
+    START_PLAYING,
+    REQUEST_BLEND,
+    SET_BLENDING_PRICE,
 } from '../actions/user';
 
 import {
     addError,
 } from '../actions/errors';
-
-import {
-  getPlayers
-} from '../actions/players';
-import {
-    START_PLAYING,
-    REQUEST_BLEND,
-    SET_BLENDING_PRICE,
-} from '../actionTypes';
 
 import transactionHandler from './transactionHandler';
 
@@ -57,10 +51,7 @@ export function *getUserStatus() {
     const address = yield select(state => state.web3.accounts.address);
     const { isPlayer } = yield select(state => state.web3.contracts.RainbowToken.call);
     const userIsPlayer = yield call(isPlayer, address);
-    if (userIsPlayer) {
-      yield put(setUserAsPlayer());
-      yield put(getPlayers());
-    }
+    if (userIsPlayer) yield put(setUserAsPlayer());
   } catch(err) {
     console.log(err);
     yield put(addError('Unable to fetch the status of the player...'));

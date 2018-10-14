@@ -1,7 +1,7 @@
-import { computeToken, color } from './utils';
-import { transactionToEmitter, eventToEmitter } from './formatter';
+import { computeToken, color } from '../../utils';
+import { transactionToEmitter, eventToEmitter } from './utils';
 
-const targetColor = color([44, 86, 221]);
+export const targetColor = color([44, 86, 221]);
 const defaultBlendingPrice = 10000000000000000;
 
 export default (methods, events) => ({

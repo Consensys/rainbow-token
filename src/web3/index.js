@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import { eventChannel } from 'redux-saga';
-import { computeToken, color } from './utils';
+import { computeToken, color } from '../utils';
 import { abi } from './abis/RainbowToken.json';
 
 // Ropsten
