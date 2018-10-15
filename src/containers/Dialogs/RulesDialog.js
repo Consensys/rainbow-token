@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { closeRulesDialog } from '../../redux/actions/ui';
 
 /* Component */
-import RulesDialog from '../../components/UI/Dialogs/RulesDialog';
+import RulesDialog from '../../components/Dialogs/RulesDialog';
 
 const mapStateToProps = state => ({
   open: state.ui.rulesDialog.open,
@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  onClick: () => closeRulesDialog()
+  closeDialog: () => closeRulesDialog()
 }
 
 export default connect(

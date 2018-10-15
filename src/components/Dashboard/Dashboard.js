@@ -6,6 +6,7 @@ import UserHeader from '../UserHeader/UserHeader';
 /* Containers */
 import RulesDialog from '../../containers/Dialogs/RulesDialog';
 import DefaultBlendDialog from '../../containers/Dialogs/DefaultBlendDialog';
+import PriceDialog from '../../containers/Dialogs/PriceDialog';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -29,6 +30,7 @@ const Dashboard = ({ classes }) => (
   <div className={classes.global}>
     <RulesDialog />
     <DefaultBlendDialog />
+    <PriceDialog />
     <UserHeader />
     <hr className={classes.hr} />
   </div>

@@ -10,13 +10,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const RulesDialog = ({
   open,
-  onClick,
+  closeDialog,
   scroll,
 }) => (
   <div>
     <Dialog
       open={open}
-      onClose={onClick}
+      onClose={closeDialog}
       scroll={scroll}
       aria-labelledby="scroll-dialog-title"
     >
@@ -75,7 +75,7 @@ const RulesDialog = ({
           </DialogContentText>
         </DialogContent>
       <DialogActions>
-        <Button onClick={onClick} color="primary">
+        <Button onClick={closeDialog} color="primary">
           Close
         </Button>
       </DialogActions>

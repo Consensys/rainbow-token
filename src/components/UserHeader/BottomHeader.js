@@ -1,7 +1,9 @@
 import React from 'react';
 
-/* Containers */
+/* Components */
 import DefaultBlendSpace from './DefaultBlendSpace';
+import UserSpace from './UserSpace';
+import PriceSelector from './PriceSelector';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -16,9 +18,11 @@ const styles = theme => ({
   }
 })
 
-const BottomHeader = () => (
-  <div>
+const BottomHeader = ({ classes }) => (
+  <div className={classes.global}>
     <DefaultBlendSpace />
+    <UserSpace />
+    <PriceSelector />
   </div>
 )
 

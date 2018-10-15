@@ -35,6 +35,7 @@ function *defaultBlendSaga () {
   const { address } = yield select(state => state.web3.accounts);
   const { defaultBlend } = yield select(state => state.web3.contracts.RainbowToken.transactions);
   const chan = yield call(defaultBlend, address);
+  console.log(chan)
   yield transactionHandler(chan);
 }
 
@@ -71,9 +72,9 @@ function *watchRequestBlend () {
       REQUEST_BLEND,
       ({ payload: { blendingAddress, blendingToken } }) => {
         if (blendingAddress && blendingToken) {
-          blendSaga(blendingAddress, blendingToken);
+          return blendSaga(blendingAddress, blendingToken);
         } else {
-          defaultBlendSaga();
+          return defaultBlendSaga();
         }
       }
     );

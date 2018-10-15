@@ -6,7 +6,7 @@ import { openDefaultBlendDialog } from '../../redux/actions/ui';
 import LauncherDefaultBlendDialog from '../../components/UserHeader/LauncherDefaultBlendDialog';
 
 const mapStateToProps = state => ({
-  diabled: !!state.web3.transactions.txHash
+  disabled: !!state.web3.transactions.txHash
 })
 
 const mapDispatchToProps = {

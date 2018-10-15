@@ -15,6 +15,7 @@ const DefaultBlendDialog = ({
     color,
     blendingColor,
     blendingPrice,
+    launchTransaction
 }) => {
     const resultingColor = {
         r: Math.floor((Number(color.r) + Number(blendingColor.r)) / 2),
@@ -55,7 +56,7 @@ const DefaultBlendDialog = ({
                 Cancel
               </Button>
               <Button
-                onClick={closeDialog}
+                onClick={() => {launchTransaction(); closeDialog();}}
                 color="primary"
               >
                 Blend
