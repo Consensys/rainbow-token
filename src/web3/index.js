@@ -4,7 +4,8 @@ import { computeToken, color } from './utils';
 import { abi } from './abis/RainbowToken.json';
 
 // Ropsten
-const contractAddress = '0x58828ca05884e2dc98ddfa0cc73820d1482d740e';
+// const contractAddress = '0x58828ca05884e2dc98ddfa0cc73820d1482d740e';
+const contractAddress = '0x719cb4c365bc0a149d54629ea86fe4e68293609f';
 
 // ganache
 // const contractAddress = '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a';

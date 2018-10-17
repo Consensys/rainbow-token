@@ -223,9 +223,9 @@ contract RainbowToken {
     returns (uint[3])
   {
     return [
-      uint((_seed & 0xff0000) / 0xffff),
-      uint((_seed & 0xff00) / 0xff),
-      uint(_seed & 0xff)
+      toPrimary(uint((_seed & 0xff0000) / 0xffff)),
+      toPrimary(uint((_seed & 0xff00) / 0xff)),
+      toPrimary(uint(_seed & 0xff))
     ];
   }
 
@@ -372,5 +372,23 @@ contract RainbowToken {
     );
 
     return true;
+  }
+
+  /**
+   * @dev Pushes a component of a color to its closer border
+   * @param component The component of the color
+   */
+  function toPrimary(
+    uint component
+  )
+    internal
+    pure
+    returns (uint)
+  {
+    if (component > 127) {
+        return 255;
+    } else {
+      return 0;
+    }
   }
 }
