@@ -4,11 +4,12 @@ import React from 'react';
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-  footer: {
+  global: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginTop: '-1.5em'
+    marginTop: '-1.5em',
+    marginBottom: '1em'
   },
   footerElement: {
     marginBottom: '1em'
@@ -21,7 +22,7 @@ const styles = theme => ({
 })
 
 const Footer = ({ classes }) => (
-  <div className={classes.footer}>
+  <div className={classes.global}>
     <div className={classes.footerElement}>
       To play you need having <a className={classes.anchorTag} href='https://metamask.io/'>Metamask extension</a> installed.
     </div>

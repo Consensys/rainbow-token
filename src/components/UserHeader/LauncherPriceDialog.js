@@ -18,7 +18,7 @@ const LauncherPriceDialog = ({
   classes
 }) => (
   <Button
-    className={classes.priceBtn}
+    className={classes.global}
     variant='contained'
     color='primary'
     onClick={onClick}

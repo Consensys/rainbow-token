@@ -43,7 +43,6 @@ export function *getPlayers () {
           .filter(address => !(address in players))
           .map(address => getToken(address))
         );
-        console.log('TOKENS', tokens)
         for (let i = 0; i < playerAddresses.length; i++) {
             players[playerAddresses[i]] = {
                 address: playerAddresses[i],

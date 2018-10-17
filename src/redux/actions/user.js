@@ -8,11 +8,6 @@ export const setUserAsPlayer = () => ({
   type: SET_USER_AS_PLAYER,
 })
 
-export const GET_USER = 'GET_USER';
-export const getUser = () => ({
-    type: GET_USER,
-});
-
 export const START_LOADING_USER = 'START_LOADING_USER';
 export const startLoadingUser = () => ({
     type: START_LOADING_USER,
@@ -21,12 +16,6 @@ export const startLoadingUser = () => ({
 export const END_LOADING_USER = 'END_LOADING_USER';
 export const endLoadingUser = () => ({
     type: END_LOADING_USER,
-});
-
-export const SET_USER = 'SET_USER';
-export const setUser = (address) => ({
-    type: SET_USER,
-    payload: address,
 });
 
 export const START_TRANSACTION = 'START_TRANSACTION';
