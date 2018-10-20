@@ -1,5 +1,5 @@
-const RainbowToken = artifacts.require('./RainbowToken.sol');
+const GameManager = artifacts.require('./GameManager.sol');
 
 module.exports = function (deployer) {
-    deployer.deploy(RainbowToken, 44, 86, 221);
+    deployer.deploy(GameManager, 44, 86, 221);
 };

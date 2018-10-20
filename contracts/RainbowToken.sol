@@ -35,6 +35,9 @@ contract RainbowToken {
     uint blendingPrice;
   }
 
+  /* Address of the game manager contract */
+  address public gameManager;
+
   /* Fee */
   uint constant public PLAYING_FEE = 1000000000000000;
   uint constant public DEFAULT_BLENDING_PRICE = 10000000000000000;
@@ -50,6 +53,12 @@ contract RainbowToken {
 
   /* Array listing players */
   address[] players;
+
+  /* Throw if the sender is not the game manager contract */
+  modifier onlyGameManager() {
+    require(msg.sender == gameManager, 'Sender is not the game manager');
+    _;
+  }
 
   /* Throw if the sender is not a player */
   modifier onlyPlayer() {
@@ -96,16 +105,24 @@ contract RainbowToken {
    * @param _r Target color Red value
    * @param _g Target color Green value
    * @param _b Target color Blue value
+   * @param _gameManager address of the game manager contract
    */
   constructor(
-    int _r,
-    int _g,
-    int _b
+    uint8 _r,
+    uint8 _g,
+    uint8 _b,
+    address _gameManager
   )
     public
   {
+    // Address must not be empty
+    require(_gameManager != address(0), 'Empty address');
+
     // Set target color
     targetColor = Color(uint(_r), uint(_g), uint(_b));
+
+    // Set the game manager address
+    gameManager = _gameManager;
   }
 
   /**
@@ -349,26 +366,29 @@ contract RainbowToken {
 
   /**
    * @dev Current player claim victory
+   * @param player Address of the potential winner
    */
-  function claimVictory()
+  function claimVictory(
+    address player
+  )
     public
-    onlyPlayer
     gameInProgress
+    onlyGameManager
     returns (bool)
   {
     // Test player token has a winning color
-    Color memory color = tokens[msg.sender].color;
+    Color memory color = tokens[player].color;
     require(color.r == targetColor.r && color.g == targetColor.g && color.b == targetColor.b, "Not winner");
 
     // Transfer winning prize
-    msg.sender.transfer(address(this).balance);
+    player.transfer(address(this).balance);
 
     // End game
     gameOver = true;
 
     // Emit event
     emit PlayerWon(
-      msg.sender
+      player
     );
 
     return true;
