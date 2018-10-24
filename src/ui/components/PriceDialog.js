@@ -42,10 +42,10 @@ const PriceDialog = ({
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
-          Cancel
+                    Cancel
                 </Button>
                 <Button onClick={e => { e.preventDefault(); setBlendingPrice(Web3.utils.toWei(blendingPriceInput)); handleClose(); }} color="primary">
-          Set this price
+                    Set this price
                 </Button>
             </DialogActions>
         </Dialog>

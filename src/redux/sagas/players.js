@@ -1,20 +1,20 @@
 import {
-    call,
-    put,
-    takeLatest,
-    takeEvery,
-    all,
-    take
+  call,
+  put,
+  takeLatest,
+  takeEvery,
+  all,
+  take
 } from 'redux-saga/effects';
 import generator from 'mnemonic-generator';
 
 import {
-    startLoadingPlayers,
-    endLoadingPlayers,
-    setPlayers,
-    addPlayer,
-    updatePlayerToken,
-    newPlayer,
+  startLoadingPlayers,
+  endLoadingPlayers,
+  setPlayers,
+  addPlayer,
+  updatePlayerToken,
+  newPlayer,
 } from '../actions/players';
 import {
     addError,
@@ -34,49 +34,52 @@ import {
 
 /** ******* WORKERS *********/
 
-function *getPlayersSaga () {
-    try {
-        yield put(startLoadingPlayers());
-        const playerAddresses = yield call(rainbow.getPlayers);
-        const tokens = yield Promise.all(playerAddresses.map(address => rainbow.getToken(address)));
-        const players = {};
-        for (let i = 0; i < playerAddresses.length; i++) {
-            players[playerAddresses[i]] = {
-                address: playerAddresses[i],
-                pseudo: generator(playerAddresses[i]),
-                token: tokens[i],
-                score: computeScore(tokens[i].color, rainbow.targetColor),
-            };
-        }
-        yield put(setPlayers(players));
-    } catch (err) {
-        console.log(err);
-        yield put(addError('Unable to retrieve the players.'));
-    } finally {
-        yield put(endLoadingPlayers());
+function* getPlayersSaga() {
+  try {
+    yield put(startLoadingPlayers());
+    const playerAddresses = yield call(rainbow.getPlayers);
+    const tokens = yield Promise.all(playerAddresses.map(address => rainbow.getToken(address)));
+    const players = {};
+    for (let i = 0; i < playerAddresses.length; i++) {
+      players[playerAddresses[i]] = {
+        address: playerAddresses[i],
+        pseudo: generator(playerAddresses[i]),
+        token: tokens[i],
+        score: computeScore(tokens[i].color, rainbow.targetColor),
+      };
     }
+    yield put(setPlayers(players));
+  } catch (err) {
+    console.log(err);
+    yield put(addError('Unable to retrieve the players.'));
+  } finally {
+    yield put(endLoadingPlayers());
+  }
 }
 
-function *newPlayerSaga ({ address, token }) {
-    try {
-        const player = {
-            address,
-            pseudo: generator(address),
-            token: token,
-            score: computeScore(token.color, rainbow.targetColor),
-        };
-        console.log('IN SAGA newPlayerSaga');
-        yield put(addPlayer(player));
-    } catch (err) {
-        yield put(addError('Unable to add a player.'));
-    } finally {
+function* newPlayerSaga({
+  address,
+  token
+}) {
+  try {
+    const player = {
+      address,
+      pseudo: generator(address),
+      token: token,
+      score: computeScore(token.color, rainbow.targetColor),
+    };
+    console.log('IN SAGA newPlayerSaga');
+    yield put(addPlayer(player));
+  } catch (err) {
+    yield put(addError('Unable to add a player.'));
+  } finally {
 
-    }
+  }
 }
 
 /** ******* EVENT LISTENERS *********/
 
-function *listenBlendingPrice() {
+function* listenBlendingPrice() {
   const chan = yield call(blendingPriceSetEmitter);
   try {
     while (true) {
@@ -89,7 +92,7 @@ function *listenBlendingPrice() {
   }
 }
 
-function *listenTokenBlended() {
+function* listenTokenBlended() {
   const chan = yield call(tokenBlendedEmitter);
   try {
     while (true) {
@@ -102,7 +105,7 @@ function *listenTokenBlended() {
   }
 }
 
-function *listenPlayerCreated() {
+function* listenPlayerCreated() {
   const chan = yield call(playerCreatedEmitter);
   try {
     while (true) {
@@ -117,22 +120,22 @@ function *listenPlayerCreated() {
 
 /** ******* WATCHERS *********/
 
-function *watchGetPlayers () {
-    yield takeLatest(GET_PLAYERS, getPlayersSaga);
+function* watchGetPlayers () {
+  yield takeLatest(GET_PLAYERS, getPlayersSaga);
 }
 
-function *watchNewPlayer () {
-    yield takeEvery(NEW_PLAYER, ({ payload }) => newPlayerSaga({ address: payload.address, token: payload.token }));
+function* watchNewPlayer () {
+  yield takeEvery(NEW_PLAYER, ({ payload }) => newPlayerSaga({ address: payload.address, token: payload.token }));
 }
 
-function *playersSaga () {
-    yield all([
-        watchGetPlayers(),
-        watchNewPlayer(),
-        listenBlendingPrice(),
-        listenTokenBlended(),
-        listenPlayerCreated()
-    ]);
+function* playersSaga () {
+  yield all([
+    watchGetPlayers(),
+    watchNewPlayer(),
+    listenBlendingPrice(),
+    listenTokenBlended(),
+    listenPlayerCreated()
+  ]);
 }
 
 export default playersSaga;
