@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 /* Redux */
 import { connect } from 'react-redux';
-import { initializeGame } from '../redux/actions/game';
+import { initializeGame } from '../redux/actions/gameManager/game';
 
 /* Components */
 import LoadingPage from '../components/LoadingPage/LoadingPage';

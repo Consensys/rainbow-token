@@ -1,6 +1,6 @@
 import {
-    SET_NETWORK_ID
-} from '../../actions/web3';
+    SET_NETWORK
+} from '../../actions/gameManager/web3';
 
 const DEFAULT_STATE = {
   id: undefined
@@ -8,8 +8,8 @@ const DEFAULT_STATE = {
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
     switch (type) {
-      case SET_NETWORK_ID:
-        return { ...state, id: payload };
+      case SET_NETWORK:
+        return { ...state, ...payload };
       default:
         return state;
     }

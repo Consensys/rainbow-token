@@ -1,13 +1,13 @@
 import { all } from 'redux-saga/effects';
 
-import userSaga from './user';
-import playersSaga from './players';
-import gameSaga from './game';
+// import userSaga from './user';
+// import playersSaga from './players';
+import gameSaga from './gameManager';
 
 function *mySaga () {
     yield all([
-        userSaga(),
-        playersSaga(),
+        // userSaga(),
+        // playersSaga(),
         gameSaga()
     ]);
 }

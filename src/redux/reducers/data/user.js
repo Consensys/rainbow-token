@@ -1,6 +1,6 @@
 import {
     SET_ACCOUNT,
-} from '../../actions/web3';
+} from '../../actions/gameManager/web3';
 
 const DEFAULT_STATE = {
   address: undefined

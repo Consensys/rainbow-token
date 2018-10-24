@@ -1,6 +1,6 @@
 import {
     ADD_CONTRACT
-} from '../../actions/web3';
+} from '../../actions/gameManager/web3';
 
 const DEFAULT_STATE = {
 };
