@@ -15,16 +15,16 @@ import materialUiTheme from "./ui/materialUiTheme";
 
 /* Styles */
 const App = () => (
-    <Provider store={createStore()}>
-      <div className='App'>
-        <MuiThemeProvider theme={materialUiTheme}>
-          <HomepageContainer />
-        </MuiThemeProvider>
-      </div>
-    </Provider>
+  <Provider store={createStore()}>
+    <div className='App'>
+      <MuiThemeProvider theme={materialUiTheme}>
+        <HomepageContainer />
+      </MuiThemeProvider>
+    </div>
+  </Provider>
 );
 
 export default App;
 
 
-// @channel For educational purpose, Paris team has recently been working on a token model named Rainbow Token :rainbow::rainbow:, we are currently beta testing the dapp on Ropsten. 
+// @channel For educational purpose, Paris team has recently been working on a token model named Rainbow Token :rainbow::rainbow:, we are currently beta testing the dapp on Ropsten.
