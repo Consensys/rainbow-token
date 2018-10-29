@@ -46,12 +46,12 @@ function *setBlendingPriceSaga (price) {
   yield transactionHandler(chan);
 }
 
-export function *getUserStatus() {
+export function *setUserStatus() {
   try {
     yield put(startLoadingUser());
-    const address = yield select(state => state.web3.accounts.address);
+    const { address } = yield select(state => state.data.user);
     const { isPlayer } = yield select(state => state.web3.contracts.RainbowToken.call);
-    const userIsPlayer = yield call(isPlayer, address);
+    const userIsPlayer = yield call(isPlayer, address, {});
     if (userIsPlayer) yield put(setUserAsPlayer());
   } catch(err) {
     console.log(err);

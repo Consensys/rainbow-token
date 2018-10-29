@@ -2,6 +2,7 @@ import { call, put, all, takeLatest } from 'redux-saga/effects';
 
 import setUpWeb3 from './web3';
 import setUpRainbow from './rainbow';
+import { setUserStatus } from '../user';
 
 import {
   INITIALIZE_GAME,
@@ -27,6 +28,10 @@ function *initializeGame() {
     if (fullySet) {
       // Set up the rainbow token contract
       yield call(setUpRainbow);
+
+      // Set up the user status
+      yield call(setUserStatus)
+
       // Game is initialized
       yield put(gameInitialized());
     }

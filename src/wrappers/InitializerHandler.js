@@ -14,24 +14,23 @@ class InitializerHandler extends Component {
   }
 
   render() {
-    const { children, initialized, playersLoading } = this.props;
-    if (initialized && !playersLoading) {
+    const { children, isLoading } = this.props;
+    if (isLoading) {
+      return (
+        <LoadingPage />
+      )
+    } else {
       return (
         <div id='initializer-handler'>
           {children}
         </div>
-      )
-    } else {
-      return (
-        <LoadingPage />
       )
     }
   }
 }
 
 const mapStateToProps = state => ({
-  initialized: state.status.game.initialized,
-  playersLoading: state.status.players.isLoading
+  isLoading: state.status.game.isLoading,
 })
 
 const mapDispatchToProps = {

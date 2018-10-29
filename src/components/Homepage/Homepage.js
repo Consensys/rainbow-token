@@ -1,11 +1,11 @@
 import React from 'react';
 
 /* Components */
-import HomepageLoader from '../../containers/Homepage/Loader';
-import Footer from './Footer';
 
 /* Containers */
+import HomepageLoader from '../../containers/Homepage/Loader';
 import StartPlayingButton from '../../containers/Homepage/StartPlayingButton';
+import Footer from '../../containers/Homepage/Footer';
 
 /* Images */
 import rainbowToken from '../../static/svg/RainbowTokenWorkshop.svg';
