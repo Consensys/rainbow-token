@@ -2,8 +2,6 @@ import eventToEmitter from "./eventToEmitter";
 
 export default (abi, contractWs) => {
     const returnedEvents = {
-        listening: {},
-        getPastEvents: {}
     };
 
     const eventsObjects = abi.filter(
@@ -11,7 +9,9 @@ export default (abi, contractWs) => {
     );
 
     for (let eventObject of eventsObjects) {
-        returnedEvents.listening[eventObject.name] = function() {
+        const subReturnedEvent = {
+        };
+        subReturnedEvent.listening = function() {
             const indexedInputs = eventObject.inputs.filter(
                 input => input.indexed
             );
@@ -31,7 +31,7 @@ export default (abi, contractWs) => {
             );
         };
 
-        returnedEvents.getPastEvents[eventObject.name] = function() {
+        subReturnedEvent.getPastEvents = function() {
             const indexedInputs = eventObject.inputs.filter(
                 input => input.indexed
             );
@@ -48,6 +48,8 @@ export default (abi, contractWs) => {
                 ...blockFilterArgs
             });
         };
+
+        returnedEvents[eventObject.name] = subReturnedEvent;
     }
 
     return returnedEvents;

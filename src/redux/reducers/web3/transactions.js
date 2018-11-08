@@ -1,7 +1,7 @@
 import {
     START_TRANSACTION,
     END_TRANSACTION,
-} from '../../actions/user';
+} from '../../actions/transactions/general';
 
 const DEFAULT_STATE = {
   txHash: undefined

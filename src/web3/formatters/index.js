@@ -40,6 +40,7 @@ export default (abi, eth, methods, contractWs) => {
                     const txData = txObject.encodeABI();
                     const tx = fillTxObject({
                         ...arguments[functionObject.inputs.length],
+                        to: contractWs._address,
                         data: txData
                     });
                     const signerAddress = eth.accounts.privateKeyToAccount(

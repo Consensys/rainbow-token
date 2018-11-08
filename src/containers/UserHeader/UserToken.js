@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Token from '../../components/UI/Token/Token';
 
 const mapStateToProps = state => ({
-  color: state.data.players[state.web3.accounts.address].token.color,
+  color: state.data.players[state.data.user.address].token.color,
   size: '80',
   boxShadowSize: '2',
   borderSize: '1.2'

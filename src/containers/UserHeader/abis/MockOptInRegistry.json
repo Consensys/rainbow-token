@@ -1,0 +1,624 @@
+{
+    "contractName": "MockOptInRegistry",
+    "abi": [
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_userAddress",
+                    "type": "address"
+                },
+                {
+                    "name": "_campaignAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "hasOptedIn",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_campaignAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "getCampaignOptinCount",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint32"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getUserCampaigns",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_userAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "getUserOptinCount",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint24"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_campaignAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "optInToCampaign",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint24"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_campaignAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "optOutToCampaign",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint24"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "campaignOptInCounts",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint32"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "userAddress",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "name": "campaignAddress",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "campaignIndex",
+                    "type": "uint24"
+                }
+            ],
+            "name": "OptedIn",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "userAddress",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "name": "campaignAddress",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "campaignIndex",
+                    "type": "uint24"
+                }
+            ],
+            "name": "OptedOut",
+            "type": "event"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "kill",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ],
+    "bytecode":
+        "0x608060405234801561001057600080fd5b506107f4806100206000396000f30060806040526004361061008d5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166307c05aff811461009257806307f74a15146100cd5780630e274ae214610107578063130098901461016c57806341c0e1b5146101a55780636b99be11146101bc57806380a3275d146101dd5780639753dc80146101fe575b600080fd5b34801561009e57600080fd5b506100b9600160a060020a036004358116906024351661021f565b604080519115158252519081900360200190f35b3480156100d957600080fd5b506100ee600160a060020a03600435166102f1565b6040805163ffffffff9092168252519081900360200190f35b34801561011357600080fd5b5061011c610312565b60408051602080825283518183015283519192839290830191858101910280838360005b83811015610158578181015183820152602001610140565b505050509050019250505060405180910390f35b34801561017857600080fd5b5061018d600160a060020a03600435166103e3565b6040805162ffffff9092168252519081900360200190f35b3480156101b157600080fd5b506101ba6103fe565b005b3480156101c857600080fd5b5061018d600160a060020a0360043516610402565b3480156101e957600080fd5b5061018d600160a060020a0360043516610572565b34801561020a57600080fd5b506100ee600160a060020a0360043516610769565b6000828233600160a060020a0383161480610242575033600160a060020a038216145b15156102be576040805160e560020a62461bcd02815260206004820152603660248201527f5468652073656e646572206e6565647320746f2062652065697468657220746860448201527f652075736572206f72207468652063616d706169676e00000000000000000000606482015290519081900360840190fd5b505050600160a060020a039182166000908152602081815260408083209390941682526001909201909152205460ff1690565b600160a060020a031660009081526001602052604090205463ffffffff1690565b33600090815260208190526040902054606090151561037b576040805160e560020a62461bcd02815260206004820152600e60248201527f556e6b6e6f776e20757365722021000000000000000000000000000000000000604482015290519081900360640190fd5b3360009081526020818152604091829020805483518184028101840190945280845290918301828280156103d857602002820191906000526020600020905b8154600160a060020a031681526001909101906020018083116103ba575b505050505090505b90565b600160a060020a031660009081526020819052604090205490565b6000ff5b60008061040f338461021f565b1561048a576040805160e560020a62461bcd02815260206004820152602e60248201527f546865207573657220697320616c7265616479206f7074656420696e20746f2060448201527f746869732063616d706169676e2e000000000000000000000000000000000000606482015290519081900360840190fd5b5033600081815260208181526040808320600160a060020a0387168085526001808301808652848720805460ff191683178155845480840186558589528789208101805473ffffffffffffffffffffffffffffffffffffffff191686179055848952815463ffffff00191661010062ffffff928316810291909117835584895298879020805463ffffffff19811663ffffffff918216909601169490941790935590865254845196900416855291519094919391927f2675becba1e8fd6f0795f945e8ece85b6d61023d83cfe30d860d1819fb607081928290030190a3546000190192915050565b600080600080610582338661021f565b15156105fe576040805160e560020a62461bcd02815260206004820152602d60248201527f546865207573657220646964206e6f74206f707420696e2c207468657920636160448201527f6e6e6f74206f7074206f75742e00000000000000000000000000000000000000606482015290519081900360840190fd5b33600090815260208181526040808320600160a060020a038916845260018101909252909120805460ff1916908190558154919450610100900462ffffff1692508390600019810190811061064f57fe5b6000918252602090912001548354600160a060020a0390911691508190849062ffffff851690811061067d57fe5b6000918252602080832091909101805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0394851617905533825281815260408083209385168352600193909301905220805463ffffff00191661010062ffffff85160217905582546106f1846000198301610781565b50600160a060020a038516600081815260016020908152604091829020805463ffffffff19811663ffffffff91821660001901909116179055815162ffffff86168152915133927f3b6922e2c6a109acf62d3ae4ee624b56e34128b3e240c8da5db8e2bcaff78e0192908290030190a3509392505050565b60016020526000908152604090205463ffffffff1681565b8154818355818111156107a5576000838152602090206107a59181019083016107aa565b505050565b6103e091905b808211156107c457600081556001016107b0565b50905600a165627a7a72305820f474c20b1e0b4b84ca732219ce9257d9a9055e9d52d125015c0dfade53e926810029",
+    "deployedBytecode":
+        "0x60806040526004361061008d5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166307c05aff811461009257806307f74a15146100cd5780630e274ae214610107578063130098901461016c57806341c0e1b5146101a55780636b99be11146101bc57806380a3275d146101dd5780639753dc80146101fe575b600080fd5b34801561009e57600080fd5b506100b9600160a060020a036004358116906024351661021f565b604080519115158252519081900360200190f35b3480156100d957600080fd5b506100ee600160a060020a03600435166102f1565b6040805163ffffffff9092168252519081900360200190f35b34801561011357600080fd5b5061011c610312565b60408051602080825283518183015283519192839290830191858101910280838360005b83811015610158578181015183820152602001610140565b505050509050019250505060405180910390f35b34801561017857600080fd5b5061018d600160a060020a03600435166103e3565b6040805162ffffff9092168252519081900360200190f35b3480156101b157600080fd5b506101ba6103fe565b005b3480156101c857600080fd5b5061018d600160a060020a0360043516610402565b3480156101e957600080fd5b5061018d600160a060020a0360043516610572565b34801561020a57600080fd5b506100ee600160a060020a0360043516610769565b6000828233600160a060020a0383161480610242575033600160a060020a038216145b15156102be576040805160e560020a62461bcd02815260206004820152603660248201527f5468652073656e646572206e6565647320746f2062652065697468657220746860448201527f652075736572206f72207468652063616d706169676e00000000000000000000606482015290519081900360840190fd5b505050600160a060020a039182166000908152602081815260408083209390941682526001909201909152205460ff1690565b600160a060020a031660009081526001602052604090205463ffffffff1690565b33600090815260208190526040902054606090151561037b576040805160e560020a62461bcd02815260206004820152600e60248201527f556e6b6e6f776e20757365722021000000000000000000000000000000000000604482015290519081900360640190fd5b3360009081526020818152604091829020805483518184028101840190945280845290918301828280156103d857602002820191906000526020600020905b8154600160a060020a031681526001909101906020018083116103ba575b505050505090505b90565b600160a060020a031660009081526020819052604090205490565b6000ff5b60008061040f338461021f565b1561048a576040805160e560020a62461bcd02815260206004820152602e60248201527f546865207573657220697320616c7265616479206f7074656420696e20746f2060448201527f746869732063616d706169676e2e000000000000000000000000000000000000606482015290519081900360840190fd5b5033600081815260208181526040808320600160a060020a0387168085526001808301808652848720805460ff191683178155845480840186558589528789208101805473ffffffffffffffffffffffffffffffffffffffff191686179055848952815463ffffff00191661010062ffffff928316810291909117835584895298879020805463ffffffff19811663ffffffff918216909601169490941790935590865254845196900416855291519094919391927f2675becba1e8fd6f0795f945e8ece85b6d61023d83cfe30d860d1819fb607081928290030190a3546000190192915050565b600080600080610582338661021f565b15156105fe576040805160e560020a62461bcd02815260206004820152602d60248201527f546865207573657220646964206e6f74206f707420696e2c207468657920636160448201527f6e6e6f74206f7074206f75742e00000000000000000000000000000000000000606482015290519081900360840190fd5b33600090815260208181526040808320600160a060020a038916845260018101909252909120805460ff1916908190558154919450610100900462ffffff1692508390600019810190811061064f57fe5b6000918252602090912001548354600160a060020a0390911691508190849062ffffff851690811061067d57fe5b6000918252602080832091909101805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0394851617905533825281815260408083209385168352600193909301905220805463ffffff00191661010062ffffff85160217905582546106f1846000198301610781565b50600160a060020a038516600081815260016020908152604091829020805463ffffffff19811663ffffffff91821660001901909116179055815162ffffff86168152915133927f3b6922e2c6a109acf62d3ae4ee624b56e34128b3e240c8da5db8e2bcaff78e0192908290030190a3509392505050565b60016020526000908152604090205463ffffffff1681565b8154818355818111156107a5576000838152602090206107a59181019083016107aa565b505050565b6103e091905b808211156107c457600081556001016107b0565b50905600a165627a7a72305820f474c20b1e0b4b84ca732219ce9257d9a9055e9d52d125015c0dfade53e926810029",
+    "sourceMap": "58:115:8:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;58:115:8;;;;;;;",
+    "deployedSourceMap":
+        "58:115:8:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1621:270:9;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;1621:270:9;-1:-1:-1;;;;;1621:270:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;4805:162;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;4805:162:9;-1:-1:-1;;;;;4805:162:9;;;;;;;;;;;;;;;;;;;;;;;;4279:141;;8:9:-1;5:2;;;30:1;27;20:12;5:2;4279:141:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:100:-1;33:3;30:1;27:10;8:100;;;90:11;;;84:18;71:11;;;64:39;52:2;45:10;8:100;;;12:14;4279:141:9;;;;;;;;;;;;;;;;;4631:170;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;4631:170:9;-1:-1:-1;;;;;4631:170:9;;;;;;;;;;;;;;;;;;;;;;;;107:64:8;;8:9:-1;5:2;;;30:1;27;20:12;5:2;107:64:8;;;;;;2020:735:9;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;2020:735:9;-1:-1:-1;;;;;2020:735:9;;;;;2948:1244;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;2948:1244:9;-1:-1:-1;;;;;2948:1244:9;;;;;616:53;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;616:53:9;-1:-1:-1;;;;;616:53:9;;;;;1621:270;1795:4;1751:12;1765:16;1294:10;-1:-1:-1;;;;;1294:26:9;;;;1293:64;;-1:-1:-1;1326:10:9;-1:-1:-1;;;;;1326:30:9;;;1293:64;1285:131;;;;;;;-1:-1:-1;;;;;1285:131:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;;;;1816:28:9;;;:14;:28;;;;;;;;;;;:59;;;;;;:41;;;;:59;;;;:70;;;;1621:270::o;4805:162::-;-1:-1:-1;;;;;4925:37:9;4902:6;4925:37;;;:19;:37;;;;;;;;;4805:162::o;4279:141::-;1014:10;999:14;:26;;;;;;;;;;:43;4353:9;;999:48;;991:75;;;;;-1:-1:-1;;;;;991:75:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;4394:10;4379:14;:26;;;;;;;;;;;;4372:43;;;;;;;;;;;;;;;;;4379:26;;4372:43;;4379:26;4372:43;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;4372:43:9;;;;;;;;;;;;;;;;;;;;;;;1072:1;4279:141;:::o;4631:170::-;-1:-1:-1;;;;;4750:28:9;4720:6;4750:28;;;;;;;;;;:45;;4631:170::o;107:64:8:-;163:1;142:24;2020:735:9;2099:6;2222:29;2124:40;2135:10;2147:16;2124:10;:40::i;:::-;2123:41;2115:100;;;;;-1:-1:-1;;;;;2115:100:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;2269:10:9;2254:14;:26;;;;;;;;;;;-1:-1:-1;;;;;2286:41:9;;;;;2341:4;2286:23;;;:41;;;;;;:59;;-1:-1:-1;;2286:59:9;;;;;27:10:-1;;23:18;;;45:23;;2493:43:9;;;;;;;;;;-1:-1:-1;;2493:43:9;;;;;2436:41;;;:103;;-1:-1:-1;;2436:103:9;2286:59;2436:103;;;;;;;;;;;;2545:37;;;;;;;:39;;-1:-1:-1;;2545:39:9;;;;;;;;;;;;;;;;;2652:41;;;:47;2595:105;;2652:47;;;;2595:105;;;;2254:26;;2286:41;;2269:10;;2595:105;;;;;;;;2720:27;-1:-1:-1;;2720:29:9;;2020:735;-1:-1:-1;;2020:735:9:o;2948:1244::-;3031:6;3152:38;3536:18;3626:17;3055:40;3066:10;3078:16;3055:10;:40::i;:::-;3047:98;;;;;;;-1:-1:-1;;;;;3047:98:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3208:10;3193:14;:26;;;;;;;;;;;-1:-1:-1;;;;;3386:57:9;;;;:39;;;:57;;;;;;:76;;-1:-1:-1;;3386:76:9;;;;;3667:27;;3193:26;;-1:-1:-1;3386:76:9;3557:63;;;;;-1:-1:-1;3193:26:9;;-1:-1:-1;;3667:29:9;;;3646:51;;;;;;;;;;;;;;;;3774:33;;-1:-1:-1;;;;;3646:51:9;;;;-1:-1:-1;3646:51:9;;3774:20;;:33;;;;;;;;;;;;;;;;;;;;;;:45;;-1:-1:-1;;3774:45:9;-1:-1:-1;;;;;3774:45:9;;;;;;3840:10;3825:26;;;;;;;;;:50;;;;;-1:-1:-1;3825:39:9;;;;:50;;;:70;;-1:-1:-1;;3825:70:9;3774:45;3825:70;;;;;;;4006:29;;;;-1:-1:-1;;4006:29:9;;;:::i;:::-;-1:-1:-1;;;;;;4041:37:9;;;;;;:19;:37;;;;;;;;;:39;;-1:-1:-1;;4041:39:9;;;;;;-1:-1:-1;;4041:39:9;;;;;;;4092:70;;;;;;;;;4108:10;;4092:70;;;;;;;;;-1:-1:-1;4176:11:9;2948:1244;-1:-1:-1;;;2948:1244:9:o;616:53::-;;;;;;;;;;;;;;;:::o;58:115:8:-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;",
+    "source":
+        "pragma solidity ^0.4.24;\n\nimport \"./OptInRegistry.sol\";\n\n\ncontract MockOptInRegistry is OptInRegistry {\n\n  function kill()\n    public\n  {\n    selfdestruct(address(0));\n  }\n}",
+    "sourcePath":
+        "/Users/vincent/Documents/Consensys/OCCI/urp-solidity/contracts/Campaign/MockOptInRegistry.sol",
+    "ast": {
+        "absolutePath":
+            "/Users/vincent/Documents/Consensys/OCCI/urp-solidity/contracts/Campaign/MockOptInRegistry.sol",
+        "exportedSymbols": {
+            "MockOptInRegistry": [1015]
+        },
+        "id": 1016,
+        "nodeType": "SourceUnit",
+        "nodes": [
+            {
+                "id": 1001,
+                "literals": ["solidity", "^", "0.4", ".24"],
+                "nodeType": "PragmaDirective",
+                "src": "0:24:8"
+            },
+            {
+                "absolutePath":
+                    "/Users/vincent/Documents/Consensys/OCCI/urp-solidity/contracts/Campaign/OptInRegistry.sol",
+                "file": "./OptInRegistry.sol",
+                "id": 1002,
+                "nodeType": "ImportDirective",
+                "scope": 1016,
+                "sourceUnit": 1329,
+                "src": "26:29:8",
+                "symbolAliases": [],
+                "unitAlias": ""
+            },
+            {
+                "baseContracts": [
+                    {
+                        "arguments": null,
+                        "baseName": {
+                            "contractScope": null,
+                            "id": 1003,
+                            "name": "OptInRegistry",
+                            "nodeType": "UserDefinedTypeName",
+                            "referencedDeclaration": 1328,
+                            "src": "88:13:8",
+                            "typeDescriptions": {
+                                "typeIdentifier":
+                                    "t_contract$_OptInRegistry_$1328",
+                                "typeString": "contract OptInRegistry"
+                            }
+                        },
+                        "id": 1004,
+                        "nodeType": "InheritanceSpecifier",
+                        "src": "88:13:8"
+                    }
+                ],
+                "contractDependencies": [1328],
+                "contractKind": "contract",
+                "documentation": null,
+                "fullyImplemented": true,
+                "id": 1015,
+                "linearizedBaseContracts": [1015, 1328],
+                "name": "MockOptInRegistry",
+                "nodeType": "ContractDefinition",
+                "nodes": [
+                    {
+                        "body": {
+                            "id": 1013,
+                            "nodeType": "Block",
+                            "src": "136:35:8",
+                            "statements": [
+                                {
+                                    "expression": {
+                                        "argumentTypes": null,
+                                        "arguments": [
+                                            {
+                                                "argumentTypes": null,
+                                                "arguments": [
+                                                    {
+                                                        "argumentTypes": null,
+                                                        "hexValue": "30",
+                                                        "id": 1009,
+                                                        "isConstant": false,
+                                                        "isLValue": false,
+                                                        "isPure": true,
+                                                        "kind": "number",
+                                                        "lValueRequested": false,
+                                                        "nodeType": "Literal",
+                                                        "src": "163:1:8",
+                                                        "subdenomination": null,
+                                                        "typeDescriptions": {
+                                                            "typeIdentifier":
+                                                                "t_rational_0_by_1",
+                                                            "typeString":
+                                                                "int_const 0"
+                                                        },
+                                                        "value": "0"
+                                                    }
+                                                ],
+                                                "expression": {
+                                                    "argumentTypes": [
+                                                        {
+                                                            "typeIdentifier":
+                                                                "t_rational_0_by_1",
+                                                            "typeString":
+                                                                "int_const 0"
+                                                        }
+                                                    ],
+                                                    "id": 1008,
+                                                    "isConstant": false,
+                                                    "isLValue": false,
+                                                    "isPure": true,
+                                                    "lValueRequested": false,
+                                                    "nodeType":
+                                                        "ElementaryTypeNameExpression",
+                                                    "src": "155:7:8",
+                                                    "typeDescriptions": {
+                                                        "typeIdentifier":
+                                                            "t_type$_t_address_$",
+                                                        "typeString":
+                                                            "type(address)"
+                                                    },
+                                                    "typeName": "address"
+                                                },
+                                                "id": 1010,
+                                                "isConstant": false,
+                                                "isLValue": false,
+                                                "isPure": true,
+                                                "kind": "typeConversion",
+                                                "lValueRequested": false,
+                                                "names": [],
+                                                "nodeType": "FunctionCall",
+                                                "src": "155:10:8",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier":
+                                                        "t_address",
+                                                    "typeString": "address"
+                                                }
+                                            }
+                                        ],
+                                        "expression": {
+                                            "argumentTypes": [
+                                                {
+                                                    "typeIdentifier":
+                                                        "t_address",
+                                                    "typeString": "address"
+                                                }
+                                            ],
+                                            "id": 1007,
+                                            "name": "selfdestruct",
+                                            "nodeType": "Identifier",
+                                            "overloadedDeclarations": [],
+                                            "referencedDeclaration": 1746,
+                                            "src": "142:12:8",
+                                            "typeDescriptions": {
+                                                "typeIdentifier":
+                                                    "t_function_selfdestruct_nonpayable$_t_address_$returns$__$",
+                                                "typeString":
+                                                    "function (address)"
+                                            }
+                                        },
+                                        "id": 1011,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "kind": "functionCall",
+                                        "lValueRequested": false,
+                                        "names": [],
+                                        "nodeType": "FunctionCall",
+                                        "src": "142:24:8",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_tuple$__$",
+                                            "typeString": "tuple()"
+                                        }
+                                    },
+                                    "id": 1012,
+                                    "nodeType": "ExpressionStatement",
+                                    "src": "142:24:8"
+                                }
+                            ]
+                        },
+                        "documentation": null,
+                        "id": 1014,
+                        "implemented": true,
+                        "isConstructor": false,
+                        "isDeclaredConst": false,
+                        "modifiers": [],
+                        "name": "kill",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 1005,
+                            "nodeType": "ParameterList",
+                            "parameters": [],
+                            "src": "120:2:8"
+                        },
+                        "payable": false,
+                        "returnParameters": {
+                            "id": 1006,
+                            "nodeType": "ParameterList",
+                            "parameters": [],
+                            "src": "136:0:8"
+                        },
+                        "scope": 1015,
+                        "src": "107:64:8",
+                        "stateMutability": "nonpayable",
+                        "superFunction": null,
+                        "visibility": "public"
+                    }
+                ],
+                "scope": 1016,
+                "src": "58:115:8"
+            }
+        ],
+        "src": "0:173:8"
+    },
+    "legacyAST": {
+        "absolutePath":
+            "/Users/vincent/Documents/Consensys/OCCI/urp-solidity/contracts/Campaign/MockOptInRegistry.sol",
+        "exportedSymbols": {
+            "MockOptInRegistry": [1015]
+        },
+        "id": 1016,
+        "nodeType": "SourceUnit",
+        "nodes": [
+            {
+                "id": 1001,
+                "literals": ["solidity", "^", "0.4", ".24"],
+                "nodeType": "PragmaDirective",
+                "src": "0:24:8"
+            },
+            {
+                "absolutePath":
+                    "/Users/vincent/Documents/Consensys/OCCI/urp-solidity/contracts/Campaign/OptInRegistry.sol",
+                "file": "./OptInRegistry.sol",
+                "id": 1002,
+                "nodeType": "ImportDirective",
+                "scope": 1016,
+                "sourceUnit": 1329,
+                "src": "26:29:8",
+                "symbolAliases": [],
+                "unitAlias": ""
+            },
+            {
+                "baseContracts": [
+                    {
+                        "arguments": null,
+                        "baseName": {
+                            "contractScope": null,
+                            "id": 1003,
+                            "name": "OptInRegistry",
+                            "nodeType": "UserDefinedTypeName",
+                            "referencedDeclaration": 1328,
+                            "src": "88:13:8",
+                            "typeDescriptions": {
+                                "typeIdentifier":
+                                    "t_contract$_OptInRegistry_$1328",
+                                "typeString": "contract OptInRegistry"
+                            }
+                        },
+                        "id": 1004,
+                        "nodeType": "InheritanceSpecifier",
+                        "src": "88:13:8"
+                    }
+                ],
+                "contractDependencies": [1328],
+                "contractKind": "contract",
+                "documentation": null,
+                "fullyImplemented": true,
+                "id": 1015,
+                "linearizedBaseContracts": [1015, 1328],
+                "name": "MockOptInRegistry",
+                "nodeType": "ContractDefinition",
+                "nodes": [
+                    {
+                        "body": {
+                            "id": 1013,
+                            "nodeType": "Block",
+                            "src": "136:35:8",
+                            "statements": [
+                                {
+                                    "expression": {
+                                        "argumentTypes": null,
+                                        "arguments": [
+                                            {
+                                                "argumentTypes": null,
+                                                "arguments": [
+                                                    {
+                                                        "argumentTypes": null,
+                                                        "hexValue": "30",
+                                                        "id": 1009,
+                                                        "isConstant": false,
+                                                        "isLValue": false,
+                                                        "isPure": true,
+                                                        "kind": "number",
+                                                        "lValueRequested": false,
+                                                        "nodeType": "Literal",
+                                                        "src": "163:1:8",
+                                                        "subdenomination": null,
+                                                        "typeDescriptions": {
+                                                            "typeIdentifier":
+                                                                "t_rational_0_by_1",
+                                                            "typeString":
+                                                                "int_const 0"
+                                                        },
+                                                        "value": "0"
+                                                    }
+                                                ],
+                                                "expression": {
+                                                    "argumentTypes": [
+                                                        {
+                                                            "typeIdentifier":
+                                                                "t_rational_0_by_1",
+                                                            "typeString":
+                                                                "int_const 0"
+                                                        }
+                                                    ],
+                                                    "id": 1008,
+                                                    "isConstant": false,
+                                                    "isLValue": false,
+                                                    "isPure": true,
+                                                    "lValueRequested": false,
+                                                    "nodeType":
+                                                        "ElementaryTypeNameExpression",
+                                                    "src": "155:7:8",
+                                                    "typeDescriptions": {
+                                                        "typeIdentifier":
+                                                            "t_type$_t_address_$",
+                                                        "typeString":
+                                                            "type(address)"
+                                                    },
+                                                    "typeName": "address"
+                                                },
+                                                "id": 1010,
+                                                "isConstant": false,
+                                                "isLValue": false,
+                                                "isPure": true,
+                                                "kind": "typeConversion",
+                                                "lValueRequested": false,
+                                                "names": [],
+                                                "nodeType": "FunctionCall",
+                                                "src": "155:10:8",
+                                                "typeDescriptions": {
+                                                    "typeIdentifier":
+                                                        "t_address",
+                                                    "typeString": "address"
+                                                }
+                                            }
+                                        ],
+                                        "expression": {
+                                            "argumentTypes": [
+                                                {
+                                                    "typeIdentifier":
+                                                        "t_address",
+                                                    "typeString": "address"
+                                                }
+                                            ],
+                                            "id": 1007,
+                                            "name": "selfdestruct",
+                                            "nodeType": "Identifier",
+                                            "overloadedDeclarations": [],
+                                            "referencedDeclaration": 1746,
+                                            "src": "142:12:8",
+                                            "typeDescriptions": {
+                                                "typeIdentifier":
+                                                    "t_function_selfdestruct_nonpayable$_t_address_$returns$__$",
+                                                "typeString":
+                                                    "function (address)"
+                                            }
+                                        },
+                                        "id": 1011,
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": false,
+                                        "kind": "functionCall",
+                                        "lValueRequested": false,
+                                        "names": [],
+                                        "nodeType": "FunctionCall",
+                                        "src": "142:24:8",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_tuple$__$",
+                                            "typeString": "tuple()"
+                                        }
+                                    },
+                                    "id": 1012,
+                                    "nodeType": "ExpressionStatement",
+                                    "src": "142:24:8"
+                                }
+                            ]
+                        },
+                        "documentation": null,
+                        "id": 1014,
+                        "implemented": true,
+                        "isConstructor": false,
+                        "isDeclaredConst": false,
+                        "modifiers": [],
+                        "name": "kill",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 1005,
+                            "nodeType": "ParameterList",
+                            "parameters": [],
+                            "src": "120:2:8"
+                        },
+                        "payable": false,
+                        "returnParameters": {
+                            "id": 1006,
+                            "nodeType": "ParameterList",
+                            "parameters": [],
+                            "src": "136:0:8"
+                        },
+                        "scope": 1015,
+                        "src": "107:64:8",
+                        "stateMutability": "nonpayable",
+                        "superFunction": null,
+                        "visibility": "public"
+                    }
+                ],
+                "scope": 1016,
+                "src": "58:115:8"
+            }
+        ],
+        "src": "0:173:8"
+    },
+    "compiler": {
+        "name": "solc",
+        "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    },
+    "networks": {},
+    "schemaVersion": "2.0.0",
+    "updatedAt": "2018-11-07T13:15:57.325Z"
+}

@@ -2,12 +2,12 @@ import { put, take } from 'redux-saga/effects';
 
 import {
   addError
-} from '../actions/errors';
+} from '../../actions/errors';
 
 import {
   startTransaction,
   endTransaction
-} from '../actions/user';
+} from '../../actions/transactions/general';
 
 export default function*(chan) {
   try {

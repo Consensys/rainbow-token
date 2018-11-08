@@ -1,15 +1,14 @@
 import { call, put, all, takeLatest } from 'redux-saga/effects';
 
 import setUpWeb3 from './web3';
-import setUpRainbow from './rainbow';
-import { setUserStatus } from '../user';
+import { setUpRainbow, setUserStatus } from './rainbowToken';
 
 import {
   INITIALIZE_GAME,
   gameInitialized,
   startInitialization,
   endInitialization
-} from '../../actions/gameManager/game';
+} from '../../actions/setUp/game';
 
 import {
   addError
@@ -35,9 +34,6 @@ function *initializeGame() {
       // Game is initialized
       yield put(gameInitialized());
     }
-    // if (onAvailableNetwork && metamaskUnlocked) yield call(getUserStatus);
-    // const { isPlayer } = yield select(state => state.status.user);
-    // if (isPlayer) yield call(getPlayers);
   } catch(err) {
     yield put(addError('Unable to initialize the game.'));
   } finally {

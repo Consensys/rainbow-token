@@ -3,7 +3,7 @@ import React from 'react';
 const PlayersLoader = ({ playersLoading }) => (
   <div>
     { playersLoading && (
-      <h1>Players loading...</h1>
+      <h1>Please wait, the players are being loaded...</h1>
     )}
   </div>
 )

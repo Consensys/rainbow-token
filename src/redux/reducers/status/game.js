@@ -2,7 +2,7 @@ import {
     GAME_INITIALIZED,
     START_INITIALIZATION,
     END_INITIALIZATION
-} from '../../actions/gameManager/game';
+} from '../../actions/setUp/game';
 
 const DEFAULT_STATE = {
   initialized: false,

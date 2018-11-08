@@ -12,7 +12,6 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case SET_PLAYERS:
         return { ...state, ...payload };
     case ADD_PLAYER:
-      console.log('IN REDUCER');
         return {
             ...state,
             [payload.address]: payload,

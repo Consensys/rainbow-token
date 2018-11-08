@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 /* Redux */
 import { connect } from 'react-redux';
-import { initializeGame } from '../redux/actions/gameManager/game';
+import { initializeGame } from '../redux/actions/setUp/game';
 
 /* Components */
 import LoadingPage from '../components/LoadingPage/LoadingPage';
@@ -30,7 +30,7 @@ class InitializerHandler extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.status.game.isLoading,
+  isLoading: state.status.game.isLoading || state.status.players.isLoading,
 })
 
 const mapDispatchToProps = {

@@ -3,7 +3,7 @@ import {
     END_LOADING_WEB3,
     CHECK_NETWORK,
     CHECK_UNLOCKING_METAMASK
-} from '../../actions/gameManager/web3';
+} from '../../actions/setUp/web3';
 
 const DEFAULT_STATE = {
   isLoading: true,

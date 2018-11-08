@@ -10,7 +10,7 @@ import {
   endLoadingWeb3,
   eventsSet,
   addContract
-} from '../../actions/gameManager/web3';
+} from '../../actions/setUp/web3';
 
 import {
   addError
@@ -29,7 +29,7 @@ function* accountHandler() {
   const [ address ] = yield provider.enable();
   const metamaskUnlocked = !!address;
   // Set the address of the user
-  yield put(setAccount(address));
+  yield put(setAccount(address.toLowerCase()));
   // Set the status related to Metamask
   yield put(checkUnlockingMetamask(metamaskUnlocked));
   // Return the provider
@@ -53,7 +53,9 @@ function* networkHandler(provider) {
 
 function* webSocketHandler() {
   // Get the network id
-  const networkId = yield select(state => state.web3.network.networkId);
+  const networkId = yield select(
+    state => state.web3.network.networkId
+  );
   // Get the corresponding provider
   const wsProvider = networkConfig.networks[networkId].wsProvider;
   // Instantiate the web3 instance with eht websocket provider

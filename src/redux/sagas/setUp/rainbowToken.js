@@ -7,14 +7,16 @@ import { createContract } from './web3';
 import {
   startLoadingRainbow,
   endLoadingRainbow,
-  newRainbowSet
-} from '../../actions/gameManager/rainbow';
+  newRainbowSet,
+  setUserAsPlayer
+} from '../../actions/setUp/rainbowToken';
+
 
 import {
   addError
 } from '../../actions/errors';
 
-export default function*() {
+export function* setUpRainbow() {
   try {
     yield put(startLoadingRainbow());
     // Fetch the address of the Rainbow Token
@@ -33,5 +35,19 @@ export default function*() {
     yield put(addError('Unable to set up the Rainbow Token.'));
   } finally {
     yield put(endLoadingRainbow());
+  }
+}
+
+export function *setUserStatus() {
+  try {
+    const { address } = yield select(state => state.data.user);
+    const { isPlayer } = yield select(
+      state => state.web3.contracts.RainbowToken.call
+    );
+    const userIsPlayer = yield call(isPlayer, address, {});
+    if (userIsPlayer) yield put(setUserAsPlayer());
+  } catch(err) {
+    console.log(err);
+    yield put(addError('Unable to fetch the status of the player...'));
   }
 }

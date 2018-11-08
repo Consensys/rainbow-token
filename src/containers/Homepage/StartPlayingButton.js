@@ -1,6 +1,6 @@
 /* Redux */
 import { connect } from 'react-redux';
-import { startPlaying } from '../../redux/actions/user';
+import { startPlaying } from '../../redux/actions/transactions/rainbowToken';
 
 /* Components */
 import StartPlayingButton from '../../components/Homepage/StartPlayingButton';

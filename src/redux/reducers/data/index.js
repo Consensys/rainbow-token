@@ -5,5 +5,5 @@ import user from './user';
 
 export default combineReducers({
   players,
-  user
+  user,
 });

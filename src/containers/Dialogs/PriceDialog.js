@@ -1,7 +1,7 @@
 /* Redux */
 import { connect } from 'react-redux';
 import { closePriceDialog, modifyBlendingPriceInput } from '../../redux/actions/ui';
-import { setBlendingPrice } from '../../redux/actions/user';
+import { setBlendingPrice } from '../../redux/actions/transactions/rainbowToken';
 
 /* Component */
 import PriceDialog from '../../components/Dialogs/PriceDialog';
