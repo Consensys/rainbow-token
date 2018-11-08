@@ -11,8 +11,8 @@ import { defaultBlendingPrice } from '../../constants/rainbowToken';
 
 const mapStateToProps = state => ({
   open: state.ui.defaultBlendDialog.open,
-  color: state.data.players[state.data.user.address].token.color,
-  blendingColor: state.data.players[state.data.user.address].token.defaultColor,
+  color: state.data.players[state.web3.account.address].token.color,
+  blendingColor: state.data.players[state.web3.account.address].token.defaultColor,
   blendingPrice: defaultBlendingPrice.toString()
 })
 

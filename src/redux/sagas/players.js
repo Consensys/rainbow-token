@@ -110,7 +110,7 @@ function *listenPlayerCreated() {
       };
       yield put(addPlayer(newPlayer));
       const { address: userAddress } = yield select(
-        state => state.data.user
+        state => state.web3.account.address
       );
       if (userAddress === player.toLowerCase()) yield put(setUserAsPlayer());
   }

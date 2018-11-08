@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import UserProgress from '../../components/UserHeader/UserProgress';
 
 const mapStateToProps = state => ({
-  score: state.data.players[state.data.user.address].score,
+  score: state.data.players[state.web3.account.address].score,
 })
 
 export default connect(

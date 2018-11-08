@@ -40,7 +40,7 @@ export function* setUpRainbow() {
 
 export function *setUserStatus() {
   try {
-    const { address } = yield select(state => state.data.user);
+    const { address } = yield select(state => state.web3.account);
     const { isPlayer } = yield select(
       state => state.web3.contracts.RainbowToken.call
     );

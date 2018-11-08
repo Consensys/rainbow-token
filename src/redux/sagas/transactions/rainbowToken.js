@@ -18,7 +18,7 @@ import { defaultBlendingPrice } from '../../../constants/rainbowToken';
 
 function *startPlayingSaga () {
   try {
-    const { address } = yield select(state => state.data.user);
+    const { address } = yield select(state => state.web3.account.address);
     const { play } = yield select(
       state => state.web3.contracts.RainbowToken.transactions
     );
