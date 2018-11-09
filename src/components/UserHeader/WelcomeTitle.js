@@ -24,7 +24,7 @@ const WelcomeTitle = ({
 }) => (
   <div className={classes.global}>
     <div className={classes.pseudo}>
-      Welcome <strong></strong>
+      Welcome <strong>{pseudo}</strong>
     </div>
     <div className={classes.address}>
       Address: {address.substring(0, 6)}...{address.substring(39, 42)}

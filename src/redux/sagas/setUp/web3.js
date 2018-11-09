@@ -28,8 +28,10 @@ function* accountHandler() {
   // Ask permission to the user for his address
   const [ address ] = yield provider.enable();
   const metamaskUnlocked = !!address;
-  // Set the address of the user
-  yield put(setAccount(address.toLowerCase()));
+  if (metamaskUnlocked) {
+    // Set the address of the user
+    yield put(setAccount(address.toLowerCase()));
+  }
   // Set the status related to Metamask
   yield put(checkUnlockingMetamask(metamaskUnlocked));
   // Return the provider
@@ -103,7 +105,7 @@ export default function*() {
     const onAvailableNetwork = yield call(networkHandler, provider);
     if (onAvailableNetwork) {
       // Handle the web sockets for event listening
-      yield call(webSocketHandler)
+      yield call(webSocketHandler);
       // Instantiate every contracts that are in the configs
       yield call(contractHandler);
       // Events can be listened

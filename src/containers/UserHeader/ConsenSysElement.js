@@ -1,9 +1,9 @@
 /* Redux */
-import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { openRulesDialog } from '../../redux/actions/ui';
 
 /* Component */
-import LauncherRulesDialog from '../../components/UserHeader/LauncherRulesDialog';
+import ConsenSysElement from '../../components/UserHeader/ConsenSysElement';
 
 const mapDispatchToProps = {
   onClick: () => openRulesDialog()
@@ -12,4 +12,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(LauncherRulesDialog);
+)(ConsenSysElement);

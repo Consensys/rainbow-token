@@ -18,7 +18,7 @@ import { defaultBlendingPrice } from '../../../constants/rainbowToken';
 
 function *startPlayingSaga () {
   try {
-    const { address } = yield select(state => state.web3.account.address);
+    const { address } = yield select(state => state.web3.account);
     const { play } = yield select(
       state => state.web3.contracts.RainbowToken.transactions
     );
@@ -37,7 +37,7 @@ function *startPlayingSaga () {
 
 function *blendSaga (blendingAddress, blendingToken) {
   try {
-    const { address } = yield select(state => state.data.user);
+    const { address } = yield select(state => state.web3.account);
     const { blend } = yield select(
       state => state.web3.contracts.RainbowToken.transactions
     );
@@ -60,7 +60,7 @@ function *blendSaga (blendingAddress, blendingToken) {
 
 function *defaultBlendSaga () {
   try {
-    const { address } = yield select(state => state.data.user);
+    const { address } = yield select(state => state.web3.account);
     const { defaultBlend } = yield select(
       state => state.web3.contracts.RainbowToken.transactions
     );
@@ -78,7 +78,7 @@ function *defaultBlendSaga () {
 
 function *setBlendingPriceSaga (price) {
   try {
-    const { address } = yield select(state => state.data.user);
+    const { address } = yield select(state => state.web3.account);
     const { setBlendingPrice } = yield select(
       state => state.web3.contracts.RainbowToken.transactions
     );

@@ -1,11 +1,11 @@
 import React from 'react';
 
-/* Containers */
-import DefaultColorToken from '../../containers/UserHeader/DefaultColorToken';
-import LauncherDefaultBlendDialog from '../../containers/UserHeader/LauncherDefaultBlendDialog';
+/* Components */
+import DefaultToken from '../UI/Token/Token';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   global: {
@@ -16,16 +16,39 @@ const styles = theme => ({
   title: {
     marginBottom: '1em',
     fontSize: '1.2em'
+  },
+  btn: {
+    fontSize: '0.7em',
+    height: '30px',
+    marginTop: '1em'
   }
 })
 
-const DefaultBlendSpace = ({ classes }) => (
+const DefaultBlendSpace = ({
+  defaultColor,
+  disabled,
+  onClick,
+  classes
+}) => (
   <div className={classes.global}>
     <div className={classes.title}>
       Your Default Color
     </div>
-    <DefaultColorToken />
-    <LauncherDefaultBlendDialog />
+    <DefaultToken
+      color={defaultColor}
+      size='60'
+      boxShadowSize='1.6'
+      borderSize='1.2'
+    />
+    <Button
+      className={classes.btn}
+      variant='contained'
+      color='primary'
+      onClick={onClick}
+      disabled={disabled}
+    >
+      Blend with your default color
+    </Button>
   </div>
 )
 

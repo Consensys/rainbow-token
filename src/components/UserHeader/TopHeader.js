@@ -1,11 +1,14 @@
 import React from 'react';
 
 /* Components */
-import ConsenSysElement from './ConsenSysElement';
+import ConsenSysToken from './../UI/Token/Token';
 
 /* Containers */
 import WelcomeTitle from '../../containers/UserHeader/WelcomeTitle';
-import TargetToken from '../../containers/UserHeader/TargetToken';
+import ConsenSysElement from '../../containers/UserHeader/ConsenSysElement';
+
+/* Constants */
+import { targetColor } from '../../constants/rainbowToken';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -24,7 +27,12 @@ const styles = theme => ({
 const TopHeader = ({ classes }) => (
   <div className={classes.global}>
     <WelcomeTitle />
-    <TargetToken />
+    <ConsenSysToken
+      color={targetColor}
+      size='60'
+      boxShadowSize='1.6'
+      borderSize='1.2'
+    />
     <ConsenSysElement />
   </div>
 )

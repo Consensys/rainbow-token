@@ -1,8 +1,5 @@
 import React from 'react';
 
-/* Containers */
-import LauncherRulesDialog from '../../containers/UserHeader/LauncherRulesDialog';
-
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
 
@@ -18,12 +15,18 @@ const styles = theme => ({
   }
 })
 
-const ConsenSysElement = ({ classes }) => (
+const ConsenSysElement = ({
+  classes,
+  onClick
+}) => (
   <div className={classes.global}>
     <div className={classes.text}>
       Reach the blue<br/> <strong>Consensys</strong> Token
     </div>
-    <LauncherRulesDialog />
+    <div id='helpIcon' onClick={onClick}>
+      <i className="fas fa-question-circle">
+      </i>
+    </div>
   </div>
 )
 

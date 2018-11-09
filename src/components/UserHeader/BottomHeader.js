@@ -1,9 +1,9 @@
 import React from 'react';
 
-/* Components */
-import DefaultBlendSpace from './DefaultBlendSpace';
-import UserSpace from './UserSpace';
-import PriceSelector from './PriceSelector';
+/* Containers */
+import DefaultBlendSpace from '../../containers/UserHeader/DefaultBlendSpace';
+import UserSpace from '../../containers/UserHeader/UserSpace';
+import PriceSelector from '../../containers/UserHeader/PriceSelector';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";

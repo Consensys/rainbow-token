@@ -23,8 +23,7 @@ export function* setUpRainbow() {
     const { gameAddress } = yield select(
       state => state.web3.contracts.GameManager.call
     );
-    const rainbowAddress = yield call(gameAddress);
-
+    const rainbowAddress = yield call(gameAddress, {});
     // Create the contract
     yield call(createContract, 'RainbowToken', abi, rainbowAddress);
 

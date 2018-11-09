@@ -1,8 +1,7 @@
 import React from 'react';
 
-/* Containers */
-import UserToken from '../../containers/UserHeader/UserToken';
-import UserProgress from '../../containers/UserHeader/UserProgress';
+/* Components */
+import UserToken from '../UI/Token/Token';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -16,16 +15,43 @@ const styles = theme => ({
   title: {
     marginBottom: '1em',
     fontSize: '1.3em'
+  },
+  progressBar: {
+    width: '100%',
+    fontSize: '0.6em',
+    marginTop: '1em',
+  },
+  tokenProgress: {
+    marginLeft: '1em',
+    width: '60%'
   }
 })
 
-const UserSpace = ({ classes }) => (
+const UserSpace = ({
+  currentColor,
+  score,
+  classes
+}) => (
   <div className={classes.global}>
     <div className={classes.title}>
       Your Token
     </div>
-    <UserToken />
-    <UserProgress />
+    <UserToken
+      color={currentColor}
+      size='80'
+      boxShadowSize='2'
+      borderSize='1.2'
+    />
+    <div className={classes.progressBar}>
+      {score} %
+      <progress
+        className={classes.tokenProgress}
+        value={score}
+        max='100'
+      >
+          {score} %
+      </progress>
+    </div>
   </div>
 )
 

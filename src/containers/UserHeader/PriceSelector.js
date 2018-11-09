@@ -1,11 +1,14 @@
+import Web3 from 'web3';
+
 /* Redux */
-import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { openPriceDialog } from '../../redux/actions/ui';
 
 /* Component */
-import LauncherPriceDialog from '../../components/UserHeader/LauncherPriceDialog';
+import PriceSelector from '../../components/UserHeader/PriceSelector';
 
 const mapStateToProps = state => ({
+  blendingPrice: Web3.utils.fromWei(state.data.players[state.web3.account.address].token.blendingPrice, 'ether'),
   disabled: !!state.web3.transactions.txHash
 })
 
@@ -16,4 +19,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LauncherPriceDialog);
+)(PriceSelector);
