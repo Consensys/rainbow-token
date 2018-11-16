@@ -13,10 +13,10 @@ const styles = theme => ({
     color: 'white',
     textShadow: '0px 0px 4px rgb(10, 10, 10)',
     width: '100%',
-    height: '30%',
+    flex: 1,
   },
   hr: {
-    margin: '20px',
+    margin: '10px',
   	border: 'none',
   	height: '2px',
     background: 'linear-gradient(-45deg, #ff0000 0%,#ffff00 25%,#00ff00 50%,#00ffff 75%,#0000ff 100%)'

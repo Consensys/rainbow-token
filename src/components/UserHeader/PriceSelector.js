@@ -2,25 +2,28 @@ import React from 'react';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
+
+/* Material ui components */
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   global: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   title: {
     fontSize: '1em'
   },
   priceDisplayer: {
     fontSize: '1.5em',
-    marginTop: '1em'
+    marginTop: '.4em'
   },
   btn: {
-    height: '30px',
-    marginTop: '1.8em',
-    fontSize: '0.8em'
+    // height: '30px',
+    marginTop: '.8em',
+    fontSize: '0.7em'
   }
 })
 

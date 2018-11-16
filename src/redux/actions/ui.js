@@ -33,3 +33,13 @@ export const modifyBlendingPriceInput = payload => ({
   type: MODIFY_BLENDING_PRICE_INPUT,
   payload
 })
+
+export const OPEN_BLEND_DIALOG = 'OPEN_BLEND_DIALOG';
+export const openBlendDialog = () => ({
+  type: OPEN_BLEND_DIALOG
+})
+
+export const CLOSE_BLEND_DIALOG = 'CLOSE_BLEND_DIALOG';
+export const closeBlendDialog = () => ({
+  type: CLOSE_BLEND_DIALOG
+})

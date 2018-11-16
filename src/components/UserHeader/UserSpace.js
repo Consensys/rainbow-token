@@ -13,13 +13,13 @@ const styles = theme => ({
     alignItems: 'center'
   },
   title: {
-    marginBottom: '1em',
-    fontSize: '1.3em'
+    marginBottom: '.4em',
+    fontSize: '1.2em'
   },
   progressBar: {
     width: '100%',
     fontSize: '0.6em',
-    marginTop: '1em',
+    marginTop: '.9em',
   },
   tokenProgress: {
     marginLeft: '1em',
@@ -38,7 +38,7 @@ const UserSpace = ({
     </div>
     <UserToken
       color={currentColor}
-      size='80'
+      size='60'
       boxShadowSize='2'
       borderSize='1.2'
     />

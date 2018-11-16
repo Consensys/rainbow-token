@@ -12,12 +12,30 @@ export const checkNetwork = payload => ({
   payload
 })
 
+/*********** SUBSCRIPTIONS ***********/
+
+export const NEW_BLOCK_HEADER = 'NEW_BLOCK_HEADER';
+export const newBlockHeader = blockHeader => ({
+  type: NEW_BLOCK_HEADER,
+  payload: blockHeader
+})
+
+export const SUBSCRIBE_TO_ACCOUNT = 'SUBSCRIBE_TO_ACCOUNT';
+export const subscribeToAccount = () => ({
+  type: SUBSCRIBE_TO_ACCOUNT
+})
+
+export const UNSUBSCRIBE_TO_ACCOUNT = 'UNSUBSCRIBE_TO_ACCOUNT';
+export const unsubscribeToAccount = () => ({
+  type: UNSUBSCRIBE_TO_ACCOUNT
+})
+
 /*********** ACCOUNT ***********/
 
-export const SET_ACCOUNT = 'SET_ACCOUNT';
-export const setAccount = address => ({
-  type: SET_ACCOUNT,
-  payload: address
+export const FILL_ACCOUNT = 'FILL_ACCOUNT';
+export const fillAccount = payload => ({
+  type: FILL_ACCOUNT,
+  payload
 })
 
 export const CHECK_UNLOCKING_METAMASK = 'CHECK_UNLOCKING_METAMASK';

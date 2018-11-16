@@ -13,13 +13,17 @@ const styles = theme => ({
     textTransform: 'capitalize'
   },
   address: {
-   marginTop: '0.5em'
+   marginTop: '0.4em'
+ },
+  balance: {
+   marginTop: '0.4em'
  },
 })
 
 const WelcomeTitle = ({
   address,
   pseudo,
+  balance,
   classes
 }) => (
   <div className={classes.global}>
@@ -28,6 +32,9 @@ const WelcomeTitle = ({
     </div>
     <div className={classes.address}>
       Address: {address.substring(0, 6)}...{address.substring(39, 42)}
+    </div>
+    <div className={classes.balance}>
+      Balance: {balance} <i className="fab fa-ethereum"></i>
     </div>
   </div>
 )

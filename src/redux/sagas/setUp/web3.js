@@ -5,11 +5,11 @@ import {
   setNetwork,
   checkNetwork,
   checkUnlockingMetamask,
-  setAccount,
+  fillAccount,
   startLoadingWeb3,
   endLoadingWeb3,
   eventsSet,
-  addContract
+  addContract,
 } from '../../actions/setUp/web3';
 
 import {
@@ -22,7 +22,7 @@ import abiParser from '../../../web3/formatters';
 
 /** ******* WORKERS *********/
 
-function* accountHandler() {
+function* metamaskHandler() {
   // Get the provider from Metamask
   const provider = window.ethereum;
   // Ask permission to the user for his address
@@ -30,7 +30,7 @@ function* accountHandler() {
   const metamaskUnlocked = !!address;
   if (metamaskUnlocked) {
     // Set the address of the user
-    yield put(setAccount(address.toLowerCase()));
+    yield put(fillAccount({address: address.toLowerCase()}));
   }
   // Set the status related to Metamask
   yield put(checkUnlockingMetamask(metamaskUnlocked));
@@ -51,6 +51,23 @@ function* networkHandler(provider) {
   yield put(checkNetwork(onAvailableNetwork));
   // Return the availability
   return onAvailableNetwork;
+}
+
+export function* accountHandler() {
+  // Select the eth object and the address of the user
+  const { network: { eth }, account: { address } } = yield select(
+    state => state.web3
+  );
+  // Get the balance of the user
+  const balance = Number(
+    Web3.utils.fromWei(
+      yield call([eth, 'getBalance'], address),
+      'ether'
+    )
+  ).toFixed(2);
+  // Something else?
+  // Fill the account object
+  yield put(fillAccount({balance}))
 }
 
 function* webSocketHandler() {
@@ -100,9 +117,11 @@ export default function*() {
   try {
     yield put(startLoadingWeb3());
     // Handle the Metamask unlocking
-    const { provider, metamaskUnlocked } = yield call(accountHandler);
+    const { provider, metamaskUnlocked } = yield call(metamaskHandler);
     // Handle the Network wrt the configurations
     const onAvailableNetwork = yield call(networkHandler, provider);
+    // Fill the user informations
+    yield call(accountHandler);
     if (onAvailableNetwork) {
       // Handle the web sockets for event listening
       yield call(webSocketHandler);

@@ -1,14 +1,15 @@
 import {
-    FILL_ACCOUNT,
+    NEW_BLOCK_HEADER
 } from '../../actions/setUp/web3';
 
 const DEFAULT_STATE = {
-  address: undefined
+  blockNumber: undefined,
+  timestamp: undefined
 };
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
     switch (type) {
-      case FILL_ACCOUNT:
+      case NEW_BLOCK_HEADER:
           return {
             ...state,
             ...payload

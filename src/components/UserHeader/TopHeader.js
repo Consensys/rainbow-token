@@ -16,7 +16,6 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   global: {
     marginTop: '1em',
-    marginBottom: '1em',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -29,7 +28,7 @@ const TopHeader = ({ classes }) => (
     <WelcomeTitle />
     <ConsenSysToken
       color={targetColor}
-      size='60'
+      size='50'
       boxShadowSize='1.6'
       borderSize='1.2'
     />

@@ -46,7 +46,6 @@ export function *getPlayers () {
           .filter(address => !(address in players))
           .map(address => call(getToken, address, {}))
         )).map(computeToken);
-        console.log(tokens);
         for (let i = 0; i < playerAddresses.length; i++) {
             players[playerAddresses[i].toLowerCase()] = {
                 address: playerAddresses[i].toLowerCase(),

@@ -5,6 +5,8 @@ import DefaultToken from '../UI/Token/Token';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
+
+/* Material ui components */
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
@@ -14,13 +16,13 @@ const styles = theme => ({
     alignItems: 'center'
   },
   title: {
-    marginBottom: '1em',
+    marginBottom: '.4em',
     fontSize: '1.2em'
   },
   btn: {
     fontSize: '0.7em',
-    height: '30px',
-    marginTop: '1em'
+    // height: '30px',
+    marginTop: '.8em'
   }
 })
 
@@ -36,7 +38,7 @@ const DefaultBlendSpace = ({
     </div>
     <DefaultToken
       color={defaultColor}
-      size='60'
+      size='40'
       boxShadowSize='1.6'
       borderSize='1.2'
     />
@@ -47,7 +49,7 @@ const DefaultBlendSpace = ({
       onClick={onClick}
       disabled={disabled}
     >
-      Blend with your default color
+      Default Blend
     </Button>
   </div>
 )
