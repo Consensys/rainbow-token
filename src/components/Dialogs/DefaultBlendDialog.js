@@ -2,12 +2,28 @@ import React from 'react';
 
 import Web3 from 'web3';
 
+/* Component */
+import Token from '../UI/Token/Token';
+
 /* Material ui components */
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+
+/* Styles */
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+  content: {
+    width: '500px'
+  },
+  icon: {
+   margin: theme.spacing.unit * 2,
+ },
+})
 
 const DefaultBlendDialog = ({
     open,
@@ -15,7 +31,8 @@ const DefaultBlendDialog = ({
     color,
     blendingColor,
     blendingPrice,
-    launchTransaction
+    launchTransaction,
+    classes
 }) => {
     const resultingColor = {
         r: Math.floor((Number(color.r) + Number(blendingColor.r)) / 2),
@@ -31,18 +48,26 @@ const DefaultBlendDialog = ({
             <DialogTitle>
               Blend your token for {Web3.utils.fromWei(blendingPrice, 'ether')} Ξ
             </DialogTitle>
-            <DialogContent style={{ width: '500px' }}>
+            <DialogContent className={classes.content}>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '2em' }}>
                         <div style={{ display: 'flex' }}>
                             <span>RGB({color.r}, {color.g}, {color.b})</span>
-                            <span style={{ display: 'inline-block', marginLeft: '1em', width: '15px', height: '15px', background: `rgb(${color.r}, ${color.g}, ${color.b})`, borderRadius: '50%' }}></span>
+                            <Token
+                              color={color}
+                              size='50'
+                              boxShadowSize='1.6'
+                              borderSize='1.2'
+                            />
                         </div>
+                        <Icon className={classes.icon} color="primary">add_circle</Icon>
                         <div>
-              blended with
-                        </div>
-                        <div>
-                            <span style={{ display: 'inline-block', marginRight: '1em', width: '15px', height: '15px', background: `rgb(${blendingColor.r}, ${blendingColor.g}, ${blendingColor.b})`, borderRadius: '50%' }}></span>
+                            <Token
+                              color={blendingColor}
+                              size='50'
+                              boxShadowSize='1.6'
+                              borderSize='1.2'
+                            />
                             <span>RGB({blendingColor.r}, {blendingColor.g}, {blendingColor.b})</span>
                         </div>
                     </div>
@@ -66,4 +91,4 @@ const DefaultBlendDialog = ({
     );
 };
 
-export default DefaultBlendDialog;
+export default withStyles(styles)(DefaultBlendDialog);

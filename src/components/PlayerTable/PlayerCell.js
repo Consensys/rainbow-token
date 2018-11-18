@@ -22,10 +22,11 @@ const styles = theme => ({
   playerProgress: {
     width: '50%',
     // marginLeft: '1em'
+  },
+  btn: {
+    fontSize: '0.8em'
   }
 })
-
-// import BlendingDialog from './BlendingDialog';
 
 const PlayerCell = ({
   player,
@@ -66,6 +67,7 @@ const PlayerCell = ({
     </TableCell>
     <TableCell>
         <Button
+            className={classes.btn}
             variant='contained'
             color='primary'
             disabled={inProgress}

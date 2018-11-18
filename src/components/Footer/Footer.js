@@ -5,16 +5,14 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   global: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
     flex: 1,
     width: '100%',
+    marginBottom: '.8em',
   },
   text: {
     fontSize: '1.2em',
     color: 'rgb(230, 230, 230)',
+    textAlign: 'center'
   },
   hr: {
     width: '95%',
@@ -26,14 +24,12 @@ const styles = theme => ({
 })
 
 const Footer = ({ blockNumber, classes }) => (
-  <React.Fragment>
-    <div id='blockNumberLoader' className={classes.global}>
-      <hr className={classes.hr} />
-      <div className={classes.text}>
-        #Block: {blockNumber}<span>.</span><span>.</span><span>.</span>
-      </div>
+  <div id='blockNumberLoader' className={classes.global}>
+    <hr className={classes.hr} />
+    <div className={classes.text}>
+      #Block: {blockNumber}<span>.</span><span>.</span><span>.</span>
     </div>
-  </React.Fragment >
+  </div>
 )
 
 export default withStyles(styles)(Footer);

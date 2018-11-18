@@ -15,7 +15,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   global: {
-    marginTop: '1em',
+    marginTop: '.8em',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',

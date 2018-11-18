@@ -2,13 +2,14 @@ import React from 'react';
 
 /* Components */
 import UserHeader from '../UserHeader/UserHeader';
-import PlayerTable from '../PlayerTable/PlayerTable';
+// import PlayerTable from '../PlayerTable/PlayerTable';
 
 /* Containers */
 import RulesDialog from '../../containers/Dialogs/RulesDialog';
 import DefaultBlendDialog from '../../containers/Dialogs/DefaultBlendDialog';
 import PriceDialog from '../../containers/Dialogs/PriceDialog';
 import Footer from '../../containers/Footer/Footer';
+import PlayerTable from '../../containers/PlayerTable/PlayerTable';
 
 
 /* Styles */
@@ -23,7 +24,8 @@ const styles = theme => ({
   },
   hr: {
     width: '95%',
-    margin: '10px',
+    marginTop: '10px',
+    marginBottom: '15px',
   	border: 'none',
   	height: '2px',
     background: 'linear-gradient(-45deg, #ff0000 0%,#ffff00 25%,#00ff00 50%,#00ffff 75%,#0000ff 100%)'
@@ -33,7 +35,6 @@ const styles = theme => ({
 const Dashboard = ({ classes }) => (
   <div className={classes.global}>
     <UserHeader />
-    <hr className={classes.hr} />
     <PlayerTable />
     <Footer />
     <RulesDialog />

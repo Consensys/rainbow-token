@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 /* Containers */
-import PlayerCells from '../../containers/PlayerTable/PlayerCells';
+// import PlayerCells from '../../containers/PlayerTable/PlayerCells';
+
+/* Component */
+import PlayerCell from './PlayerCell';
+import TablePaginationActionsWrapped from './TablePaginationsActions';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -13,51 +17,108 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
 
 const styles = theme => ({
   global: {
-    width: '80%',
+    width: '100%',
     flex: 4,
-    overflow: 'auto'
+    // overflow: 'auto'
   },
-  head: {
-    position: 'sticky',
-    top: '0px'
+  root: {
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: theme.spacing.unit * 1,
+  },
+  table: {
+    minWidth: 500,
+  },
+  tableWrapper: {
+    overflowX: 'auto',
   },
   cell: {
-    fontSize: '1.15em'
+    fontSize: '0.95em'
   }
-})
+});
 
-const PlayerTable = ({ classes }) => (
-  <div className={classes.global}>
-    <Paper>
-      <Table>
-        <TableHead className={classes.head}>
-          <TableRow>
-            <TableCell className={classes.cell}>
-              Cool pseudonym
-            </TableCell>
-            <TableCell className={classes.cell}>
-              Current token
-            </TableCell>
-            <TableCell className={classes.cell}>
-              Price ( Ξ )
-            </TableCell>
-            <TableCell className={classes.cell}>
-              Matching ( % )
-            </TableCell>
-            <TableCell className={classes.cell}>
-              Blend
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <PlayerCells />
-        </TableBody>
-      </Table>
-    </Paper>
-  </div>
-)
+class PlayerTable extends Component {
+
+  render() {
+    const {
+      rows,
+      inProgress,
+      onClick,
+      page,
+      rowsPerPage,
+      handleChangePage,
+      handleChangeRowsPerPage,
+      classes
+    } = this.props;
+    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+    return (
+      <div className={classes.global}>
+        <Paper className={classes.root}>
+          <div className={classes.tableWrapper}>
+            <Table className={classes.table}>
+              <TableHead className={classes.head}>
+                <TableRow>
+                  <TableCell className={classes.cell}>
+                    Cool pseudonym
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    Current token
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    Price ( Ξ )
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    Matching ( % )
+                  </TableCell>
+                  <TableCell className={classes.cell}>
+                    Blend
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(
+                  (player, index) => (
+                    <PlayerCell
+                      key={player.address}
+                      player={player}
+                      inProgress={inProgress}
+                      index={index}
+                      onClick={onClick}
+                    />
+                  ))}
+                {/*emptyRows > 0 && (
+                  <TableRow style={{ height: 48 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )*/}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    colSpan={5}
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActionsWrapped}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </div>
+        </Paper>
+      </div>
+    );
+  }
+}
 
 export default withStyles(styles)(PlayerTable);

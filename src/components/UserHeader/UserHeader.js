@@ -28,6 +28,7 @@ const UserHeader = ({ classes }) => (
     <TopHeader />
     <hr className={classes.hr} />
     <BottomHeader />
+    <hr className={classes.hr} />
   </div>
 )
 
