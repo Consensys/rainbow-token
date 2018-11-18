@@ -14,6 +14,8 @@ function* blockHeaderSubscription() {
   const { eth } = yield select(
     state => state.web3.network
   );
+  const { number, timestamp } = yield call([eth, 'getBlock'], 'latest');
+  yield put(newBlockHeader({ number, timestamp }));
   // Subscribe to block headers
   return eventChannel(emitter => {
     const subscription = eth.subscribe('newBlockHeaders', console.log)
