@@ -240,9 +240,9 @@ contract RainbowToken {
     returns (uint[3])
   {
     return [
-      uint((_seed & 0xff0000) / 0xffff),
-      uint((_seed & 0xff00) / 0xff),
-      uint(_seed & 0xff)
+      toPrimary(uint((_seed & 0xff0000) / 0xffff)),
+      toPrimary(uint((_seed & 0xff00) / 0xff)),
+      toPrimary(uint(_seed & 0xff))
     ];
   }
 
@@ -392,5 +392,21 @@ contract RainbowToken {
     );
 
     return true;
+  }
+
+  /**
+   * @dev Push a component of a rgb color to the limit of the cube
+   */
+  function toPrimary(
+    uint colorComponent
+  )
+    pure
+    returns (uint)
+  {
+    if (colorComponent < 127) {
+      return 0;
+    } else {
+      return 255;
+    }
   }
 }
