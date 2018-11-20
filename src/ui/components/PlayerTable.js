@@ -16,51 +16,51 @@ import { withStyles } from "@material-ui/core/styles";
 import { playerTableStyle } from '../styles';
 
 const PlayerTable = ({
-    currentPlayer,
-    players,
-    inProgress,
-    blend,
-    classes
-  }) => {
-    const dashboard = Object.values(players).map((player, index) => (
-        <PlayerCell
-            key={player.address}
-            currentPlayer={currentPlayer}
-            player={player}
-            inProgress={inProgress}
-            blend={blend}
-            index={index}
-        />
-    ));
+  currentPlayer,
+  players,
+  inProgress,
+  blend,
+  classes
+}) => {
+  const dashboard = Object.values(players).map((player, index) => (
+    <PlayerCell
+      key={player.address}
+      currentPlayer={currentPlayer}
+      player={player}
+      inProgress={inProgress}
+      blend={blend}
+      index={index}
+    />
+  ));
 
-    return (
-      <Paper className={classes.paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.cell}>
-                Cool pseudonym
-              </TableCell>
-              <TableCell className={classes.cell}>
-                Current token
-              </TableCell>
-              <TableCell className={classes.cell}>
-                Price ( Ξ )
-              </TableCell>
-              <TableCell className={classes.cell}>
-                Matching ( % )
-              </TableCell>
-              <TableCell className={classes.cell}>
-                Blend
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-              {dashboard}
-          </TableBody>
-        </Table>
-      </Paper>
-    );
+  return (
+    <Paper className={classes.paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell className={classes.cell}>
+              Cool pseudonym
+            </TableCell>
+            <TableCell className={classes.cell}>
+              Current token
+            </TableCell>
+            <TableCell className={classes.cell}>
+              Price ( Ξ )
+            </TableCell>
+            <TableCell className={classes.cell}>
+              Matching ( % )
+            </TableCell>
+            <TableCell className={classes.cell}>
+              Blend
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+            {dashboard}
+        </TableBody>
+      </Table>
+    </Paper>
+  );
 };
 
 
