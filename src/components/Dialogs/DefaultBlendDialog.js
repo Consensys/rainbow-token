@@ -11,7 +11,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import AddCircle from '@material-ui/icons/AddCircle';
+// import ExpandMore from '@material-ui/icons/ExpandMore';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -20,9 +21,32 @@ const styles = theme => ({
   content: {
     width: '500px'
   },
+  subContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around'
+  },
+  firstLine: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: '2em',
+    alignItems: 'center'
+  },
+  blendingTokenSpace: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  rgbDisplayer: {
+    fontSize: '0.8em',
+    fontWeight: 'bold',
+    marginBottom: '1em',
+    marginTop: '1em'
+  },
   icon: {
-   margin: theme.spacing.unit * 2,
- },
+    fontSize: 'xx-large'
+  }
 })
 
 const DefaultBlendDialog = ({
@@ -49,10 +73,12 @@ const DefaultBlendDialog = ({
               Blend your token for {Web3.utils.fromWei(blendingPrice, 'ether')} Ξ
             </DialogTitle>
             <DialogContent className={classes.content}>
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '2em' }}>
-                        <div style={{ display: 'flex' }}>
-                            <span>RGB({color.r}, {color.g}, {color.b})</span>
+                <div className={classes.subContent}>
+                    <div className={classes.firstLine}>
+                        <div className={classes.blendingTokenSpace}>
+                            <div className={classes.rgbDisplayer}>
+                              RGB({color.r},{color.g},{color.b})
+                            </div>
                             <Token
                               color={color}
                               size='50'
@@ -60,19 +86,36 @@ const DefaultBlendDialog = ({
                               borderSize='1.2'
                             />
                         </div>
-                        <Icon className={classes.icon} color="primary">add_circle</Icon>
-                        <div>
+                        <AddCircle
+                          className={classes.icon}
+                        />
+                        <div className={classes.blendingTokenSpace}>
+                            <div className={classes.rgbDisplayer}>
+                              RGB({blendingColor.r},{blendingColor.g},{blendingColor.b})
+                            </div>
                             <Token
                               color={blendingColor}
                               size='50'
                               boxShadowSize='1.6'
                               borderSize='1.2'
                             />
-                            <span>RGB({blendingColor.r}, {blendingColor.g}, {blendingColor.b})</span>
                         </div>
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-            giving <span style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em', width: '15px', height: '15px', background: `rgb(${resultingColor.r}, ${resultingColor.g}, ${resultingColor.b})`, borderRadius: '50%' }}></span> RGB({resultingColor.r}, {resultingColor.g}, {resultingColor.b})
+                    <div className={classes.secondLine}>
+                      <div className={classes.blendingTokenSpace}>
+                          {/*<ExpandMore
+                            className={classes.icon}
+                          />*/}
+                          <Token
+                            color={resultingColor}
+                            size='50'
+                            boxShadowSize='1.6'
+                            borderSize='1.2'
+                          />
+                          <div className={classes.rgbDisplayer}>
+                            RGB({resultingColor.r},{resultingColor.g},{resultingColor.b})
+                          </div>
+                      </div>
                     </div>
                 </div>
             </DialogContent>

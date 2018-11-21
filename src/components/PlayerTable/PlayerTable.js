@@ -24,7 +24,6 @@ const styles = theme => ({
   global: {
     width: '100%',
     flex: 4,
-    // overflow: 'auto'
   },
   root: {
     width: '80%',

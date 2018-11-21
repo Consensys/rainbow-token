@@ -8,6 +8,7 @@ const styles = theme => ({
     flex: 1,
     width: '100%',
     marginBottom: '.8em',
+    maxHeight: '100px',
   },
   text: {
     fontSize: '1.2em',

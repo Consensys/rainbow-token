@@ -2,15 +2,52 @@ import React from 'react';
 
 import Web3 from 'web3';
 
+/* Component */
+import Token from '../UI/Token/Token';
+
 /* Material ui components */
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import AddCircle from '@material-ui/icons/AddCircle';
+// import ExpandMore from '@material-ui/icons/ExpandMore';
 
 /* Styles */
+import { withStyles } from "@material-ui/core/styles";
 
+const styles = theme => ({
+  content: {
+    width: '500px'
+  },
+  subContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around'
+  },
+  firstLine: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: '2em',
+    alignItems: 'center'
+  },
+  blendingTokenSpace: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  rgbDisplayer: {
+    fontSize: '0.8em',
+    fontWeight: 'bold',
+    marginBottom: '1em',
+    marginTop: '1em'
+  },
+  icon: {
+    fontSize: 'xx-large'
+  }
+})
 
 const BlendDialog = ({
     open,
@@ -18,7 +55,8 @@ const BlendDialog = ({
     color,
     blendingColor,
     blendingPrice,
-    launchTransaction
+    launchTransaction,
+    classes
 }) => {
     const resultingColor = {
         r: Math.floor((Number(color.r) + Number(blendingColor.r)) / 2),
@@ -34,23 +72,50 @@ const BlendDialog = ({
             <DialogTitle>
               Blend your token for {Web3.utils.fromWei(blendingPrice, 'ether')} Ξ
             </DialogTitle>
-            <DialogContent style={{ width: '500px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '2em' }}>
-                        <div style={{ display: 'flex' }}>
-                            <span>RGB({color.r}, {color.g}, {color.b})</span>
-                            <span style={{ display: 'inline-block', marginLeft: '1em', width: '15px', height: '15px', background: `rgb(${color.r}, ${color.g}, ${color.b})`, borderRadius: '50%' }}></span>
+            <DialogContent className={classes.content}>
+                <div className={classes.subContent}>
+                    <div className={classes.firstLine}>
+                        <div className={classes.blendingTokenSpace}>
+                            <div className={classes.rgbDisplayer}>
+                              RGB({color.r},{color.g},{color.b})
+                            </div>
+                            <Token
+                              color={color}
+                              size='50'
+                              boxShadowSize='1.6'
+                              borderSize='1.2'
+                            />
                         </div>
-                        <div>
-              blended with
-                        </div>
-                        <div>
-                            <span style={{ display: 'inline-block', marginRight: '1em', width: '15px', height: '15px', background: `rgb(${blendingColor.r}, ${blendingColor.g}, ${blendingColor.b})`, borderRadius: '50%' }}></span>
-                            <span>RGB({blendingColor.r}, {blendingColor.g}, {blendingColor.b})</span>
+                        <AddCircle
+                          className={classes.icon}
+                        />
+                        <div className={classes.blendingTokenSpace}>
+                            <div className={classes.rgbDisplayer}>
+                              RGB({blendingColor.r},{blendingColor.g},{blendingColor.b})
+                            </div>
+                            <Token
+                              color={blendingColor}
+                              size='50'
+                              boxShadowSize='1.6'
+                              borderSize='1.2'
+                            />
                         </div>
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-            giving <span style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em', width: '15px', height: '15px', background: `rgb(${resultingColor.r}, ${resultingColor.g}, ${resultingColor.b})`, borderRadius: '50%' }}></span> RGB({resultingColor.r}, {resultingColor.g}, {resultingColor.b})
+                    <div className={classes.secondLine}>
+                      <div className={classes.blendingTokenSpace}>
+                          {/*<ExpandMore
+                            className={classes.icon}
+                          />*/}
+                          <Token
+                            color={resultingColor}
+                            size='50'
+                            boxShadowSize='1.6'
+                            borderSize='1.2'
+                          />
+                          <div className={classes.rgbDisplayer}>
+                            RGB({resultingColor.r},{resultingColor.g},{resultingColor.b})
+                          </div>
+                      </div>
                     </div>
                 </div>
             </DialogContent>
@@ -69,4 +134,4 @@ const BlendDialog = ({
     );
 };
 
-export default BlendDialog;
+export default withStyles(styles)(BlendDialog);
