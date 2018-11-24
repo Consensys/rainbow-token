@@ -1,10 +1,6 @@
 import { put, take } from 'redux-saga/effects';
 
 import {
-  addError
-} from '../../actions/errors';
-
-import {
   startTransaction,
   endTransaction
 } from '../../actions/transactions/general';
@@ -24,9 +20,7 @@ export default function*(chan) {
           break;
         case 'ERROR':
           console.log('Error:', payload);
-          yield put(addError('Transaction has failed.'));
-          chan.close();
-          break;
+          throw new Error('Transaction has failed.');
         default:
           chan.close();
       }
