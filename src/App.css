@@ -72,19 +72,22 @@ body {
   opacity: 0;
 }
 
-#blockNumberLoader #prev-block {
-  animation: translateBlock 5s 0s,
-    vanishBlock 5s 0s;
-}
-
-#blockNumberLoader #current-block {
-  animation: translateBlock 5s 0s;
-}
-
 #blockNumberLoader #futur-block {
   opacity: 0;
-  animation: translateBlock 5s 0s,
-    appearBlock 5s 0s;
+}
+
+#blockNumberLoader #prev-block.animated {
+  animation: translateBlock 1.5s 0s,
+    vanishBlock 1.5s 0s;
+}
+
+#blockNumberLoader #current-block.animated {
+  animation: translateBlock 1.5s 0s;
+}
+
+#blockNumberLoader #futur-block.animated {
+  animation: translateBlock 1.5s 0s,
+    appearBlock 1.5s 0s;
 }
 
 @keyframes translateBlock {
@@ -92,7 +95,7 @@ body {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-25vw);
+    transform: translateX(-30.666666vw);
   }
 }
 

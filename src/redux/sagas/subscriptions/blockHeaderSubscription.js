@@ -18,7 +18,7 @@ function* blockHeaderSubscription() {
   yield put(newBlockHeader({ number, timestamp }));
   // Subscribe to block headers
   return eventChannel(emitter => {
-    const subscription = eth.subscribe('newBlockHeaders', console.log)
+    const subscription = eth.subscribe('newBlockHeaders')
       .on('data', ({
         number,
         timestamp

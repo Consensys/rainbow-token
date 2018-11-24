@@ -14,12 +14,19 @@ class FooterContainer extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { blockNumber } = this.props;
-    setTimeout(
-      () => this.setState({ value: blockNumber })
-      , 5000
-    );
+    if (prevProps.blockNumber !== blockNumber) {
+      const stuff = [ ...document.getElementsByClassName('box') ]
+      .map(el => el.classList);
+      stuff.forEach(el => el.toggle('animated'));
+      setTimeout(
+        () => {
+          stuff.forEach(el => el.toggle('animated'));
+          this.setState({ value: blockNumber })
+        }, 1500
+      );
+    }
   }
 
   render() {
