@@ -7,14 +7,14 @@ const HDWalletProvider = require('truffle-hdwallet-provider');
 const providerWithMnemonic = (mnemonic, rpcEndpoint) =>
   new HDWalletProvider(mnemonic, rpcEndpoint);
 
-// const infuraProvider = network => providerWithMnemonic(
-//   process.env.MNEMONIC || '',
-//   `https://${network}.infura.io/${process.env.INFURA_API_KEY}`
-// );
-//
-// const ropstenProvider = process.env.SOLIDITY_COVERAGE
-//   ? undefined
-//   : infuraProvider('ropsten');
+const infuraProvider = network => providerWithMnemonic(
+  process.env.MNEMONIC || '',
+  `https://${network}.infura.io/${process.env.INFURA_API_KEY}`
+);
+
+const ropstenProvider = process.env.SOLIDITY_COVERAGE
+  ? undefined
+  : infuraProvider('ropsten');
 
 module.exports = {
   networks: {
@@ -23,11 +23,11 @@ module.exports = {
       port: 7545,
       network_id: '*', // eslint-disable-line camelcase
     },
-    // ropsten: {
-    //   provider: ropstenProvider,
-    //   network_id: 3, // eslint-disable-line camelcase
-    //   gas: 4612388
-    // },
+    ropsten: {
+      provider: ropstenProvider,
+      network_id: 3, // eslint-disable-line camelcase
+      gas: 4612388
+    },
     coverage: {
       host: 'localhost',
       network_id: '*', // eslint-disable-line camelcase
