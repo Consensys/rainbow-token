@@ -23,7 +23,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 const styles = theme => ({
   global: {
     width: '100%',
-    flex: 4,
+    minHeight: '300px',
+    flex: 4
   },
   root: {
     width: '80%',
@@ -93,7 +94,7 @@ class PlayerTable extends Component {
                     />
                   ))}
                 {/*emptyRows > 0 && (
-                  <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableRow style={{ height: 40 * emptyRows }}>
                     <TableCell colSpan={6} />
                   </TableRow>
                 )*/}

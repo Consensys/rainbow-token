@@ -20,8 +20,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: '100%',
-    minHeight: '100%',
   },
   hr: {
     width: '95%',

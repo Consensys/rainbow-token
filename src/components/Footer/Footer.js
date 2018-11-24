@@ -8,12 +8,28 @@ const styles = theme => ({
     flex: 1,
     width: '100%',
     marginBottom: '.8em',
-    maxHeight: '100px',
+  },
+  boxes: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  box: {
+    width: 'fit-content',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    height: '50px',
+    border: '2px solid rgb(230, 230, 230)',
+    borderRadius: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px'
   },
   text: {
-    fontSize: '1.2em',
     color: 'rgb(230, 230, 230)',
-    textAlign: 'center'
+    fontSize: '1.2em',
+    textShadow: '.5px .5px 2px rgba(10, 10, 10, 0.4)',
   },
   hr: {
     width: '95%',
@@ -27,8 +43,27 @@ const styles = theme => ({
 const Footer = ({ blockNumber, classes }) => (
   <div id='blockNumberLoader' className={classes.global}>
     <hr className={classes.hr} />
-    <div className={classes.text}>
-      #Block: {blockNumber}<span>.</span><span>.</span><span>.</span>
+    <div className={classes.boxes}>
+      <div id='invisible-block' className={classes.box}>
+      <div className={classes.text}>
+        Block #{blockNumber - 2}<span>.</span><span>.</span><span>.</span>
+      </div>
+      </div>
+      <div id='prev-block' className={classes.box}>
+        <div className={classes.text}>
+          Block #{blockNumber - 1}<span>.</span><span>.</span><span>.</span>
+        </div>
+      </div>
+      <div id='current-block' className={classes.box}>
+        <div className={classes.text}>
+          Block #{blockNumber}<span>.</span><span>.</span><span>.</span>
+        </div>
+      </div>
+      <div id='futur-block' className={classes.box}>
+        <div className={classes.text}>
+          Block #{blockNumber + 1}<span>.</span><span>.</span><span>.</span>
+        </div>
+      </div>
     </div>
   </div>
 )

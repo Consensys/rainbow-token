@@ -8,8 +8,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  height: 100%;
-  min-height: 100%;
   background: url('./static/img/rainbow_background_2-wallpaper-2560x1600.jpg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -19,18 +17,12 @@ body {
 #root {
   margin: 0;
   padding: 0;
-  height: 100%;
-  min-height: 100%;
 }
 
 .App {
-  height: 100%;
-  min-height: 100%;
 }
 
 #initializer-handler {
-  height: 100%;
-  min-height: 100%;
 }
 
 /* BLOCKNUMBER LOADER */
@@ -74,6 +66,52 @@ body {
      * would animate at the same time
      */
     animation-delay: .4s;
+}
+
+#blockNumberLoader #invisible-block {
+  opacity: 0;
+}
+
+#blockNumberLoader #prev-block {
+  animation: translateBlock 5s 0s,
+    vanishBlock 5s 0s;
+}
+
+#blockNumberLoader #current-block {
+  animation: translateBlock 5s 0s;
+}
+
+#blockNumberLoader #futur-block {
+  opacity: 0;
+  animation: translateBlock 5s 0s,
+    appearBlock 5s 0s;
+}
+
+@keyframes translateBlock {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25vw);
+  }
+}
+
+@keyframes vanishBlock {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes appearBlock {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes blink {
