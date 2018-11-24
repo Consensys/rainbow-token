@@ -40,7 +40,7 @@ const styles = theme => ({
   },
   cell: {
     fontSize: '0.95em'
-  }
+  },
 });
 
 class PlayerTable extends Component {
@@ -99,8 +99,12 @@ class PlayerTable extends Component {
                   </TableRow>
                 )*/}
               </TableBody>
-              <TableFooter>
-                <TableRow>
+              <TableFooter
+                classes={{ root: classes.tableFooter }}
+              >
+                <TableRow
+                  classes={{ footer: classes.tableRowFooter }}
+                >
                   <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     colSpan={5}

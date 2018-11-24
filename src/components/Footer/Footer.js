@@ -17,7 +17,7 @@ const styles = theme => ({
   },
   box: {
     width: '8vw',
-    height: '50px',
+    height: '40px',
     border: '2px solid rgb(230, 230, 230)',
     borderRadius: '10px',
     display: 'flex',

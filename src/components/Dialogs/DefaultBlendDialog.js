@@ -12,7 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import AddCircle from '@material-ui/icons/AddCircle';
-// import ExpandMore from '@material-ui/icons/ExpandMore';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -31,7 +31,7 @@ const styles = theme => ({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: '2em',
-    alignItems: 'center'
+    alignItems: 'flex-end'
   },
   blendingTokenSpace: {
     display: 'flex',
@@ -46,6 +46,10 @@ const styles = theme => ({
   },
   icon: {
     fontSize: 'xx-large'
+  },
+  resulting: {
+    marginTop: '1.5em',
+    marginBottom: '1em'
   }
 })
 
@@ -103,12 +107,12 @@ const DefaultBlendDialog = ({
                     </div>
                     <div className={classes.secondLine}>
                       <div className={classes.blendingTokenSpace}>
-                          {/*<ExpandMore
-                            className={classes.icon}
-                          />*/}
+                          <ArrowDownward
+                            className={`${classes.icon} ${classes.resulting}`}
+                          />
                           <Token
                             color={resultingColor}
-                            size='50'
+                            size='70'
                             boxShadowSize='1.6'
                             borderSize='1.2'
                           />
