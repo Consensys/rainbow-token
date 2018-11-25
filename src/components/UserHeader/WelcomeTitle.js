@@ -30,11 +30,11 @@ const WelcomeTitle = ({
     <div className={classes.pseudo}>
       Welcome <strong>{pseudo}</strong>
     </div>
-    <div className={classes.address}>
+    {/*<div className={classes.address}>
       Address: {address.substring(0, 6)}...{address.substring(39, 42)}
-    </div>
+    </div>*/}
     <div className={classes.balance}>
-      Balance: {balance} <i className="fab fa-ethereum"></i>
+      ICON {balance} <i className="fab fa-ethereum"></i>
     </div>
   </div>
 )

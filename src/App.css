@@ -8,7 +8,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: url('./static/img/rainbow_background_2-wallpaper-2560x1600.jpg');
+  background-image: url('./static/img/rainbow_background_2-wallpaper-2560x1600.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -17,6 +17,7 @@ body {
 #root {
   margin: 0;
   padding: 0;
+  background-color: rgba(150, 150, 150, 0.1);
 }
 
 .App {
@@ -95,7 +96,9 @@ body {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-30.666666vw);
+    /* transform: translateX(-30.666666vw); */
+    /* transform: translateY(25.6666vh); */
+    transform: translateY(calc((97vh - 100px) / 3));
   }
 }
 

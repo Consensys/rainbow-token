@@ -15,7 +15,9 @@ const Token = ({ color, size, boxShadowSize, borderSize }) => {
     height: `${size}px`,
     borderRadius: '50%',
     boxShadow: `${boxShadowSize}px ${boxShadowSize}px rgba(10, 10, 10, 0.9)`,
-    border: `${borderSize}px solid rgb(50, 50, 50)`
+    border: `${borderSize}px solid rgb(50, 50, 50)`,
+    marginLeft: 'auto',
+    marginRight: 'auto'
   }
   return (
     <Tooltip

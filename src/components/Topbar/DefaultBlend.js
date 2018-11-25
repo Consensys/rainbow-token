@@ -17,20 +17,15 @@ const styles = theme => ({
   },
   title: {
     marginBottom: '.4em',
-    fontSize: '1.2em',
-  },
-  actionRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    fontSize: '1em',
+    textShadow: '0px 0px 4px rgb(10, 10, 10)',
   },
   btn: {
-    fontSize: '0.7em',
-    marginLeft: '2em',
+    // fontSize: '0.7em',
   }
 })
 
-const DefaultBlendSpace = ({
+const DefaultBlend = ({
   defaultColor,
   disabled,
   onClick,
@@ -38,26 +33,24 @@ const DefaultBlendSpace = ({
 }) => (
   <div className={classes.global}>
     <div className={classes.title}>
-      Your Default Color
+      <strong>Default Color</strong>
     </div>
-    <div className={classes.actionRow}>
+    <Button
+      className={classes.btn}
+      variant='contained'
+      color='primary'
+      onClick={onClick}
+      disabled={disabled}
+    >
+      <span style={{ marginRight: '.4em' }}>Blend</span>
       <DefaultToken
         color={defaultColor}
-        size='40'
-        boxShadowSize='1.6'
-        borderSize='1.2'
+        size='20'
+        boxShadowSize='0'
+        borderSize='.6'
       />
-      <Button
-        className={classes.btn}
-        variant='contained'
-        color='primary'
-        onClick={onClick}
-        disabled={disabled}
-      >
-        Blend
-      </Button>
-    </div>
+    </Button>
   </div>
 )
 
-export default withStyles(styles)(DefaultBlendSpace);
+export default withStyles(styles)(DefaultBlend);

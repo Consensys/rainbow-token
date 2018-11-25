@@ -22,11 +22,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 const styles = theme => ({
   global: {
-    width: '100%',
     minHeight: '300px',
-    flex: 4
+    flex: 6,
+    marginBottom: '1em',
+    overflow: 'auto'
   },
   root: {
+    opacity: 0.95,
     width: '80%',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -72,7 +74,7 @@ class PlayerTable extends Component {
                     Current token
                   </TableCell>
                   <TableCell className={classes.cell}>
-                    Price ( Ξ )
+                    Price ( {/*Ξ */}<i className="fab fa-ethereum"></i> )
                   </TableCell>
                   <TableCell className={classes.cell}>
                     Matching ( % )

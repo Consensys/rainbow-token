@@ -22,7 +22,7 @@ const styles = theme => ({
     marginTop: '.9em',
   },
   tokenProgress: {
-    marginLeft: '1em',
+    marginLeft: '.2em',
     width: '60%'
   }
 })
@@ -38,7 +38,7 @@ const UserSpace = ({
     </div>
     <UserToken
       color={currentColor}
-      size='60'
+      size='50'
       boxShadowSize='2'
       borderSize='1.2'
     />

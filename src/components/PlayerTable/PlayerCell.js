@@ -10,7 +10,7 @@ import BlendDialog from '../../containers/Dialogs/BlendDialog';
 /* Material ui components */
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import Button from '@material-ui/core/Button';
+import InvertColors from '@material-ui/icons/InvertColors';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -21,11 +21,13 @@ const styles = theme => ({
   },
   playerProgress: {
     width: '50%',
-    // marginLeft: '1em'
   },
-  btn: {
-    fontSize: '0.8em'
-  }
+  blendContainer: {
+    textAlign: 'center',
+  },
+  blendAction: {
+    cursor: 'pointer',
+  },
 })
 
 const PlayerCell = ({
@@ -66,15 +68,22 @@ const PlayerCell = ({
       </span>
     </TableCell>
     <TableCell>
-        <Button
+      <div className={classes.blendContainer}>
+        <InvertColors
+          color='primary'
+          className={classes.blendAction}
+          onClick={onClick}
+        />
+      </div>
+        {/*<Button
             className={classes.btn}
             variant='contained'
             color='primary'
             disabled={inProgress}
             onClick={onClick}
         >
-          Blend
-        </Button>
+          <InvertColors/>
+        </Button>*/}
     </TableCell>
   </TableRow>
 )

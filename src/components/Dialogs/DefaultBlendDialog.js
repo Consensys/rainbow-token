@@ -74,7 +74,7 @@ const DefaultBlendDialog = ({
             aria-labelledby="form-dialog-title"
         >
             <DialogTitle>
-              Blend your token for {Web3.utils.fromWei(blendingPrice, 'ether')} Ξ
+              Blend your token for {Web3.utils.fromWei(blendingPrice, 'ether')} {/*Ξ */} <i className="fab fa-ethereum"></i>
             </DialogTitle>
             <DialogContent className={classes.content}>
                 <div className={classes.subContent}>

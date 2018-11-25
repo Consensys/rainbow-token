@@ -12,7 +12,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 
 /* Theme related */
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import materialUiTheme from "./ui/materialUiTheme";
+import materialUiTheme from "./materialUiTheme";
 
 /* Wrappers */
 import Wrappers from './wrappers';

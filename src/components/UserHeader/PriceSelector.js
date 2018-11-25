@@ -14,15 +14,21 @@ const styles = theme => ({
     justifyContent: 'space-between'
   },
   title: {
-    fontSize: '1em'
+    fontSize: '1.2em',
+    marginBottom: '.4em'
+  },
+  actionRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   priceDisplayer: {
     fontSize: '1.5em',
-    marginTop: '.4em'
   },
   btn: {
+    marginRight: '2em',
     // height: '30px',
-    marginTop: '.8em',
+    // marginTop: '.8em',
     fontSize: '0.7em'
   }
 })
@@ -37,18 +43,20 @@ const PriceSelector = ({
     <div className={classes.title}>
       Your blending price
     </div>
-    <div className={classes.priceDisplayer}>
-      {blendingPrice} <i className="fab fa-ethereum"></i>
+    <div className={classes.actionRow}>
+      <Button
+        className={classes.btn}
+        variant='contained'
+        color='primary'
+        onClick={onClick}
+        disabled={disabled}
+      >
+        Set
+      </Button>
+      <div className={classes.priceDisplayer}>
+        {blendingPrice} <i className="fab fa-ethereum"></i>
+      </div>
     </div>
-    <Button
-      className={classes.btn}
-      variant='contained'
-      color='primary'
-      onClick={onClick}
-      disabled={disabled}
-    >
-      Set blending price
-    </Button>
   </div>
 )
 
