@@ -8,18 +8,43 @@ import rainbowToken from '../../static/svg/CircleTokenRainbow.svg';
 
 const MyToken = ({ color, size, boxShadowSize, borderSize, score }) => {
   const parenthesisString = `(${color.r}, ${color.g}, ${color.b})`;
+  const tokenWrapperStyle = {
+    position: 'relative',
+  };
   const tokenStyle = {
     backgroundImage: `url(${rainbowToken})`,
     backgroundColor: `rgb${parenthesisString}`,
     width: `${size}px`,
     height: `${size}px`,
     borderRadius: '50%',
-    // boxShadow: `${boxShadowSize}px ${boxShadowSize}px rgba(10, 10, 10, 0.9)`,
-    // border: `${borderSize}px solid rgb(50, 50, 50)`,
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    marginLeft: '3px',
+    marginTop: '3px'
   }
-  const strokeDashOffset = score * 157.079632679 / 100;
+  const scoreBorderStyle = {
+    position: 'absolute',
+    top: 0,
+    width: `${Number(size) + 3}px`,
+    height: `${Number(size) + 3}px`,
+    transform: 'rotate(-90deg)',
+  };
+  const strokeDashoffset = score * 166.50441064 / 100;
+  const circleStyle = {
+    r: 26.5,
+    strokeDasharray: 166.50441064, // 26.5 * 2 * pi
+    cx: 28,
+    cy: 28,
+    // stroke: 'rgb(55, 55, 55)',
+    strokeWidth: '3px',
+    strokeDashoffset
+  };
+  // const gradient = (
+  //   <defs>
+  //     <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+  //       <stop offset="0%" stopColor="rgb(255, 0, 0)" />
+  //       <stop offset="100%" stopColor="rgb(0, 255, 0)" />
+  //     </linearGradient>
+  //   </defs>
+  // )
   return (
     <Tooltip
       disableFocusListener
@@ -27,14 +52,19 @@ const MyToken = ({ color, size, boxShadowSize, borderSize, score }) => {
       title={`RGB${parenthesisString}`}
       placement="right"
     >
-      <div id='tokenWrapper'>
+      <div id='tokenWrapper' style={tokenWrapperStyle}>
         <div
           className='token'
           style={tokenStyle}
         >
         </div>
-        <svg id="scoreBorder" width="50" height="50" >
-          <circle id="bar" fill="transparent" strokeDashoffset={strokeDashOffset} ></circle>
+        <svg id="scoreBorder" style={scoreBorderStyle} >
+          <circle
+            id="bar"
+            fill="none"
+            style={circleStyle}
+          >
+          </circle>
         </svg>
       </div >
     </Tooltip>

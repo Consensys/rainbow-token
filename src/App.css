@@ -20,20 +20,6 @@ body {
   background-color: rgba(150, 150, 150, 0.1);
 }
 
-#tokenWrapper {
-  position: relative;
-  /* width: 55px; */
-  /* height: 55px; */
-}
-
-#scoreBorder {
-  position: absolute;
-  top: 0;
-  width: 54px;
-  height: 54px;
-  transform: rotate(-90deg);
-}
-
 #scoreBorder circle {
   r: 25;
   stroke-dasharray: 157.079632679;
