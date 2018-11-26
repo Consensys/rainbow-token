@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* Components */
-import UserToken from '../UI/Token/Token';
+import UserToken from './MyToken';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -46,10 +46,11 @@ const UserSpace = ({
       </div>
     </div>
     <UserToken
+      score={score}
       color={currentColor}
-      size='50'
-      boxShadowSize='2'
-      borderSize='1.2'
+      size='54'
+      boxShadowSize='1'
+      borderSize='0.6'
     />
   </div>
 )

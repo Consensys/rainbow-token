@@ -20,10 +20,27 @@ body {
   background-color: rgba(150, 150, 150, 0.1);
 }
 
-.App {
+#tokenWrapper {
+  position: relative;
+  /* width: 55px; */
+  /* height: 55px; */
 }
 
-#initializer-handler {
+#scoreBorder {
+  position: absolute;
+  top: 0;
+  width: 54px;
+  height: 54px;
+  transform: rotate(-90deg);
+}
+
+#scoreBorder circle {
+  r: 25;
+  stroke-dasharray: 157.079632679;
+  cx: 27;
+  cy: 27;
+  stroke: black;
+  stroke-width: 4px;
 }
 
 /* BLOCKNUMBER LOADER */
@@ -185,6 +202,11 @@ hr.rainbow2{
 #root .MuiTableCell-root-92 {
   border-bottom: none;
 
+}
+
+#tokenWrapper:hover {
+  -webkit-animation: rotate-vert-center 0.75s cubic-bezier(0.770, 0.000, 0.175, 1.000) both;
+          animation: rotate-vert-center 0.75s cubic-bezier(0.770, 0.000, 0.175, 1.000) both;
 }
 
 #root .token:hover {

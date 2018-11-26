@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   global: {
     flex: 1,
+    overflow: 'hidden',
   },
   boxes: {
     display: 'flex',

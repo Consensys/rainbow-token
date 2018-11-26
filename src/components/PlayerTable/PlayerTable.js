@@ -28,7 +28,7 @@ const styles = theme => ({
     overflow: 'auto'
   },
   root: {
-    opacity: 0.95,
+    opacity: 0.90,
     width: '80%',
     marginLeft: 'auto',
     marginRight: 'auto',

@@ -31,8 +31,8 @@ const ConsenSysElement = ({
     <ConsenSysToken
       color={targetColor}
       size='50'
-      boxShadowSize='1.6'
-      borderSize='1.2'
+      boxShadowSize='1'
+      borderSize='0.6'
     />
     <div className={classes.text}>
       Reach the blue<br/> <strong>Consensys</strong> Token
