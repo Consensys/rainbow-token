@@ -3,6 +3,9 @@ import React from 'react';
 /* Components */
 import UserToken from './MyToken';
 
+/* Identicon */
+import Blockies from 'react-blockies';
+
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
 
@@ -23,8 +26,12 @@ const styles = theme => ({
   address: {
    marginTop: '0.4em'
  },
-  balance: {
-   marginTop: '0.4em'
+  balanceAndIcon: {
+   marginTop: '0.4em',
+   display: 'flex',
+   flexDirection: 'row',
+   alignItems: 'center',
+   justifyContent: 'space-around'
  },
 })
 
@@ -41,8 +48,9 @@ const UserSpace = ({
       <div className={classes.pseudoLine}>
         Welcome <strong className={classes.pseudo}>{pseudo}</strong>
       </div>
-      <div className={classes.balance}>
-        ICON {balance} <i className="fab fa-ethereum"></i>
+      <div className={classes.balanceAndIcon}>
+        <Blockies seed={address} />
+        <div>{balance} <i className="fab fa-ethereum"></i></div>
       </div>
     </div>
     <UserToken
