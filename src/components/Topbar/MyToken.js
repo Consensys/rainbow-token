@@ -6,7 +6,15 @@ import Tooltip from '@material-ui/core/Tooltip';
 /* Images */
 import rainbowToken from '../../static/svg/CircleTokenRainbow.svg';
 
-const MyToken = ({ color, size, boxShadowSize, borderSize, score }) => {
+const MyToken = ({
+  color,
+  size,
+  boxShadowSize,
+  borderSize,
+  score,
+  radius,
+  strokeWidth
+}) => {
   const parenthesisString = `(${color.r}, ${color.g}, ${color.b})`;
   const tokenWrapperStyle = {
     position: 'relative',
@@ -17,25 +25,31 @@ const MyToken = ({ color, size, boxShadowSize, borderSize, score }) => {
     width: `${size}px`,
     height: `${size}px`,
     borderRadius: '50%',
-    marginLeft: '3px',
-    marginTop: '3px'
+    marginLeft: `${strokeWidth}px`,
+    marginTop: `${strokeWidth}px`,
+    zIndex: 30,
   }
   const scoreBorderStyle = {
+    zIndex: 29,
     position: 'absolute',
     top: 0,
-    width: `${Number(size) + 3}px`,
-    height: `${Number(size) + 3}px`,
+    width: `${2 * Number(radius) + Number(strokeWidth)}px`,
+    height: `${2 * Number(radius) + Number(strokeWidth)}px`,
     transform: 'rotate(-90deg)',
   };
-  const strokeDashoffset = score * 166.50441064 / 100;
+  const strokeDasharray = 2 * radius * Math.PI;
+  const strokeDashoffset = (1 - score / 100) * strokeDasharray;
+  const bComponent = (1 - score / 100) * 255;
+  const gComponent = score / 100 * 255;
   const circleStyle = {
-    r: 26.5,
-    strokeDasharray: 166.50441064, // 26.5 * 2 * pi
-    cx: 28,
-    cy: 28,
-    // stroke: 'rgb(55, 55, 55)',
-    strokeWidth: '3px',
-    strokeDashoffset
+    zIndex: 29,
+    r: radius,
+    cx: Number(radius) + Number(strokeWidth) / 2,
+    cy: Number(radius) + Number(strokeWidth) / 2,
+    strokeDasharray,
+    strokeWidth: `${strokeWidth}px`,
+    strokeDashoffset,
+    stroke: `rgb(0, ${gComponent}, ${bComponent})`,
   };
   // const gradient = (
   //   <defs>

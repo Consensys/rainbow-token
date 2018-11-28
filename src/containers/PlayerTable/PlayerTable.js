@@ -60,7 +60,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  onClick: () => openBlendDialog()
+  onClick: openBlendDialog
 }
 
 export default connect(

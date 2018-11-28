@@ -4,7 +4,7 @@ import {
 } from '../../actions/ui';
 
 const DEFAULT_STATE = {
-  open: false,
+  index: -1
 };
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
@@ -12,12 +12,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       case OPEN_BLEND_DIALOG:
           return {
             ...state,
-            open: true
+            index: payload
           };
       case CLOSE_BLEND_DIALOG:
           return {
             ...state,
-            open: false
+            index: -1
           };
       default:
           return state;

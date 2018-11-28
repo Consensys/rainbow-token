@@ -33,6 +33,9 @@ const styles = theme => ({
    alignItems: 'center',
    justifyContent: 'space-around'
  },
+ blockies: {
+   borderRadius: '5px'
+ },
 })
 
 const UserSpace = ({
@@ -49,16 +52,18 @@ const UserSpace = ({
         Welcome <strong className={classes.pseudo}>{pseudo}</strong>
       </div>
       <div className={classes.balanceAndIcon}>
-        <Blockies seed={address} />
+        <Blockies className={classes.blockies} seed={address} />
         <div>{balance} <i className="fab fa-ethereum"></i></div>
       </div>
     </div>
     <UserToken
       score={score}
       color={currentColor}
-      size='54'
+      size='50'
       boxShadowSize='1'
       borderSize='0.6'
+      radius='26.5'
+      strokeWidth='3'
     />
   </div>
 )

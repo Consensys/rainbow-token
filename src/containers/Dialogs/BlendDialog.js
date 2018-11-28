@@ -15,9 +15,11 @@ const BlendDialogContainer = ({
   requestBlend,
   blendingAddress,
   blendingToken,
+  index,
+  indexOpen,
 }) => (
   <BlendDialog
-    open={open}
+    open={index === indexOpen}
     color={color}
     closeDialog={closeDialog}
     blendingColor={blendingToken.color}
@@ -26,8 +28,9 @@ const BlendDialogContainer = ({
   />
 )
 
+
 const mapStateToProps = state => ({
-  open: state.ui.blendDialog.open,
+  indexOpen: state.ui.blendDialog.index,
   color: state.data.players[state.web3.account.address].token.color,
 })
 

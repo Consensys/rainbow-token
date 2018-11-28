@@ -41,6 +41,7 @@ const PlayerCell = ({
     <BlendDialog
         blendingToken={player.token}
         blendingAddress={player.address}
+        index={index}
     />
     <TableCell className={classes.pseudo}>
         {player.pseudo}
@@ -72,7 +73,7 @@ const PlayerCell = ({
         <InvertColors
           color='primary'
           className={classes.blendAction}
-          onClick={onClick}
+          onClick={() => onClick(index)}
         />
       </div>
         {/*<Button
