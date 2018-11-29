@@ -18,19 +18,16 @@ const styles = theme => ({
   box: {
     width: '6vw',
     height: '10vh',
-    border: '2px solid rgb(230, 230, 230)',
+    border: '.5px solid rgb(230, 230, 230)',
     borderRadius: '10px',
     display: 'flex',
     alignItems: 'center',
     padding: '10px',
-    color: 'rgb(230, 230, 230)',
+    color: 'rgb(30, 30, 30)',
     fontSize: '1.2em',
-    textShadow: '.5px .5px 2px rgba(10, 10, 10, 0.6)',
-  },
-  text: {
-    color: 'rgb(230, 230, 230)',
-    fontSize: '1.2em',
-    textShadow: '.5px .5px 2px rgba(10, 10, 10, 0.6)',
+    // textShadow: '.5px .5px 2px rgba(10, 10, 10, 0.6)',
+    backgroundColor: 'rgba(240, 240, 240, 0.9)',
+    boxShadow: '1px 1px 2px rgba(10, 10, 10, 0.4)'
   }
 })
 

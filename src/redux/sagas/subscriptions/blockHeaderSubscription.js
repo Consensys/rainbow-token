@@ -11,7 +11,7 @@ import {
 } from '../../actions/errors';
 
 function* blockHeaderSubscription() {
-  const { eth } = yield select(
+  const { ethWs: eth } = yield select(
     state => state.web3.network
   );
   const { number, timestamp } = yield call([eth, 'getBlock'], 'latest');

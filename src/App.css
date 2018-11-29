@@ -64,7 +64,7 @@ body {
     /* transform: translateY(0); */
   }
   100% {
-    transform: translateY(18vh);
+    transform: translateY(calc(25vh - 25px));
   }
 }
 
