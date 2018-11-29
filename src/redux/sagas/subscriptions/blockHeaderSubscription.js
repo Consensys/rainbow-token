@@ -23,7 +23,6 @@ function* blockHeaderSubscription() {
         number,
         timestamp
       }) => {
-        console.log('New Block: ', number);
         emitter({
           type:'NEW_BLOCK_HEADER',
           payload: {

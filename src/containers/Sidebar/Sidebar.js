@@ -19,7 +19,6 @@ class SidebarContainer extends Component {
     if (prevProps.blockNumber !== blockNumber) {
       const stuff = [ ...document.getElementsByClassName('box') ]
       .map(el => el.classList);
-      console.log(stuff);
       stuff.forEach(el => el.add('animated'));
       setTimeout(
         () => {
