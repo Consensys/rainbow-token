@@ -51,19 +51,16 @@ const MyToken = ({
     strokeDashoffset,
     stroke: `rgb(0, ${gComponent}, ${bComponent})`,
   };
-  // const gradient = (
-  //   <defs>
-  //     <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-  //       <stop offset="0%" stopColor="rgb(255, 0, 0)" />
-  //       <stop offset="100%" stopColor="rgb(0, 255, 0)" />
-  //     </linearGradient>
-  //   </defs>
-  // )
   return (
     <Tooltip
       disableFocusListener
       disableTouchListener
-      title={`RGB${parenthesisString}`}
+      title={
+        <div>
+          <p>RGB{parenthesisString}</p>
+          <p>score: {score}%</p>
+        </div>
+      }
       placement="right"
     >
       <div id='tokenWrapper' style={tokenWrapperStyle}>
