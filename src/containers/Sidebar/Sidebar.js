@@ -19,12 +19,13 @@ class SidebarContainer extends Component {
     if (prevProps.blockNumber !== blockNumber) {
       const stuff = [ ...document.getElementsByClassName('box') ]
       .map(el => el.classList);
-      stuff.forEach(el => el.toggle('animated'));
+      console.log(stuff);
+      stuff.forEach(el => el.add('animated'));
       setTimeout(
         () => {
-          stuff.forEach(el => el.toggle('animated'));
+          stuff.forEach(el => el.remove('animated'));
           this.setState({ value: blockNumber })
-        }, 1500
+        }, 1000
       );
     }
   }

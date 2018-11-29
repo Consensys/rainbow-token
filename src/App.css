@@ -32,77 +32,39 @@ body {
 
 /* BLOCKNUMBER LOADER */
 
-#blockNumberLoader span {
-  /**
-     * Use the blink animation, which is defined above
-     */
-    animation-name: blink;
-    /**
-     * The animation should take 1.4 seconds
-     */
-    animation-duration: 1.4s;
-    /**
-     * It will repeat itself forever
-     */
-    animation-iteration-count: infinite;
-    /**
-     * This makes sure that the starting style (opacity: .2)
-     * of the animation is applied before the animation starts.
-     * Otherwise we would see a short flash or would have
-     * to set the default styling of the dots to the same
-     * as the animation. Same applies for the ending styles.
-     */
-    animation-fill-mode: both;
-}
-
-#blockNumberLoader span:nth-child(2) {
-    /**
-     * Starts the animation of the third dot
-     * with a delay of .2s, otherwise all dots
-     * would animate at the same time
-     */
-    animation-delay: .2s;
-}
-
-#blockNumberLoader span:nth-child(3) {
-    /**
-     * Starts the animation of the third dot
-     * with a delay of .4s, otherwise all dots
-     * would animate at the same time
-     */
-    animation-delay: .4s;
-}
-
-#blockNumberLoader #invisible-block {
+#blockNumberLoader #futurBlock {
   opacity: 0;
 }
 
-#blockNumberLoader #futur-block {
-  opacity: 0;
+#blockNumberLoader #futurBlock.animated {
+  animation: translateBlock 1.0s 0s,
+    appearBlock 1.0s 0s;
 }
 
-#blockNumberLoader #prev-block.animated {
-  animation: translateBlock 1.5s 0s,
-    vanishBlock 1.5s 0s;
+#blockNumberLoader #currentBlock.animated {
+  animation: translateBlock 1.0s 0s;
 }
 
-#blockNumberLoader #current-block.animated {
-  animation: translateBlock 1.5s 0s;
+#blockNumberLoader #prevBlock1.animated {
+  animation: translateBlock 1.0s 0s;
 }
 
-#blockNumberLoader #futur-block.animated {
-  animation: translateBlock 1.5s 0s,
-    appearBlock 1.5s 0s;
+#blockNumberLoader #prevBlock2.animated {
+  animation: translateBlock 1.0s 0s;
 }
+
+#blockNumberLoader #prevBlock3.animated {
+  animation: translateBlock 1.0s 0s;
+}
+
+
 
 @keyframes translateBlock {
   0% {
-    transform: translateX(0);
+    /* transform: translateY(0); */
   }
   100% {
-    /* transform: translateX(-30.666666vw); */
-    /* transform: translateY(25.6666vh); */
-    transform: translateY(calc((97vh - 100px) / 3));
+    transform: translateY(18vh);
   }
 }
 
