@@ -6,7 +6,7 @@ import { startPlaying } from '../../redux/actions/transactions/rainbowToken';
 import StartPlayingButton from '../../components/Homepage/StartPlayingButton';
 
 const mapStateToProps = state => ({
-  txInProgress: state.web3.txHash,
+  txInProgress: !!(state.web3.transactions.txHash),
   locked: !(state.status.web3.onAvailableNetwork && state.status.web3.metamaskUnlocked),
 })
 
