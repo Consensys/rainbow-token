@@ -16,7 +16,7 @@ const styles = theme => ({
     height: 'calc(100vh - 100px)',
   },
   box: {
-    width: '6vw',
+    width: 'fit-content',
     height: '10vh',
     border: '.5px solid rgb(230, 230, 230)',
     borderRadius: '10px',
@@ -25,7 +25,6 @@ const styles = theme => ({
     padding: '10px',
     color: 'rgb(30, 30, 30)',
     fontSize: '1.2em',
-    // textShadow: '.5px .5px 2px rgba(10, 10, 10, 0.6)',
     backgroundColor: 'rgba(240, 240, 240, 0.9)',
     boxShadow: '1px 1px 2px rgba(10, 10, 10, 0.4)'
   }
