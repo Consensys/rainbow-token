@@ -6,6 +6,9 @@ import UserToken from './MyToken';
 /* Identicon */
 import Blockies from 'react-blockies';
 
+/* Material ui components */
+import Tooltip from '@material-ui/core/Tooltip';
+
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
 
@@ -52,7 +55,16 @@ const UserSpace = ({
         Welcome <strong className={classes.pseudo}>{pseudo}</strong>
       </div>
       <div className={classes.balanceAndIcon}>
-        <Blockies className={classes.blockies} seed={address} />
+        <Tooltip
+          disableFocusListener
+          disableTouchListener
+          title={`${address}`}
+          placement="bottom"
+        >
+        <div>
+          <Blockies className={classes.blockies} seed={address} />
+        </div>
+        </Tooltip>
         <div>{balance} <i className="fab fa-ethereum"></i></div>
       </div>
     </div>
