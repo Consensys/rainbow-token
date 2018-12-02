@@ -61,9 +61,13 @@ const UserSpace = ({
           title={`${address}`}
           placement="bottom"
         >
-        <div>
+        <a
+          href={`https://ropsten.etherscan.io/address/${address}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Blockies className={classes.blockies} seed={address} />
-        </div>
+        </a>
         </Tooltip>
         <div>{balance} <i className="fab fa-ethereum"></i></div>
       </div>

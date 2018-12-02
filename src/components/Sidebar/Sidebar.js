@@ -26,7 +26,8 @@ const styles = theme => ({
     color: 'rgb(30, 30, 30)',
     fontSize: '1.2em',
     backgroundColor: 'rgba(240, 240, 240, 0.9)',
-    boxShadow: '1px 1px 2px rgba(10, 10, 10, 0.4)'
+    boxShadow: '1px 1px 2px rgba(10, 10, 10, 0.4)',
+    textDecoration: 'none'
   }
 })
 
@@ -34,18 +35,39 @@ const styles = theme => ({
 const Footer = ({ blockNumber, classes }) => (
   <div id='blockNumberLoader' className={classes.global}>
     <div className={classes.boxes}>
-      <div id='futurBlock' className={`${classes.box} box`}>
+      <div
+        id='futurBlock'
+        className={`${classes.box} box`}
+      >
         #{blockNumber + 1}
       </div>
-      <div id='currentBlock' className={`${classes.box} box`}>
+      <a
+        id='currentBlock'
+        className={`${classes.box} box`}
+        target="_blank"
+        rel="noopener noreferrer"
+        href={`https://ropsten.etherscan.io/block/${blockNumber}`}
+      >
         #{blockNumber}
-      </div>
-      <div id='prevBlock1' className={`${classes.box} box`}>
+      </a>
+      <a
+        id='prevBlock1'
+        className={`${classes.box} box`}
+        target="_blank"
+        rel="noopener noreferrer"
+        href={`https://ropsten.etherscan.io/block/${blockNumber - 1}`}
+      >
         #{blockNumber - 1}
-      </div>
-      <div id='prevBlock2' className={`${classes.box} box`}>
+      </a>
+      <a
+        id='prevBlock2'
+        className={`${classes.box} box`}
+        target="_blank"
+        rel="noopener noreferrer"
+        href={`https://ropsten.etherscan.io/block/${blockNumber - 2}`}
+      >
         #{blockNumber - 2}
-      </div>
+      </a>
     </div>
   </div>
 )
