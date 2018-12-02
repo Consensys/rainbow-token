@@ -9,7 +9,10 @@ const materialUiTheme = createMuiTheme({
     },
     secondary: green,
     error: red
-  }
+  },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 export default materialUiTheme;
