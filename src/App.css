@@ -32,6 +32,14 @@ body {
 
 /* BLOCKNUMBER LOADER */
 
+#transactionLoader {
+  animation: txPending 1.5s infinite;
+}
+
+#iconTransactionLoader {
+  animation: iconTxPending 1.5s infinite;
+}
+
 #blockNumberLoader #futurBlock {
   opacity: 0;
 }
@@ -57,7 +65,25 @@ body {
   animation: translateBlock 1.0s 0s;
 }
 
+@keyframes txPending {
+  0% {
+    opacity: 1;
+  }
 
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes iconTxPending {
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @keyframes translateBlock {
   0% {

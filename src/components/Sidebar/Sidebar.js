@@ -1,5 +1,8 @@
 import React from 'react';
 
+/* Containers */
+import TransactionLoader from '../../containers/Sidebar/TransactionLoader';
+
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
 
@@ -7,6 +10,7 @@ const styles = theme => ({
   global: {
     flex: 1,
     overflow: 'hidden',
+    position: 'relative'
   },
   boxes: {
     display: 'flex',
@@ -28,12 +32,13 @@ const styles = theme => ({
     backgroundColor: 'rgba(240, 240, 240, 0.9)',
     boxShadow: '1px 1px 2px rgba(10, 10, 10, 0.4)',
     textDecoration: 'none'
-  }
+  },
 })
 
 
 const Footer = ({ blockNumber, classes }) => (
   <div id='blockNumberLoader' className={classes.global}>
+    <TransactionLoader />
     <div className={classes.boxes}>
       <div
         id='futurBlock'
