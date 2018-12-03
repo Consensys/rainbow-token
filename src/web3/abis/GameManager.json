@@ -136,7 +136,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 111,
-        "sourceUnit": 823,
+        "sourceUnit": 880,
         "src": "26:28:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -144,7 +144,7 @@
       {
         "baseContracts": [],
         "contractDependencies": [
-          822
+          879
         ],
         "contractKind": "contract",
         "documentation": "@title GameManager\n  * @dev GameManager contract\n  * The game manager keeps track of the current game and creates a new one if\nthe previous one ends",
@@ -514,10 +514,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        883,
-                        884
+                        940,
+                        941
                       ],
-                      "referencedDeclaration": 884,
+                      "referencedDeclaration": 941,
                       "src": "828:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -671,7 +671,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RainbowToken_$822",
+                        "typeIdentifier": "t_contract$_RainbowToken_$879",
                         "typeString": "contract RainbowToken"
                       },
                       "typeName": {
@@ -679,10 +679,10 @@
                         "id": 47,
                         "name": "RainbowToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 822,
+                        "referencedDeclaration": 879,
                         "src": "1059:12:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_RainbowToken_$822",
+                          "typeIdentifier": "t_contract$_RainbowToken_$879",
                           "typeString": "contract RainbowToken"
                         }
                       },
@@ -719,10 +719,10 @@
                       "name": "RainbowToken",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 822,
+                      "referencedDeclaration": 879,
                       "src": "1079:12:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_RainbowToken_$822_$",
+                        "typeIdentifier": "t_type$_t_contract$_RainbowToken_$879_$",
                         "typeString": "type(contract RainbowToken)"
                       }
                     },
@@ -736,7 +736,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1079:25:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RainbowToken_$822",
+                      "typeIdentifier": "t_contract$_RainbowToken_$879",
                       "typeString": "contract RainbowToken"
                     }
                   },
@@ -758,7 +758,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 880,
+                              "referencedDeclaration": 937,
                               "src": "1168:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -796,7 +796,7 @@
                             "referencedDeclaration": 48,
                             "src": "1154:4:0",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_RainbowToken_$822",
+                              "typeIdentifier": "t_contract$_RainbowToken_$879",
                               "typeString": "contract RainbowToken"
                             }
                           },
@@ -807,7 +807,7 @@
                           "lValueRequested": false,
                           "memberName": "isPlayer",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 314,
+                          "referencedDeclaration": 371,
                           "src": "1154:13:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_bool_$",
@@ -862,10 +862,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        883,
-                        884
+                        940,
+                        941
                       ],
-                      "referencedDeclaration": 884,
+                      "referencedDeclaration": 941,
                       "src": "1146:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -905,7 +905,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 880,
+                              "referencedDeclaration": 937,
                               "src": "1285:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -943,7 +943,7 @@
                             "referencedDeclaration": 48,
                             "src": "1267:4:0",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_RainbowToken_$822",
+                              "typeIdentifier": "t_contract$_RainbowToken_$879",
                               "typeString": "contract RainbowToken"
                             }
                           },
@@ -954,7 +954,7 @@
                           "lValueRequested": false,
                           "memberName": "claimVictory",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 803,
+                          "referencedDeclaration": 860,
                           "src": "1267:17:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$_t_bool_$",
@@ -987,10 +987,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        883,
-                        884
+                        940,
+                        941
                       ],
-                      "referencedDeclaration": 883,
+                      "referencedDeclaration": 940,
                       "src": "1259:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1083,10 +1083,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        883,
-                        884
+                        940,
+                        941
                       ],
-                      "referencedDeclaration": 884,
+                      "referencedDeclaration": 941,
                       "src": "1329:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1212,7 +1212,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RainbowToken_$822",
+                        "typeIdentifier": "t_contract$_RainbowToken_$879",
                         "typeString": "contract RainbowToken"
                       },
                       "typeName": {
@@ -1220,10 +1220,10 @@
                         "id": 84,
                         "name": "RainbowToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 822,
+                        "referencedDeclaration": 879,
                         "src": "1551:12:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_RainbowToken_$822",
+                          "typeIdentifier": "t_contract$_RainbowToken_$879",
                           "typeString": "contract RainbowToken"
                         }
                       },
@@ -1283,7 +1283,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 895,
+                            "referencedDeclaration": 952,
                             "src": "1608:4:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_GameManager_$110",
@@ -1353,7 +1353,7 @@
                       "nodeType": "NewExpression",
                       "src": "1574:16:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$_t_uint8_$_t_uint8_$_t_uint8_$_t_address_$returns$_t_contract$_RainbowToken_$822_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$_t_uint8_$_t_uint8_$_t_uint8_$_t_address_$returns$_t_contract$_RainbowToken_$879_$",
                         "typeString": "function (uint8,uint8,uint8,address) returns (contract RainbowToken)"
                       },
                       "typeName": {
@@ -1361,10 +1361,10 @@
                         "id": 86,
                         "name": "RainbowToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 822,
+                        "referencedDeclaration": 879,
                         "src": "1578:12:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_RainbowToken_$822",
+                          "typeIdentifier": "t_contract$_RainbowToken_$879",
                           "typeString": "contract RainbowToken"
                         }
                       }
@@ -1379,7 +1379,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1574:40:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RainbowToken_$822",
+                      "typeIdentifier": "t_contract$_RainbowToken_$879",
                       "typeString": "contract RainbowToken"
                     }
                   },
@@ -1421,7 +1421,7 @@
                           "referencedDeclaration": 85,
                           "src": "1675:7:0",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_RainbowToken_$822",
+                            "typeIdentifier": "t_contract$_RainbowToken_$879",
                             "typeString": "contract RainbowToken"
                           }
                         }
@@ -1429,7 +1429,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_RainbowToken_$822",
+                            "typeIdentifier": "t_contract$_RainbowToken_$879",
                             "typeString": "contract RainbowToken"
                           }
                         ],
@@ -1638,7 +1638,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 111,
-        "sourceUnit": 823,
+        "sourceUnit": 880,
         "src": "26:28:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1646,7 +1646,7 @@
       {
         "baseContracts": [],
         "contractDependencies": [
-          822
+          879
         ],
         "contractKind": "contract",
         "documentation": "@title GameManager\n  * @dev GameManager contract\n  * The game manager keeps track of the current game and creates a new one if\nthe previous one ends",
@@ -2016,10 +2016,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        883,
-                        884
+                        940,
+                        941
                       ],
-                      "referencedDeclaration": 884,
+                      "referencedDeclaration": 941,
                       "src": "828:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2173,7 +2173,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RainbowToken_$822",
+                        "typeIdentifier": "t_contract$_RainbowToken_$879",
                         "typeString": "contract RainbowToken"
                       },
                       "typeName": {
@@ -2181,10 +2181,10 @@
                         "id": 47,
                         "name": "RainbowToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 822,
+                        "referencedDeclaration": 879,
                         "src": "1059:12:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_RainbowToken_$822",
+                          "typeIdentifier": "t_contract$_RainbowToken_$879",
                           "typeString": "contract RainbowToken"
                         }
                       },
@@ -2221,10 +2221,10 @@
                       "name": "RainbowToken",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 822,
+                      "referencedDeclaration": 879,
                       "src": "1079:12:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_RainbowToken_$822_$",
+                        "typeIdentifier": "t_type$_t_contract$_RainbowToken_$879_$",
                         "typeString": "type(contract RainbowToken)"
                       }
                     },
@@ -2238,7 +2238,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1079:25:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RainbowToken_$822",
+                      "typeIdentifier": "t_contract$_RainbowToken_$879",
                       "typeString": "contract RainbowToken"
                     }
                   },
@@ -2260,7 +2260,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 880,
+                              "referencedDeclaration": 937,
                               "src": "1168:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -2298,7 +2298,7 @@
                             "referencedDeclaration": 48,
                             "src": "1154:4:0",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_RainbowToken_$822",
+                              "typeIdentifier": "t_contract$_RainbowToken_$879",
                               "typeString": "contract RainbowToken"
                             }
                           },
@@ -2309,7 +2309,7 @@
                           "lValueRequested": false,
                           "memberName": "isPlayer",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 314,
+                          "referencedDeclaration": 371,
                           "src": "1154:13:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_bool_$",
@@ -2364,10 +2364,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        883,
-                        884
+                        940,
+                        941
                       ],
-                      "referencedDeclaration": 884,
+                      "referencedDeclaration": 941,
                       "src": "1146:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2407,7 +2407,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 880,
+                              "referencedDeclaration": 937,
                               "src": "1285:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -2445,7 +2445,7 @@
                             "referencedDeclaration": 48,
                             "src": "1267:4:0",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_RainbowToken_$822",
+                              "typeIdentifier": "t_contract$_RainbowToken_$879",
                               "typeString": "contract RainbowToken"
                             }
                           },
@@ -2456,7 +2456,7 @@
                           "lValueRequested": false,
                           "memberName": "claimVictory",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 803,
+                          "referencedDeclaration": 860,
                           "src": "1267:17:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$_t_bool_$",
@@ -2489,10 +2489,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        883,
-                        884
+                        940,
+                        941
                       ],
-                      "referencedDeclaration": 883,
+                      "referencedDeclaration": 940,
                       "src": "1259:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2585,10 +2585,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        883,
-                        884
+                        940,
+                        941
                       ],
-                      "referencedDeclaration": 884,
+                      "referencedDeclaration": 941,
                       "src": "1329:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2714,7 +2714,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_RainbowToken_$822",
+                        "typeIdentifier": "t_contract$_RainbowToken_$879",
                         "typeString": "contract RainbowToken"
                       },
                       "typeName": {
@@ -2722,10 +2722,10 @@
                         "id": 84,
                         "name": "RainbowToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 822,
+                        "referencedDeclaration": 879,
                         "src": "1551:12:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_RainbowToken_$822",
+                          "typeIdentifier": "t_contract$_RainbowToken_$879",
                           "typeString": "contract RainbowToken"
                         }
                       },
@@ -2785,7 +2785,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 895,
+                            "referencedDeclaration": 952,
                             "src": "1608:4:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_GameManager_$110",
@@ -2855,7 +2855,7 @@
                       "nodeType": "NewExpression",
                       "src": "1574:16:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_creation_nonpayable$_t_uint8_$_t_uint8_$_t_uint8_$_t_address_$returns$_t_contract$_RainbowToken_$822_$",
+                        "typeIdentifier": "t_function_creation_nonpayable$_t_uint8_$_t_uint8_$_t_uint8_$_t_address_$returns$_t_contract$_RainbowToken_$879_$",
                         "typeString": "function (uint8,uint8,uint8,address) returns (contract RainbowToken)"
                       },
                       "typeName": {
@@ -2863,10 +2863,10 @@
                         "id": 86,
                         "name": "RainbowToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 822,
+                        "referencedDeclaration": 879,
                         "src": "1578:12:0",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_RainbowToken_$822",
+                          "typeIdentifier": "t_contract$_RainbowToken_$879",
                           "typeString": "contract RainbowToken"
                         }
                       }
@@ -2881,7 +2881,7 @@
                     "nodeType": "FunctionCall",
                     "src": "1574:40:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_RainbowToken_$822",
+                      "typeIdentifier": "t_contract$_RainbowToken_$879",
                       "typeString": "contract RainbowToken"
                     }
                   },
@@ -2923,7 +2923,7 @@
                           "referencedDeclaration": 85,
                           "src": "1675:7:0",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_RainbowToken_$822",
+                            "typeIdentifier": "t_contract$_RainbowToken_$879",
                             "typeString": "contract RainbowToken"
                           }
                         }
@@ -2931,7 +2931,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_contract$_RainbowToken_$822",
+                            "typeIdentifier": "t_contract$_RainbowToken_$879",
                             "typeString": "contract RainbowToken"
                           }
                         ],
@@ -3121,8 +3121,8 @@
     "3": {
       "events": {},
       "links": {},
-      "address": "0x00a3f4cff4e35d8d80e54fb7b1ae15a36569e1d2",
-      "transactionHash": "0x09d27ba949d4023b3476008d346bd786185956fa70a600c6b8f748dbfd65d5bc"
+      "address": "0x2137576757dc2ec4e935db51f4006695f27899c0",
+      "transactionHash": "0x4b9112b5452ad658d6029a3379880a402dde636594c1fc005b3d856d43b7f93e"
     },
     "90451": {
       "events": {},
@@ -3132,5 +3132,5 @@
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-12-02T15:17:05.016Z"
+  "updatedAt": "2018-12-03T19:09:35.257Z"
 }
