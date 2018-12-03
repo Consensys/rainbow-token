@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/ConsenSys/rainbow-token"
   },
-  "homepage": "https://github.com/ConsenSys/rainbow-token",
+  "homepage": "./",
   "dependencies": {
     "@material-ui/core": "^3.0.1",
     "@material-ui/icons": "^3.0.1",
