@@ -40,7 +40,7 @@ class SidebarContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  blockNumber: state.web3.chain.number,
+  blockNumber: state.web3.chain.blockNumber,
 })
 
 export default connect(

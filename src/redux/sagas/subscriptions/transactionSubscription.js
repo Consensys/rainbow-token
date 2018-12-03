@@ -5,7 +5,8 @@ import {
 } from '../../actions/setUp/web3';
 
 import {
-  endTransaction
+  endTransaction,
+  addTransactionToBlock
 } from '../../actions/transactions/general';
 
 
@@ -15,8 +16,15 @@ function* transactionHandler() {
       state => state.web3
     );
     if (txHash) {
-      const receipt = yield call([eth, 'getTransactionReceipt'], txHash);
-      if (receipt) yield put(endTransaction());
+      const { blockNumber, status, transactionHash} = yield call([eth, 'getTransactionReceipt'], txHash);
+      if (blockNumber) {
+        yield put(endTransaction());
+        yield put(addTransactionToBlock(
+          blockNumber,
+          transactionHash,
+          status === '0x1'
+        ))
+      }
     }
   } catch(err) {
     console.log(err);
