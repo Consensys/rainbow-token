@@ -8,7 +8,7 @@ import {
 
 const DEFAULT_STATE = {
   blockNumber: '3',
-  currentBlock: {
+  prevBlock0: {
     timestamp: undefined,
     transactions: [],
   },
