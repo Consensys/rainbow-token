@@ -33,7 +33,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
               transactions: []
             },
             prevBlock1: {
-              ...state.currentBlock,
+              ...state.prevBlock0,
             },
             prevBlock2: {
               ...state.prevBlock1,

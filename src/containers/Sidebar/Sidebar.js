@@ -31,9 +31,17 @@ class SidebarContainer extends Component {
 
   render() {
     const { value } = this.state;
+    const {
+      prevBlock0Transactions,
+      prevBlock1Transactions,
+      prevBlock2Transactions,
+    } = this.props;
     return (
       <Sidebar
         blockNumber={value}
+        prevBlock0Transactions={prevBlock0Transactions}
+        prevBlock1Transactions={prevBlock1Transactions}
+        prevBlock2Transactions={prevBlock2Transactions}
       />
     )
   }
@@ -41,6 +49,9 @@ class SidebarContainer extends Component {
 
 const mapStateToProps = state => ({
   blockNumber: state.web3.chain.blockNumber,
+  prevBlock0Transactions: state.web3.chain.prevBlock0.transactions,
+  prevBlock1Transactions: state.web3.chain.prevBlock1.transactions,
+  prevBlock2Transactions: state.web3.chain.prevBlock2.transactions,
 })
 
 export default connect(

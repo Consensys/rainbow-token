@@ -31,12 +31,21 @@ const styles = theme => ({
     fontSize: '1.2em',
     backgroundColor: 'rgba(240, 240, 240, 0.9)',
     boxShadow: '1px 1px 2px rgba(10, 10, 10, 0.4)',
-    textDecoration: 'none'
   },
+  anchor: {
+    color: 'black',
+    textDecoration: 'none'
+  }
 })
 
 
-const Footer = ({ blockNumber, classes }) => (
+const Sidebar = ({
+  blockNumber,
+  prevBlock0Transactions,
+  prevBlock1Transactions,
+  prevBlock2Transactions,
+  classes
+}) => (
   <div id='blockNumberLoader' className={classes.global}>
     <TransactionLoader />
     <div className={classes.boxes}>
@@ -46,35 +55,62 @@ const Footer = ({ blockNumber, classes }) => (
       >
         #{blockNumber + 1}
       </div>
-      <a
+      <div
         id='currentBlock'
         className={`${classes.box} box`}
-        target="_blank"
-        rel="noopener noreferrer"
-        href={`https://ropsten.etherscan.io/block/${blockNumber}`}
       >
-        #{blockNumber}
-      </a>
-      <a
+        <div>
+          {prevBlock0Transactions.map(transaction => (
+            <span>X</span>
+          ))}
+        </div>
+        <a
+          className={classes.anchor}
+          target="_blank"
+          rel="noopener noreferrer"
+          href={`https://ropsten.etherscan.io/block/${blockNumber}`}
+        >
+          #{blockNumber}
+        </a>
+      </div>
+      <div
         id='prevBlock1'
         className={`${classes.box} box`}
+      >
+      <div>
+        {prevBlock1Transactions.map(transaction => (
+          <span>X</span>
+        ))}
+      </div>
+      <a
+        className={classes.anchor}
         target="_blank"
         rel="noopener noreferrer"
         href={`https://ropsten.etherscan.io/block/${blockNumber - 1}`}
       >
         #{blockNumber - 1}
       </a>
-      <a
+      </div>
+      <div
         id='prevBlock2'
         className={`${classes.box} box`}
-        target="_blank"
-        rel="noopener noreferrer"
-        href={`https://ropsten.etherscan.io/block/${blockNumber - 2}`}
       >
-        #{blockNumber - 2}
-      </a>
+        <div>
+          {prevBlock2Transactions.map(transaction => (
+            <span>X</span>
+          ))}
+        </div>
+        <a
+          className={classes.anchor}
+          target="_blank"
+          rel="noopener noreferrer"
+          href={`https://ropsten.etherscan.io/block/${blockNumber - 2}`}
+        >
+          #{blockNumber - 2}
+        </a>
+      </div>
     </div>
   </div>
 )
 
-export default withStyles(styles)(Footer);
+export default withStyles(styles)(Sidebar);
