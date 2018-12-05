@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* Material-ui components */
-import Settings from '@material-ui/icons/Settings';
+import Ballot from '@material-ui/icons/Ballot';
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -17,11 +17,18 @@ const styles = theme => ({
 const TransactionLoader = ({ txHash, classes }) => (
   <div id='transactionLoader' className={classes.global}>
     {txHash && (
-      <Settings
-        id='iconTransactionLoader'
-        color='primary'
-        fontSize='large'
-      />
+      <a
+        href={`https://ropsten.etherscan.io/tx/${txHash}`}
+        key={txHash}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Ballot
+          id='iconTransactionLoader'
+          color='primary'
+          fontSize='large'
+        />
+      </a>
     )}
   </div>
 )

@@ -10,7 +10,10 @@ class SidebarContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.blockNumber
+      value: props.blockNumber,
+      prevBlock0Transactions: props.prevBlock0Transactions,
+      prevBlock1Transactions: props.prevBlock1Transactions,
+      prevBlock2Transactions: props.prevBlock2Transactions,
     }
   }
 
@@ -23,19 +26,24 @@ class SidebarContainer extends Component {
       setTimeout(
         () => {
           stuff.forEach(el => el.remove('animated'));
-          this.setState({ value: blockNumber })
+          this.setState((state, props) => ({
+            value: blockNumber,
+            prevBlock0Transactions: this.props.prevBlock0Transactions,
+            prevBlock1Transactions: this.props.prevBlock1Transactions,
+            prevBlock2Transactions: this.props.prevBlock2Transactions,
+          }))
         }, 1000
       );
     }
   }
 
   render() {
-    const { value } = this.state;
     const {
+      value,
       prevBlock0Transactions,
       prevBlock1Transactions,
       prevBlock2Transactions,
-    } = this.props;
+    } = this.state;
     return (
       <Sidebar
         blockNumber={value}

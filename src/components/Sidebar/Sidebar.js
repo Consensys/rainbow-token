@@ -3,6 +3,9 @@ import React from 'react';
 /* Containers */
 import TransactionLoader from '../../containers/Sidebar/TransactionLoader';
 
+/* Components */
+import Block from './Block';
+
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
 
@@ -49,66 +52,25 @@ const Sidebar = ({
   <div id='blockNumberLoader' className={classes.global}>
     <TransactionLoader />
     <div className={classes.boxes}>
-      <div
+      <Block
         id='futurBlock'
-        className={`${classes.box} box`}
-      >
-        #{blockNumber + 1}
-      </div>
-      <div
-        id='currentBlock'
-        className={`${classes.box} box`}
-      >
-        <div>
-          {prevBlock0Transactions.map(transaction => (
-            <span>X</span>
-          ))}
-        </div>
-        <a
-          className={classes.anchor}
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://ropsten.etherscan.io/block/${blockNumber}`}
-        >
-          #{blockNumber}
-        </a>
-      </div>
-      <div
+        blockNumber={blockNumber+1}
+      />
+      <Block
+        id='prevBlock0'
+        blockNumber={blockNumber}
+        transactions={prevBlock0Transactions}
+      />
+      <Block
         id='prevBlock1'
-        className={`${classes.box} box`}
-      >
-      <div>
-        {prevBlock1Transactions.map(transaction => (
-          <span>X</span>
-        ))}
-      </div>
-      <a
-        className={classes.anchor}
-        target="_blank"
-        rel="noopener noreferrer"
-        href={`https://ropsten.etherscan.io/block/${blockNumber - 1}`}
-      >
-        #{blockNumber - 1}
-      </a>
-      </div>
-      <div
+        blockNumber={blockNumber-1}
+        transactions={prevBlock1Transactions}
+      />
+      <Block
         id='prevBlock2'
-        className={`${classes.box} box`}
-      >
-        <div>
-          {prevBlock2Transactions.map(transaction => (
-            <span>X</span>
-          ))}
-        </div>
-        <a
-          className={classes.anchor}
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://ropsten.etherscan.io/block/${blockNumber - 2}`}
-        >
-          #{blockNumber - 2}
-        </a>
-      </div>
+        blockNumber={blockNumber-2}
+        transactions={prevBlock2Transactions}
+      />
     </div>
   </div>
 )
