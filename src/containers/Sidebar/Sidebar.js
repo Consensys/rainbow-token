@@ -44,9 +44,13 @@ class SidebarContainer extends Component {
       prevBlock1Transactions,
       prevBlock2Transactions,
     } = this.state;
+    const {
+      prevBlock0Transactions: comingTransactions
+    } = this.props;
     return (
       <Sidebar
         blockNumber={value}
+        comingTransactions={comingTransactions}
         prevBlock0Transactions={prevBlock0Transactions}
         prevBlock1Transactions={prevBlock1Transactions}
         prevBlock2Transactions={prevBlock2Transactions}

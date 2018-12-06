@@ -44,6 +44,7 @@ const styles = theme => ({
 
 const Sidebar = ({
   blockNumber,
+  comingTransactions,
   prevBlock0Transactions,
   prevBlock1Transactions,
   prevBlock2Transactions,
@@ -54,6 +55,7 @@ const Sidebar = ({
     <div className={classes.boxes}>
       <Block
         id='futurBlock'
+        transactions={comingTransactions}
         blockNumber={blockNumber+1}
       />
       <Block

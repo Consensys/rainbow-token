@@ -8,6 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   global: {
+    minWidth: '5vw',
     width: 'fit-content',
     minHeight: '12vh',
     border: '.5px solid rgb(230, 230, 230)',
