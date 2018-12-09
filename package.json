@@ -92,6 +92,7 @@
     "not op_mini all"
   ],
   "scripts": {
+    "precommit": "lint-staged",
     "lint:js": "eslint .src/ ./migrations ./test",
     "lint:js:fix": "eslint ./test ./migrations --fix",
     "lint:sol": "solium -d .",
