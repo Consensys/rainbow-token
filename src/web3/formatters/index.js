@@ -46,8 +46,7 @@ export default (abi, eth, methods, contractWs) => {
                     const signerAddress = eth.accounts.privateKeyToAccount(
                         signer
                     ).address;
-                    eth
-                        .getTransactionCount(signerAddress)
+                    eth.getTransactionCount(signerAddress)
                         .then(nonce =>
                             eth.accounts.signTransaction(
                                 {

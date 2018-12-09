@@ -1,20 +1,20 @@
 /* Redux */
-import { connect } from 'react-redux';
-import { closeRulesDialog } from '../../redux/actions/ui';
+import { connect } from "react-redux";
+import { closeRulesDialog } from "../../redux/actions/ui";
 
 /* Component */
-import RulesDialog from '../../components/Dialogs/RulesDialog';
+import RulesDialog from "../../components/Dialogs/RulesDialog";
 
 const mapStateToProps = state => ({
-  open: state.ui.rulesDialog.open,
-  scroll: state.ui.rulesDialog.scroll
-})
+    open: state.ui.rulesDialog.open,
+    scroll: state.ui.rulesDialog.scroll
+});
 
 const mapDispatchToProps = {
-  closeDialog: () => closeRulesDialog()
-}
+    closeDialog: () => closeRulesDialog()
+};
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(RulesDialog);

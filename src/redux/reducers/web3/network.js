@@ -1,16 +1,14 @@
-import {
-    SET_NETWORK
-} from '../../actions/setUp/web3';
+import { SET_NETWORK } from "../../actions/setUp/web3";
 
 const DEFAULT_STATE = {
-  id: undefined
+    id: undefined
 };
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
     switch (type) {
-      case SET_NETWORK:
-        return { ...state, ...payload };
-      default:
-        return state;
+        case SET_NETWORK:
+            return { ...state, ...payload };
+        default:
+            return state;
     }
 };

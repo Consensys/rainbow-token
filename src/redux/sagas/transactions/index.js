@@ -1,9 +1,7 @@
-import { all } from 'redux-saga/effects'
+import { all } from "redux-saga/effects";
 
-import rainbowTokenSaga from './rainbowToken';
+import rainbowTokenSaga from "./rainbowToken";
 
 export default function*() {
-  yield all([
-    rainbowTokenSaga()
-  ]);
+    yield all([rainbowTokenSaga()]);
 }

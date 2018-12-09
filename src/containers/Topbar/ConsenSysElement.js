@@ -1,15 +1,15 @@
 /* Redux */
-import { connect } from 'react-redux';
-import { openRulesDialog } from '../../redux/actions/ui';
+import { connect } from "react-redux";
+import { openRulesDialog } from "../../redux/actions/ui";
 
 /* Component */
-import ConsenSysElement from '../../components/Topbar/ConsenSysElement';
+import ConsenSysElement from "../../components/Topbar/ConsenSysElement";
 
 const mapDispatchToProps = {
-  onClick: () => openRulesDialog()
-}
+    onClick: () => openRulesDialog()
+};
 
 export default connect(
-  null,
-  mapDispatchToProps
+    null,
+    mapDispatchToProps
 )(ConsenSysElement);

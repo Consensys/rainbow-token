@@ -1,14 +1,14 @@
 /* Redux */
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 /* Component */
-import TransactionLoader from '../../components/Sidebar/TransactionLoader';
+import TransactionLoader from "../../components/Sidebar/TransactionLoader";
 
 const mapStateToProps = state => ({
-  txHash: state.web3.transactions.txHash
-})
+    txHash: state.web3.transactions.txHash
+});
 
 export default connect(
-  mapStateToProps,
-  undefined
+    mapStateToProps,
+    undefined
 )(TransactionLoader);

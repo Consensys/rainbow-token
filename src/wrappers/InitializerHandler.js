@@ -1,40 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 /* Redux */
-import { connect } from 'react-redux';
-import { initializeGame } from '../redux/actions/setUp/game';
+import { connect } from "react-redux";
+import { initializeGame } from "../redux/actions/setUp/game";
 
 /* Components */
-import LoadingPage from '../components/LoadingPage/LoadingPage';
+import LoadingPage from "../components/LoadingPage/LoadingPage";
 
 class InitializerHandler extends Component {
-  componentDidMount() {
-    const { initializeGame } = this.props;
-    initializeGame();
-  }
-
-  render() {
-    const { children, isLoading } = this.props;
-    if (isLoading) {
-      return (
-        <LoadingPage />
-      )
-    } else {
-      return (
-        <div id='initializer-handler'>
-          {children}
-        </div>
-      )
+    componentDidMount() {
+        const { initializeGame } = this.props;
+        initializeGame();
     }
-  }
+
+    render() {
+        const { children, isLoading } = this.props;
+        if (isLoading) {
+            return <LoadingPage />;
+        } else {
+            return <div id="initializer-handler">{children}</div>;
+        }
+    }
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.status.game.isLoading || state.status.players.isLoading,
-})
+    isLoading: state.status.game.isLoading || state.status.players.isLoading
+});
 
 const mapDispatchToProps = {
-  initializeGame
-}
+    initializeGame
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(InitializerHandler);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(InitializerHandler);

@@ -1,9 +1,12 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import PlayersLoader from '../../components/LoadingPage/PlayersLoader';
+import PlayersLoader from "../../components/LoadingPage/PlayersLoader";
 
 const mapStateToProps = state => ({
-  playersLoading: state.status.players.isLoading
-})
+    playersLoading: state.status.players.isLoading
+});
 
-export default connect(mapStateToProps, null)(PlayersLoader);
+export default connect(
+    mapStateToProps,
+    null
+)(PlayersLoader);

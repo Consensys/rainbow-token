@@ -1,6 +1,6 @@
 import { eventChannel } from "redux-saga";
 
-export default (transaction) => {
+export default transaction => {
     return eventChannel(emitter => {
         transaction
             .on("transactionHash", txHash => {

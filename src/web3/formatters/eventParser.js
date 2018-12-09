@@ -1,16 +1,14 @@
 import eventToEmitter from "./eventToEmitter";
 
 export default (abi, contractWs) => {
-    const returnedEvents = {
-    };
+    const returnedEvents = {};
 
     const eventsObjects = abi.filter(
         functionObject => functionObject.type === "event"
     );
 
     for (let eventObject of eventsObjects) {
-        const subReturnedEvent = {
-        };
+        const subReturnedEvent = {};
         subReturnedEvent.listening = function() {
             const indexedInputs = eventObject.inputs.filter(
                 input => input.indexed
