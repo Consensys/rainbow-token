@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-import './RainbowToken.sol';
+import './RainbowTokenMock.sol';
 
 /**
   * @title GameManager
@@ -75,7 +75,7 @@ contract GameManager {
     returns (bool)
   {
     // Create the new game
-    RainbowToken newGame = new RainbowToken(r, g, b, address(this));
+    RainbowToken newGame = new RainbowTokenMock(r, g, b, address(this));
 
     // Register the new address
     gameAddress = address(newGame);
