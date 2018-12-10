@@ -9,13 +9,15 @@ const EVENT_BLENDING_PRICE_SET = 'BlendingPriceSet';
 const EVENT_TOKEN_BLENDED = 'TokenBlended';
 const EVENT_PLAYER_WON = 'PlayerWon';
 
-contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
+contract('RainbowToken', function ([player1, player2, winningPlayer, gameManager, unknown]) {
     beforeEach(async function () {
         this.rgb = [128, 243, 2];
         this.game = await RainbowToken.new(
             this.rgb[0],
             this.rgb[1],
             this.rgb[2],
+            gameManager,
+            winningPlayer,
             {
                 from: winningPlayer,
                 value: PLAYING_FEE,
@@ -46,17 +48,17 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             assert.equal(rgb[1].toNumber(), 0);
             assert.equal(rgb[2].toNumber(), 0);
         });
-        it('should return as expected for 1', async function () {
-            const rgb = await this.game.getRgb(1);
+        it('should return as expected for 255', async function () {
+            const rgb = await this.game.getRgb(255);
             assert.equal(rgb[0].toNumber(), 0);
             assert.equal(rgb[1].toNumber(), 0);
-            assert.equal(rgb[2].toNumber(), 1);
+            assert.equal(rgb[2].toNumber(), 255);
         });
-        it('should return as expected for 257', async function () {
-            const rgb = await this.game.getRgb(257);
+        it('should return as expected for 65280', async function () {
+            const rgb = await this.game.getRgb(65280);
             assert.equal(rgb[0].toNumber(), 0);
-            assert.equal(rgb[1].toNumber(), 1);
-            assert.equal(rgb[2].toNumber(), 1);
+            assert.equal(rgb[1].toNumber(), 255);
+            assert.equal(rgb[2].toNumber(), 0);
         });
         it('should return as expected for 16711680', async function () {
             const rgb = await this.game.getRgb(16711680);
@@ -64,11 +66,23 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             assert.equal(rgb[1].toNumber(), 0);
             assert.equal(rgb[2].toNumber(), 0);
         });
-        it('should return as expected for 14944783', async function () {
-            const rgb = await this.game.getRgb(14944783);
-            assert.equal(rgb[0].toNumber(), 228);
-            assert.equal(rgb[1].toNumber(), 10);
-            assert.equal(rgb[2].toNumber(), 15);
+        it('should return as expected for 65535', async function () {
+            const rgb = await this.game.getRgb(65535);
+            assert.equal(rgb[0].toNumber(), 0);
+            assert.equal(rgb[1].toNumber(), 255);
+            assert.equal(rgb[2].toNumber(), 255);
+        });
+        it('should return as expected for 16711935', async function () {
+            const rgb = await this.game.getRgb(16711935);
+            assert.equal(rgb[0].toNumber(), 255);
+            assert.equal(rgb[1].toNumber(), 0);
+            assert.equal(rgb[2].toNumber(), 255);
+        });
+        it('should return as expected for 16776960', async function () {
+            const rgb = await this.game.getRgb(16776960);
+            assert.equal(rgb[0].toNumber(), 255);
+            assert.equal(rgb[1].toNumber(), 255);
+            assert.equal(rgb[2].toNumber(), 0);
         });
     });
 
@@ -110,11 +124,11 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             it('player token has default values', async function () {
                 const token = await this.game.getToken(player1);
                 assert.equal(token[6].toNumber(), DEFAULT_BLENDING_PRICE, 'blending price is default');
-                assert.isAbove(token[0].toNumber(), 0);
+                assert.isAbove(token[0].toNumber(), -1);
                 assert.isBelow(token[0].toNumber(), 256);
-                assert.isAbove(token[1].toNumber(), 0);
+                assert.isAbove(token[1].toNumber(), -1);
                 assert.isBelow(token[1].toNumber(), 256);
-                assert.isAbove(token[2].toNumber(), 0);
+                assert.isAbove(token[2].toNumber(), -1);
                 assert.isBelow(token[2].toNumber(), 256);
                 assert.equal(token[0].toNumber(), token[3].toNumber());
                 assert.equal(token[1].toNumber(), token[4].toNumber());
@@ -396,18 +410,29 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             });
         });
 
-        it('revert if not a player', async function () {
+        it('revert if sender is not game manager', async function () {
             await assertRevert(this.game.claimVictory(
+                winningPlayer,
                 {
                     from: unknown,
                 }
             ));
         });
 
+        it('revert if not a player', async function () {
+            await assertRevert(this.game.claimVictory(
+                unknown,
+                {
+                    from: gameManager,
+                }
+            ));
+        });
+
         it('revert if not winner', async function () {
             await assertRevert(this.game.claimVictory(
+                player1,
                 {
-                    from: player1,
+                    from: gameManager,
                 }
             ));
         });
@@ -416,10 +441,13 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
             beforeEach(async function () {
                 this.initialRainbowBalance = await web3.eth.getBalance(this.game.address);
                 this.initialWinnerBalance = await web3.eth.getBalance(winningPlayer);
-                this.receipt = await this.game.claimVictory({
-                    from: winningPlayer,
+                this.receipt = await this.game.claimVictory(
+                  winningPlayer,
+                  {
+                    from: gameManager,
                     gasPrice: 0,
-                });
+                  }
+                );
             });
 
             it('rainbow token balance has been transfered to winner', async function () {
@@ -471,9 +499,11 @@ contract('RainbowToken', function ([player1, player2, winningPlayer, unknown]) {
                     });
 
                     it('claimVictory', async function () {
-                        await assertRevert(this.game.claimVictory({
-                            from: winningPlayer,
-                        }
+                        await assertRevert(this.game.claimVictory(
+                          winningPlayer,
+                          {
+                            from: gameManager,
+                          }
                         ));
                     });
                 });
