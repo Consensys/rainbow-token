@@ -376,6 +376,9 @@ contract RainbowToken {
     onlyGameManager
     returns (bool)
   {
+    // Test player is a real player
+    require(isPlayer(player), 'Not a player');
+
     // Test player token has a winning color
     Color memory color = tokens[player].color;
     require(color.r == targetColor.r && color.g == targetColor.g && color.b == targetColor.b, "Not winner");
