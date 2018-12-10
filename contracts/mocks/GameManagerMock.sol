@@ -10,7 +10,7 @@ import './RainbowTokenMock.sol';
   * The game manager keeps track of the current game and creates a new one if
   * the previous one ends
   */
-contract GameManager {
+contract GameManagerMock {
 
   /* Current address of the game */
   address public gameAddress;
@@ -20,19 +20,24 @@ contract GameManager {
   uint8 public g;
   uint8 public b;
 
+  /* Winning player address */
+  address public winningPlayer;
+
   /* Emitted every time a new game is deployed */
-  event NewGame(address _newGame);
+  event NewGame(address newGameAddress);
 
   /**
     * @dev Creates a new manager with a new game
     * @param _r Uint of the target r
     * @param _g Uint of the target g
     * @param _b Uint of the target b
+    * @param _winningPlayer Address of the winning player
     */
   constructor(
     uint8 _r,
     uint8 _g,
-    uint8 _b
+    uint8 _b,
+    address _winningPlayer
   )
     public
   {
@@ -40,6 +45,7 @@ contract GameManager {
     r = _r;
     g = _g;
     b = _b;
+    winningPlayer = _winningPlayer;
 
     // Create a new game
     require(newRainbowToken(), 'Not able to generate a new game');
@@ -62,7 +68,7 @@ contract GameManager {
     require(game.claimVictory(msg.sender), 'Unable to claim victory.');
 
     // Create a new game
-    require(newRainbowToken(), 'Not able to generate a new game');
+    require(newRainbowToken(), 'Unable to create a new game');
 
     return true;
   }
@@ -75,7 +81,13 @@ contract GameManager {
     returns (bool)
   {
     // Create the new game
-    RainbowToken newGame = new RainbowTokenMock(r, g, b, address(this));
+    RainbowToken newGame = new RainbowTokenMock(
+      r,
+      g,
+      b,
+      address(this),
+      winningPlayer
+    );
 
     // Register the new address
     gameAddress = address(newGame);
