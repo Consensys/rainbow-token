@@ -400,6 +400,7 @@ contract RainbowToken {
   function toPrimary(
     uint colorComponent
   )
+    public
     pure
     returns (uint)
   {
