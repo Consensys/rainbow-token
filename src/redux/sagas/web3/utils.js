@@ -6,13 +6,8 @@ import {
     checkNetwork,
     checkUnlockingMetamask,
     fillAccount,
-    startLoadingWeb3,
-    endLoadingWeb3,
-    eventsSet,
     addContract
-} from "../../actions/setUp/web3";
-
-import { addError } from "../../actions/errors";
+} from "../../actions/web3";
 
 import networkConfig from "../../../web3/config";
 
@@ -51,7 +46,7 @@ function* networkHandler(provider) {
     return onAvailableNetwork;
 }
 
-export function* accountHandler() {
+function* accountHandler() {
     // Select the eth object and the address of the user
     const {
         network: { eth },
@@ -94,7 +89,7 @@ function* contractHandler() {
     }
 }
 
-export function* createContract(key, abi, address) {
+function* createContract(key, abi, address) {
     // Get the network id in order to find the address
     // and the Contract object of web3 for the methods
     const eth = yield select(state => state.web3.network.eth);
@@ -112,29 +107,11 @@ export function* createContract(key, abi, address) {
     yield put(addContract({ key, contract }));
 }
 
-export default function*() {
-    try {
-        yield put(startLoadingWeb3());
-        // Handle the Metamask unlocking
-        const { provider, metamaskUnlocked } = yield call(metamaskHandler);
-        // Handle the Network wrt the configurations
-        const onAvailableNetwork = yield call(networkHandler, provider);
-        // Fill the user informations
-        yield call(accountHandler);
-        if (onAvailableNetwork) {
-            // Handle the web sockets for event listening
-            yield call(webSocketHandler);
-            // Instantiate every contracts that are in the configs
-            yield call(contractHandler);
-            // Events can be listened
-            yield put(eventsSet());
-        }
-        return onAvailableNetwork && metamaskUnlocked;
-    } catch (err) {
-        console.log(err);
-        yield put(addError("Unable to set up the web3 instance."));
-        return false;
-    } finally {
-        yield put(endLoadingWeb3());
-    }
+export {
+  metamaskHandler,
+  networkHandler,
+  accountHandler,
+  webSocketHandler,
+  contractHandler,
+  createContract,
 }

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import {
     subscribeToAccount,
     unsubscribeToAccount
-} from "../../redux/actions/setUp/web3";
+} from "../../redux/actions/web3";
 
 /* Component */
 import UserSpace from "../../components/Topbar/UserSpace";

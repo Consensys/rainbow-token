@@ -1,20 +1,23 @@
-import { call, put, all, takeLatest } from "redux-saga/effects";
+import { call, put, } from "redux-saga/effects";
 
-import setUpWeb3 from "./web3";
-import { setUpRainbow, setUserStatus } from "./rainbowToken";
-
+/* Actions */
 import {
-    INITIALIZE_GAME,
     gameInitialized,
     startInitialization,
     endInitialization
 } from "../../actions/setUp/game";
-
 import { addError } from "../../actions/errors";
 
-/** ******* WORKERS *********/
+/* Helpers */
+import {
+  setUpWeb3
+} from '../web3/workers';
+import {
+  setUpRainbow,
+  setUserStatus,
+} from './utils';
 
-function* initializeGame() {
+function* initializeGameSaga() {
     try {
         // Start initializing game
         yield put(startInitialization());
@@ -40,14 +43,6 @@ function* initializeGame() {
     }
 }
 
-/** ******* WATCHERS *********/
-
-function* watchInitializeGame() {
-    yield takeLatest(INITIALIZE_GAME, initializeGame);
-}
-
-/** ******* SAGA *********/
-
-export default function*() {
-    yield all([watchInitializeGame()]);
+export {
+  initializeGameSaga
 }

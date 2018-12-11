@@ -1,7 +1,7 @@
 import { eventChannel } from "redux-saga";
 import { select, put, take, call } from "redux-saga/effects";
 
-import { EVENTS_SET, newBlockHeader } from "../../actions/setUp/web3";
+import { EVENTS_SET, newBlockHeader } from "../../actions/web3";
 
 import { addError } from "../../actions/errors";
 

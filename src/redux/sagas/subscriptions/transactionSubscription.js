@@ -1,6 +1,6 @@
 import { takeEvery, select, call, put } from "redux-saga/effects";
 
-import { NEW_BLOCK_HEADER } from "../../actions/setUp/web3";
+import { NEW_BLOCK_HEADER } from "../../actions/web3";
 
 import {
     endTransaction,

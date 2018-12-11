@@ -1,4 +1,4 @@
-import { SET_NETWORK } from "../../actions/setUp/web3";
+import { SET_NETWORK } from "../../actions/web3";
 
 const DEFAULT_STATE = {
     id: undefined

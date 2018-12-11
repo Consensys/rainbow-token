@@ -4,9 +4,9 @@ import {
     NEW_BLOCK_HEADER,
     SUBSCRIBE_TO_ACCOUNT,
     UNSUBSCRIBE_TO_ACCOUNT
-} from "../../actions/setUp/web3";
+} from "../../actions/web3";
 
-import { accountHandler } from "../setUp/web3";
+import { accountHandler } from "../web3/utils";
 
 function* openChannel() {
     yield takeEvery(NEW_BLOCK_HEADER, accountHandler);

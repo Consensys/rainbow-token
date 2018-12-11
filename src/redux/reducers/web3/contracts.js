@@ -1,4 +1,4 @@
-import { ADD_CONTRACT } from "../../actions/setUp/web3";
+import { ADD_CONTRACT } from "../../actions/web3";
 
 const DEFAULT_STATE = {};
 

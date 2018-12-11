@@ -1,4 +1,4 @@
-import { FILL_ACCOUNT } from "../../actions/setUp/web3";
+import { FILL_ACCOUNT } from "../../actions/web3";
 
 const DEFAULT_STATE = {
     address: undefined

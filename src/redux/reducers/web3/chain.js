@@ -1,4 +1,4 @@
-import { NEW_BLOCK_HEADER } from "../../actions/setUp/web3";
+import { NEW_BLOCK_HEADER } from "../../actions/web3";
 
 import { ADD_TRANSACTION_TO_BLOCK } from "../../actions/transactions/general";
 
