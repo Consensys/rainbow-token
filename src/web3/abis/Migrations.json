@@ -184,7 +184,7 @@
                                                 "name": "msg",
                                                 "nodeType": "Identifier",
                                                 "overloadedDeclarations": [],
-                                                "referencedDeclaration": 937,
+                                                "referencedDeclaration": 944,
                                                 "src": "151:3:1",
                                                 "typeDescriptions": {
                                                     "typeIdentifier": "t_magic_message",
@@ -270,7 +270,7 @@
                                                 "name": "msg",
                                                 "nodeType": "Identifier",
                                                 "overloadedDeclarations": [],
-                                                "referencedDeclaration": 937,
+                                                "referencedDeclaration": 944,
                                                 "src": "202:3:1",
                                                 "typeDescriptions": {
                                                     "typeIdentifier": "t_magic_message",
@@ -823,7 +823,7 @@
                                                 "name": "msg",
                                                 "nodeType": "Identifier",
                                                 "overloadedDeclarations": [],
-                                                "referencedDeclaration": 937,
+                                                "referencedDeclaration": 944,
                                                 "src": "151:3:1",
                                                 "typeDescriptions": {
                                                     "typeIdentifier": "t_magic_message",
@@ -909,7 +909,7 @@
                                                 "name": "msg",
                                                 "nodeType": "Identifier",
                                                 "overloadedDeclarations": [],
-                                                "referencedDeclaration": 937,
+                                                "referencedDeclaration": 944,
                                                 "src": "202:3:1",
                                                 "typeDescriptions": {
                                                     "typeIdentifier": "t_magic_message",
@@ -1353,12 +1353,6 @@
         "version": "0.4.24+commit.e67f0147.Emscripten.clang"
     },
     "networks": {
-        "3": {
-            "events": {},
-            "links": {},
-            "address": "0x64f6dca9242d7cd99db95d8ac1744d1e3fbed3ea",
-            "transactionHash": "0xa8470901fef2523b575ff87250dcc604f7487e192ef5df57150d7bd2599f1ede"
-        },
         "90451": {
             "events": {},
             "links": {},
@@ -1367,5 +1361,5 @@
         }
     },
     "schemaVersion": "2.0.1",
-    "updatedAt": "2018-12-06T15:44:26.349Z"
+    "updatedAt": "2018-12-12T17:39:46.140Z"
 }
