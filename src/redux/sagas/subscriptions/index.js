@@ -9,19 +9,23 @@ import {
 } from "redux-saga/effects";
 
 /* Actions */
-import { EVENTS_SET, newBlockHeader } from "../../actions/web3";
-import { addError } from "../../actions/errors";
 import {
+    EVENTS_SET,
+    newBlockHeader,
     SUBSCRIBE_TO_ACCOUNT,
-    UNSUBSCRIBE_TO_ACCOUNT
+    UNSUBSCRIBE_TO_ACCOUNT,
+    NEW_BLOCK_HEADER
 } from "../../actions/web3";
-import { NEW_BLOCK_HEADER } from "../../actions/web3";
+import { initializeGame } from "../../actions/setUp/game";
+import { addError } from "../../actions/errors";
+import { removeUserAsPlayer } from "../../actions/user";
 
 /* Workers */
 import {
     blockHeaderSubscription,
     accountSubscription,
-    transactionSubscription
+    transactionSubscription,
+    metamaskAccountSubscription
 } from "./workers";
 
 function* subscriptionToBlockHeader() {
@@ -66,10 +70,20 @@ function* subscriptionToTransaction() {
     yield takeEvery(NEW_BLOCK_HEADER, transactionSubscription);
 }
 
+function* subscriptionToMetamaskAccount() {
+    const chan = yield call(metamaskAccountSubscription);
+    while (true) {
+        yield take(chan);
+        yield put(removeUserAsPlayer());
+        yield put(initializeGame());
+    }
+}
+
 export default function*() {
     yield all([
         subscriptionToBlockHeader(),
         subscriptionToAccount(),
-        subscriptionToTransaction()
+        subscriptionToTransaction(),
+        subscriptionToMetamaskAccount()
     ]);
 }

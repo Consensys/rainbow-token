@@ -70,8 +70,18 @@ function* transactionSubscription() {
     }
 }
 
+function metamaskAccountSubscription() {
+    return eventChannel(emitter => {
+        window.ethereum.on("accountsChanged", ([address]) => {
+            emitter({ address });
+        });
+        return () => false;
+    });
+}
+
 export {
     blockHeaderSubscription,
     accountSubscription,
-    transactionSubscription
+    transactionSubscription,
+    metamaskAccountSubscription
 };

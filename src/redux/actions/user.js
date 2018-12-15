@@ -12,6 +12,11 @@ export const setUserAsPlayer = () => ({
     type: SET_USER_AS_PLAYER
 });
 
+export const REMOVE_USER_AS_PLAYER = "REMOVE_USER_AS_PLAYER";
+export const removeUserAsPlayer = () => ({
+    type: REMOVE_USER_AS_PLAYER
+});
+
 /****** LOADING ******/
 
 export const START_LOADING_USER = "START_LOADING_USER";

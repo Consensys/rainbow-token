@@ -108,10 +108,10 @@ function* createContract(key, abi, address) {
 }
 
 export {
-  metamaskHandler,
-  networkHandler,
-  accountHandler,
-  webSocketHandler,
-  contractHandler,
-  createContract,
-}
+    metamaskHandler,
+    networkHandler,
+    accountHandler,
+    webSocketHandler,
+    contractHandler,
+    createContract
+};
