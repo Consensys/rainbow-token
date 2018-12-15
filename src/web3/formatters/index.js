@@ -32,7 +32,7 @@ export default (abi, eth, methods, contractWs) => {
                 null,
                 methodArgs
             );
-            const txArg = arguments[functionObject.inputs.length];
+            const txArg = arguments[functionObject.inputs.length] || {};
             const signer = arguments[functionObject.inputs.length + 1];
 
             if (signer) {

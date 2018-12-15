@@ -9,7 +9,7 @@ export default (abi, methods) => {
             const methodArgs = [...arguments].filter(
                 (el, index) => index !== arguments.length - 1
             );
-            const txArg = arguments[functionObject.inputs.length];
+            const txArg = arguments[functionObject.inputs.length] || {};
             const txObject = methods[functionObject.name].apply(
                 null,
                 methodArgs
