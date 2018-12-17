@@ -100,9 +100,11 @@ function* createContract(key, abi, address) {
     // Get the methods
     const methods = new eth.Contract(abi, address).methods;
     // Get the events
-    const contractWs = new ContractWs(abi, address);
+    const events = new ContractWs(abi, address).events;
+    // const contractWs = new ContractWs(abi, address);
     // Create contract object
-    const contract = abiParser(abi, eth, methods, contractWs);
+    const contract = { methods, events };
+    // const contract = abiParser(abi, eth, methods, contractWs);
     // Set the contract in the store
     yield put(addContract({ key, contract }));
 }

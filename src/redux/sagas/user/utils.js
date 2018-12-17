@@ -3,6 +3,26 @@ import { call, select } from "redux-saga/effects";
 /* Helpers */
 import transactionHandler from "../utils/transactionHandler";
 
+async function sendTransaction(
+    contractMethodOrTx,
+    methodArgs = [],
+    txArgs = {},
+    privateKey = ""
+) {
+    // Form the transaction object if contractMethodOrTx is not a transaction
+    // object
+    let txObject;
+    if (contractMethodOrTx instanceof Object) {
+        txObject = contractMethodOrTx;
+    } else if (
+        contractMethodOrTx instanceof Array &&
+        contractMethodOrTx.length === 2
+    ) {
+    }
+    // If there is a signer
+    // If there is no signer
+}
+
 function* transaction(contractName, methodName, ...methodArgs) {
     try {
         const {
