@@ -13,7 +13,98 @@ import networkConfig from "../../../web3/config";
 
 import abiParser from "../../../web3/formatters";
 
-/** ******* WORKERS *********/
+/* Helpers */
+import transactionHandler from "../utils/transactionHandler";
+import transactionToEmitter from "../utils/transactionToEmitter";
+
+function* buildPrimaryTransactionObjectFromContract(
+    [contractName, methodName, ...methodArgs],
+    txArgs
+) {
+    const {
+        methods,
+        options: { address }
+    } = yield select(state => state.web3.contracts[contractName]);
+    const web3TxObject = methods[methodName].apply(null, methodArgs);
+    return {
+        data: web3TxObject.encodeABI(),
+        to: address,
+        ...txArgs
+    };
+}
+
+function* buildPrimaryTransactionObject(contractMethodOrTx, txArgs) {
+    try {
+        if (
+            contractMethodOrTx instanceof Array &&
+            contractMethodOrTx.length >= 2
+        ) {
+            return yield call(
+                buildPrimaryTransactionObjectFromContract,
+                contractMethodOrTx,
+                txArgs
+            );
+        } else if (contractMethodOrTx instanceof Object) {
+            return contractMethodOrTx;
+        } else {
+            throw new Error(
+                "Invalid parameter, expected transaction object or array."
+            );
+        }
+    } catch (err) {
+        console.log(err);
+        throw new Error("Unable to build primary transaction object." + err);
+    }
+}
+
+function* sendFromWallet(primaryTxObject) {
+    try {
+        const {
+            network: { eth },
+            account: { address }
+        } = yield select(state => state.web3);
+        const chan = yield call(
+            transactionToEmitter,
+            eth.sendTransaction({ ...primaryTxObject, from: address })
+        );
+        yield call(transactionHandler, chan);
+    } catch (err) {
+        throw new Error("Unable to send the transaction." + err);
+    }
+}
+
+function* signTransaction(primaryTxObject, privateKey) {
+    try {
+        const { eth } = yield select(state => state.web3.network);
+        const { address, signTransaction } = yield call(
+            [eth.accounts, "privateKeyToAccount"],
+            privateKey
+        );
+        const txObject = { ...primaryTxObject };
+        txObject.from = txObject.from ? txObject.from : address;
+        txObject.gas = txObject.gas
+            ? txObject.gas
+            : yield call([eth, "estimateGas"], txObject);
+        const { rawTransaction } = yield call(signTransaction, txObject);
+        return rawTransaction;
+    } catch (err) {
+        throw new Error("Unable to sign the transaction.");
+    }
+}
+
+function* signAndSend(primaryTxObject, privateKey) {
+    try {
+        const { eth } = yield select(state => state.web3.network);
+        const rawTransaction = yield call(signTransaction, primaryTxObject);
+        const chan = yield call(
+            transactionToEmitter,
+            eth.sendSignedTransaction(rawTransaction)
+        );
+        yield call(transactionHandler, chan);
+    } catch (err) {
+        throw new Error("Unable to send the transaction." + err);
+    }
+}
 
 function* metamaskHandler() {
     // Get the provider from Metamask
@@ -106,10 +197,25 @@ function* createContract(key, abi, address) {
     // Create contract object
     const contract = abiParser(abi, eth, methods, contractWs);
     // Set the contract in the store
-    yield put(addContract({ key, contract: { ...contract, contractHttp } }));
+    yield put(
+        addContract({
+            key,
+            contract: {
+                ...contract,
+                methods: contractHttp.methods,
+                events: contractWs.events,
+                options: { ...contractHttp.options }
+            }
+        })
+    );
 }
 
 export {
+    buildPrimaryTransactionObjectFromContract,
+    buildPrimaryTransactionObject,
+    sendFromWallet,
+    signTransaction,
+    signAndSend,
     metamaskHandler,
     networkHandler,
     accountHandler,

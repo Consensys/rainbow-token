@@ -22,7 +22,7 @@ import { computeScore, color, computeToken } from "../../utils";
 
 import { targetColor } from "../../constants/rainbowToken";
 
-import { callContract } from "./web3/api";
+import { callContract, listenAndReactToEvent } from "./web3/api";
 
 /** ******* WORKERS *********/
 
@@ -117,15 +117,63 @@ function* watchUserAsPlayer() {
 }
 
 function* watchListenBlendingPrice() {
-    yield takeLatest(NEW_RAINBOW_SET, listenBlendingPrice);
+    // yield takeLatest(NEW_RAINBOW_SET, listenBlendingPrice);
+    yield takeLatest(NEW_RAINBOW_SET, () =>
+        call(listenAndReactToEvent, [
+            "RainbowToken",
+            "BlendingPriceSet",
+            {},
+            function*({ player, price }) {
+                yield put(
+                    updatePlayerToken(player.toLowerCase(), undefined, price)
+                );
+            }
+        ])
+    );
 }
 
 function* watchListenTokenBlended() {
-    yield takeLatest(NEW_RAINBOW_SET, listenTokenBlended);
+    yield takeLatest(NEW_RAINBOW_SET, () =>
+        call(listenAndReactToEvent, [
+            "RainbowToken",
+            "TokenBlended",
+            {},
+            function*({ player, r, g, b }) {
+                yield put(
+                    updatePlayerToken(player.toLowerCase(), color([r, g, b]))
+                );
+            }
+        ])
+    );
 }
 
 function* watchListenPlayerCreated() {
-    yield takeLatest(NEW_RAINBOW_SET, listenPlayerCreated);
+    yield takeLatest(NEW_RAINBOW_SET, () =>
+        call(listenAndReactToEvent, [
+            "RainbowToken",
+            "PlayerCreated",
+            {},
+            function*({ player, r, g, b, blendingPrice }) {
+                const token = {
+                    blendingPrice,
+                    color: { r, g, b },
+                    defaultColor: { r, g, b }
+                };
+                const newPlayer = {
+                    address: player.toLowerCase(),
+                    pseudo: generator(player.toLowerCase()),
+                    token,
+                    score: computeScore(token.color, targetColor)
+                };
+                yield put(addPlayer(newPlayer));
+                const { address: userAddress } = yield select(
+                    state => state.web3.account
+                );
+                if (userAddress === player.toLowerCase())
+                    yield put(setUserAsPlayer());
+            }
+        ])
+    );
 }
 
 function* playersSaga() {
