@@ -1,6 +1,7 @@
 import { call, put, all, take, select, takeLatest } from "redux-saga/effects";
 import generator from "mnemonic-generator";
 
+/* Actions */
 import {
     startLoadingPlayers,
     endLoadingPlayers,
@@ -8,21 +9,19 @@ import {
     addPlayer,
     updatePlayerToken
 } from "../actions/players";
-
 import { addError } from "../actions/errors";
-
 import {
     setUserAsPlayer,
     SET_USER_AS_PLAYER
 } from "../actions/setUp/rainbowToken";
-
 import { NEW_RAINBOW_SET } from "../actions/setUp/rainbowToken";
 
+/* Helpers */
 import { computeScore, color, computeToken } from "../../utils";
-
-import { targetColor } from "../../constants/rainbowToken";
-
 import { callContract, listenAndReactToEvent } from "./web3/api";
+
+/* Constants */
+import { targetColor } from "../../constants/rainbowToken";
 
 /** ******* WORKERS *********/
 
@@ -55,58 +54,6 @@ export function* getPlayers() {
         yield put(addError("Unable to retrieve the players."));
     } finally {
         yield put(endLoadingPlayers());
-    }
-}
-
-/** ******* EVENT LISTENERS *********/
-
-function* listenBlendingPrice() {
-    const { BlendingPriceSet } = yield select(
-        state => state.web3.contracts.RainbowToken.events
-    );
-    const chan = yield call([BlendingPriceSet, "listening"], undefined, {});
-    while (true) {
-        let { player, price } = yield take(chan);
-        console.log("BlendingPrice event!");
-        yield put(updatePlayerToken(player.toLowerCase(), undefined, price));
-    }
-}
-
-function* listenTokenBlended() {
-    const { TokenBlended } = yield select(
-        state => state.web3.contracts.RainbowToken.events
-    );
-    const chan = yield call([TokenBlended, "listening"], undefined, {});
-    while (true) {
-        let { player, r, g, b } = yield take(chan);
-        console.log("Token Blended event!");
-        yield put(updatePlayerToken(player.toLowerCase(), color([r, g, b])));
-    }
-}
-
-function* listenPlayerCreated() {
-    const { PlayerCreated } = yield select(
-        state => state.web3.contracts.RainbowToken.events
-    );
-    const chan = yield call([PlayerCreated, "listening"], undefined, {});
-    while (true) {
-        let { player, r, g, b, blendingPrice } = yield take(chan);
-        const token = {
-            blendingPrice,
-            color: { r, g, b },
-            defaultColor: { r, g, b }
-        };
-        const newPlayer = {
-            address: player.toLowerCase(),
-            pseudo: generator(player.toLowerCase()),
-            token,
-            score: computeScore(token.color, targetColor)
-        };
-        yield put(addPlayer(newPlayer));
-        const { address: userAddress } = yield select(
-            state => state.web3.account
-        );
-        if (userAddress === player.toLowerCase()) yield put(setUserAsPlayer());
     }
 }
 
