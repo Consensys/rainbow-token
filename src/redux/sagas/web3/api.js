@@ -110,4 +110,19 @@ function* sendTransaction(contractMethodOrTx, txArgs = {}, privateKey = "") {
     }
 }
 
-export { sendTransaction };
+function* callContract([contractName, methodName, ...methodArgs], txArgs) {
+    try {
+        const contract = yield select(
+            state => state.web3.contracts[contractName].contractHttp
+        );
+        const web3TxObject = contract.methods[methodName].apply(
+            null,
+            methodArgs
+        );
+        return yield call([web3TxObject, "call"], txArgs);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export { sendTransaction, callContract };

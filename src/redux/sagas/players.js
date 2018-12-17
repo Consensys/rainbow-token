@@ -22,20 +22,24 @@ import { computeScore, color, computeToken } from "../../utils";
 
 import { targetColor } from "../../constants/rainbowToken";
 
+import { callContract } from "./web3/api";
+
 /** ******* WORKERS *********/
 
 export function* getPlayers() {
     try {
         yield put(startLoadingPlayers());
-        const { getPlayers, getToken } = yield select(
-            state => state.web3.contracts.RainbowToken.call
-        );
         const { players } = yield select(state => state.data);
-        const playerAddresses = yield call(getPlayers, {});
+        const playerAddresses = yield call(callContract, [
+            "RainbowToken",
+            "getPlayers"
+        ]);
         const tokens = (yield all(
             playerAddresses
                 .filter(address => !(address in players))
-                .map(address => call(getToken, address, {}))
+                .map(address =>
+                    call(callContract, ["RainbowToken", "getToken", address])
+                )
         )).map(computeToken);
         for (let i = 0; i < playerAddresses.length; i++) {
             players[playerAddresses[i].toLowerCase()] = {
