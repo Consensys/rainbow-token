@@ -8,7 +8,7 @@ import {
 } from "../../actions/transactions/rainbowToken";
 
 /* Helpers */
-import { transaction } from "./utils";
+import { sendTransaction } from "../web3/api";
 
 /* Constants */
 import { defaultBlendingPrice } from "../../../constants/rainbowToken";
@@ -19,20 +19,22 @@ function* watchBlend() {
         ({ payload: { blendingAddress, blendingToken } }) => {
             if (blendingAddress && blendingToken) {
                 return call(
-                    transaction,
-                    "RainbowToken",
-                    "blend",
-                    blendingAddress,
-                    blendingToken.blendingPrice,
-                    blendingToken.color.r,
-                    blendingToken.color.g,
-                    blendingToken.color.b,
+                    sendTransaction,
+                    [
+                        "RainbowToken",
+                        "blend",
+                        blendingAddress,
+                        blendingToken.blendingPrice,
+                        blendingToken.color.r,
+                        blendingToken.color.g,
+                        blendingToken.color.b
+                    ],
                     {
                         value: blendingToken.blendingPrice
                     }
                 );
             } else {
-                return call(transaction, "RainbowToken", "defaultBlend", {
+                return call(sendTransaction, ["RainbowToken", "defaultBlend"], {
                     value: defaultBlendingPrice
                 });
             }
@@ -42,14 +44,13 @@ function* watchBlend() {
 
 function* watchSetBlendingPrice() {
     yield takeLatest(SET_BLENDING_PRICE, ({ payload }) =>
-        call(transaction, "RainbowToken", "setBlendingPrice", payload)
+        call(sendTransaction, ["RainbowToken", "setBlendingPrice", payload])
     );
 }
 
 function* watchStartPlaying() {
-    yield takeLatest(
-        START_PLAYING,
-        call(transaction, "RainbowToken", "play", {
+    yield takeLatest(START_PLAYING, () =>
+        call(sendTransaction, ["RainbowToken", "play"], {
             value: defaultBlendingPrice
         })
     );

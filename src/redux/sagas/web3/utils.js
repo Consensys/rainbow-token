@@ -98,15 +98,15 @@ function* createContract(key, abi, address) {
         state => state.web3.network.ethWs
     );
     // Get the methods
-    const methods = new eth.Contract(abi, address).methods;
+    const contractHttp = new eth.Contract(abi, address);
+    const methods = contractHttp.methods;
     // Get the events
-    const events = new ContractWs(abi, address).events;
-    // const contractWs = new ContractWs(abi, address);
+    // const events = new ContractWs(abi, address).events;
+    const contractWs = new ContractWs(abi, address);
     // Create contract object
-    const contract = { methods, events };
-    // const contract = abiParser(abi, eth, methods, contractWs);
+    const contract = abiParser(abi, eth, methods, contractWs);
     // Set the contract in the store
-    yield put(addContract({ key, contract }));
+    yield put(addContract({ key, contract: { ...contract, contractHttp } }));
 }
 
 export {
