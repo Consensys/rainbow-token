@@ -11,8 +11,6 @@ import {
 
 import networkConfig from "../../../web3/config";
 
-import abiParser from "../../../web3/formatters";
-
 /* Helpers */
 import transactionHandler from "../utils/transactionHandler";
 import transactionToEmitter from "../utils/transactionToEmitter";
@@ -181,30 +179,23 @@ function* contractHandler() {
 }
 
 function* createContract(key, abi, address) {
-    // Get the network id in order to find the address
-    // and the Contract object of web3 for the methods
-    const eth = yield select(state => state.web3.network.eth);
-    // Contract object of web3Ws for the events
-    const { Contract: ContractWs } = yield select(
-        state => state.web3.network.ethWs
-    );
+    // Get the contract factory in store
+    const {
+        eth: { Contract },
+        ethWs: { Contract: ContractWs }
+    } = yield select(state => state.web3.network);
     // Get the methods
-    const contractHttp = new eth.Contract(abi, address);
-    const methods = contractHttp.methods;
+    const { methods, options } = new Contract(abi, address);
     // Get the events
-    // const events = new ContractWs(abi, address).events;
-    const contractWs = new ContractWs(abi, address);
-    // Create contract object
-    const contract = abiParser(abi, eth, methods, contractWs);
+    const { events } = new ContractWs(abi, address);
     // Set the contract in the store
     yield put(
         addContract({
             key,
             contract: {
-                ...contract,
-                methods: contractHttp.methods,
-                events: contractWs.events,
-                options: { ...contractHttp.options }
+                methods,
+                events,
+                options
             }
         })
     );

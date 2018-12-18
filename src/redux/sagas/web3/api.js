@@ -1,4 +1,4 @@
-import { call, select, take } from "redux-saga/effects";
+import { call, select, take, all } from "redux-saga/effects";
 
 import {
     buildPrimaryTransactionObject,
@@ -39,7 +39,7 @@ function* callContract([contractName, methodName, ...methodArgs], txArgs) {
 }
 
 function* listenAndReactToEvent(
-    [contractName, eventName, filterArgs, callback],
+    [contractName, eventName, filterArgs, callbacks = []],
     optionsArgs = {}
 ) {
     const { [eventName]: event } = yield select(
@@ -56,7 +56,11 @@ function* listenAndReactToEvent(
     );
     while (true) {
         const returnValues = yield take(chan);
-        yield call(callback, returnValues);
+        if (callbacks instanceof Function) {
+            yield call(callbacks, returnValues);
+        } else {
+            yield all(callbacks.map(callback => call(callback, returnValues)));
+        }
     }
 }
 

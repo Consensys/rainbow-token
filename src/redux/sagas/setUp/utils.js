@@ -9,12 +9,14 @@ import {
     setUserAsPlayer
 } from "../../actions/setUp/rainbowToken";
 
+import { callContract } from "../web3/api";
+
 function* setUpRainbow() {
     // Fetch the address of the Rainbow Token
-    const { gameAddress } = yield select(
-        state => state.web3.contracts.GameManager.call
-    );
-    const rainbowAddress = yield call(gameAddress, {});
+    const rainbowAddress = yield call(callContract, [
+        "GameManager",
+        "gameAddress"
+    ]);
     // Create the contract
     yield call(createContract, "RainbowToken", abi, rainbowAddress);
 
@@ -24,10 +26,11 @@ function* setUpRainbow() {
 
 function* setUserStatus() {
     const { address } = yield select(state => state.web3.account);
-    const { isPlayer } = yield select(
-        state => state.web3.contracts.RainbowToken.call
-    );
-    const userIsPlayer = yield call(isPlayer, address, {});
+    const userIsPlayer = yield call(callContract, [
+        "RainbowToken",
+        "isPlayer",
+        address
+    ]);
     if (userIsPlayer) yield put(setUserAsPlayer());
 }
 
