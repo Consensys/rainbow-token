@@ -3,22 +3,24 @@ import React, { Component } from "react";
 /* Redux */
 import { connect } from "react-redux";
 import {
-    subscribeToAccount,
-    unsubscribeToAccount
+    addReactionToNewBlock,
+    removeReactionToNewBlock
 } from "../../redux/actions/web3";
+
+import { accountHandler } from "../../redux/sagas/web3/utils";
 
 /* Component */
 import UserSpace from "../../components/Topbar/UserSpace";
 
 class container extends Component {
     componentDidMount() {
-        const { subscribeToAccount } = this.props;
-        subscribeToAccount();
+        const { addReactionToNewBlock } = this.props;
+        addReactionToNewBlock("Account", accountHandler);
     }
 
     componentWillUnmount() {
-        const { unsubscribeToAccount } = this.props;
-        unsubscribeToAccount();
+        const { removeReactionToNewBlock } = this.props;
+        removeReactionToNewBlock("Account");
     }
 
     render() {
@@ -44,8 +46,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    subscribeToAccount,
-    unsubscribeToAccount
+    addReactionToNewBlock,
+    removeReactionToNewBlock
 };
 
 export default connect(

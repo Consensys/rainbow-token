@@ -20,14 +20,16 @@ export const newBlockHeader = blockHeader => ({
     payload: blockHeader
 });
 
-export const SUBSCRIBE_TO_ACCOUNT = "SUBSCRIBE_TO_ACCOUNT";
-export const subscribeToAccount = () => ({
-    type: SUBSCRIBE_TO_ACCOUNT
+export const ADD_REACTION_TO_NEW_BLOCK = "ADD_REACTION_TO_NEW_BLOCK";
+export const addReactionToNewBlock = (key, callback) => ({
+    type: ADD_REACTION_TO_NEW_BLOCK,
+    payload: { key, callback }
 });
 
-export const UNSUBSCRIBE_TO_ACCOUNT = "UNSUBSCRIBE_TO_ACCOUNT";
-export const unsubscribeToAccount = () => ({
-    type: UNSUBSCRIBE_TO_ACCOUNT
+export const REMOVE_REACTION_TO_NEW_BLOCK = "REMOVE_REACTION_TO_NEW_BLOCK";
+export const removeReactionToNewBlock = key => ({
+    type: REMOVE_REACTION_TO_NEW_BLOCK,
+    payload: key
 });
 
 /*********** ACCOUNT ***********/

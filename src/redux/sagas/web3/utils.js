@@ -106,7 +106,10 @@ function* signAndSend(primaryTxObject, privateKey) {
 
 function* metamaskHandler() {
     // Get the provider from Metamask
-    const provider = window.ethereum;
+    // const provider = window.ethereum;
+    const provider = Web3.givenProvider;
+    console.log("metamask", provider);
+    console.log("givenProvider", Web3.givenProvider);
     // Ask permission to the user for his address
     const [address] = yield provider.enable();
     const metamaskUnlocked = !!address;

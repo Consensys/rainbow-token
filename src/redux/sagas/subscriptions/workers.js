@@ -1,15 +1,12 @@
 import { eventChannel } from "redux-saga";
-import { select, put, call, takeEvery } from "redux-saga/effects";
+import { select, put, call } from "redux-saga/effects";
 
 /* Actions */
-import { NEW_BLOCK_HEADER, newBlockHeader } from "../../actions/web3";
+import { newBlockHeader } from "../../actions/web3";
 import {
     endTransaction,
     addTransactionToBlock
 } from "../../actions/transactions/general";
-
-/* Helpers */
-import { accountHandler } from "../web3/utils";
 
 function* blockHeaderSubscription() {
     const { ethWs: eth } = yield select(state => state.web3.network);
@@ -39,10 +36,6 @@ function* blockHeaderSubscription() {
     });
 }
 
-function* accountSubscription() {
-    yield takeEvery(NEW_BLOCK_HEADER, accountHandler);
-}
-
 function* transactionSubscription() {
     try {
         const {
@@ -50,17 +43,17 @@ function* transactionSubscription() {
             network: { ethWs: eth }
         } = yield select(state => state.web3);
         if (txHash) {
-            const { blockNumber, status, transactionHash } = yield call(
+            const txReceipt = yield call(
                 [eth, "getTransactionReceipt"],
                 txHash
             );
-            if (blockNumber) {
+            if (txReceipt && txReceipt.blockNumber) {
                 yield put(endTransaction());
                 yield put(
                     addTransactionToBlock(
-                        blockNumber,
-                        transactionHash,
-                        status === "0x1"
+                        txReceipt.blockNumber,
+                        txReceipt.transactionHash,
+                        txReceipt.status === "0x1"
                     )
                 );
             }
@@ -81,7 +74,6 @@ function metamaskAccountSubscription() {
 
 export {
     blockHeaderSubscription,
-    accountSubscription,
     transactionSubscription,
     metamaskAccountSubscription
 };

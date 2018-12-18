@@ -1,19 +1,9 @@
-import {
-    take,
-    call,
-    put,
-    all,
-    fork,
-    cancel,
-    takeEvery
-} from "redux-saga/effects";
+import { take, call, put, all, select, takeEvery } from "redux-saga/effects";
 
 /* Actions */
 import {
     EVENTS_SET,
     newBlockHeader,
-    SUBSCRIBE_TO_ACCOUNT,
-    UNSUBSCRIBE_TO_ACCOUNT,
     NEW_BLOCK_HEADER
 } from "../../actions/web3";
 import { initializeGame } from "../../actions/setUp/game";
@@ -23,7 +13,6 @@ import { removeUserAsPlayer } from "../../actions/user";
 /* Workers */
 import {
     blockHeaderSubscription,
-    accountSubscription,
     transactionSubscription,
     metamaskAccountSubscription
 } from "./workers";
@@ -53,19 +42,6 @@ function* subscriptionToBlockHeader() {
     }
 }
 
-function* subscriptionToAccount() {
-    try {
-        while (true) {
-            yield take(SUBSCRIBE_TO_ACCOUNT);
-            const updateFromChannel = yield fork(accountSubscription);
-            yield take(UNSUBSCRIBE_TO_ACCOUNT);
-            yield cancel(updateFromChannel);
-        }
-    } catch (err) {
-        console.log(err);
-    }
-}
-
 function* subscriptionToTransaction() {
     yield takeEvery(NEW_BLOCK_HEADER, transactionSubscription);
 }
@@ -79,11 +55,20 @@ function* subscriptionToMetamaskAccount() {
     }
 }
 
+function* reactToNewBlock() {
+    yield takeEvery(NEW_BLOCK_HEADER, function*() {
+        const callbacks = yield select(state =>
+            Object.values(state.web3.subscription)
+        );
+        yield all(callbacks.map(callback => call(callback)));
+    });
+}
+
 export default function*() {
     yield all([
         subscriptionToBlockHeader(),
-        subscriptionToAccount(),
         subscriptionToTransaction(),
+        reactToNewBlock(),
         subscriptionToMetamaskAccount()
     ]);
 }

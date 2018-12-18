@@ -8,6 +8,8 @@ import {
 
 import eventToEmitter from "../utils/eventToEmitter";
 
+// ************** Transactions **************
+
 function* sendTransaction(contractMethodOrTx, txArgs = {}, privateKey = "") {
     try {
         // Form the primary transaction object
@@ -26,6 +28,8 @@ function* sendTransaction(contractMethodOrTx, txArgs = {}, privateKey = "") {
     }
 }
 
+// ************** Calls **************
+
 function* callContract([contractName, methodName, ...methodArgs], txArgs) {
     try {
         const { methods } = yield select(
@@ -37,6 +41,8 @@ function* callContract([contractName, methodName, ...methodArgs], txArgs) {
         console.log(err);
     }
 }
+
+// ************** Events **************
 
 function* listenAndReactToEvent(
     [contractName, eventName, filterArgs, callbacks = []],
