@@ -1,12 +1,16 @@
 import { all } from 'redux-saga/effects';
 
-import userSaga from './user';
-import playersSaga from './players';
+import user from './user';
+import players from './players';
+import setUp from './setUp';
+import web3Subscriptions from './web3/subscriptions';
 
 function* mySaga () {
   yield all([
-    userSaga(),
-    playersSaga()
+    user(),
+    players(),
+    setUp(),
+    web3Subscriptions(),
   ]);
 }
 

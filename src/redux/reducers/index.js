@@ -1,12 +1,13 @@
-import { combineReducers } from 'redux';
-import user from './user';
-import players from './players';
-import errors from './errors';
+import { combineReducers } from "redux";
 
-const rootReducer = combineReducers({
-  user,
-  players,
-  errors,
+import ui from "./ui";
+import status from "./status";
+import data from "./data";
+import web3 from './web3';
+
+export default combineReducers({
+    ui,
+    status,
+    data,
+    web3,
 });
-
-export default rootReducer;

@@ -6,25 +6,33 @@ import createStore from './redux';
 /* Configuration Components */
 import { Provider } from 'react-redux';
 
-/* Containers */
-import HomepageContainer from './ui/containers/HomepageContainer';
+/* Components */
+import Homepage from "./containers/Homepage/Homepage";
+// import Dashboard from "./components/Dashboard/Dashboard";
 
 /* Theme related */
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import materialUiTheme from "./ui/materialUiTheme";
+import theme from "./constants/theme";
+
+/* Wrappers */
+import Wrappers from "./wrappers";
 
 /* Styles */
-const App = () => (
-  <Provider store={createStore()}>
-    <div className='App'>
-      <MuiThemeProvider theme={materialUiTheme}>
-        <HomepageContainer />
-      </MuiThemeProvider>
-    </div>
-  </Provider>
-);
+const App = () => {
+  const NonCurrentPlayer = Wrappers.OnlyVisibleForNonPlayer(Homepage);
+  const CurrentPlayer = Wrappers.OnlyVisibleForPlayer(() => (<div>No</div>));
+  return (
+    <Provider store={createStore()}>
+      <div className='App'>
+        <MuiThemeProvider theme={theme}>
+          <Wrappers.InitializerHandler>
+              <NonCurrentPlayer />
+              <CurrentPlayer />
+          </Wrappers.InitializerHandler>
+        </MuiThemeProvider>
+      </div>
+    </Provider>
+  )
+}
 
 export default App;
-
-
-// @channel For educational purpose, Paris team has recently been working on a token model named Rainbow Token :rainbow::rainbow:, we are currently beta testing the dapp on Ropsten.

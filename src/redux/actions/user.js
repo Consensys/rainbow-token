@@ -1,61 +1,36 @@
-import {
-  GET_USER,
-  START_PLAYING,
-  SET_USER,
-  START_LOADING_USER,
-  END_LOADING_USER,
-  START_TRANSACTION,
-  END_TRANSACTION,
-  REQUEST_BLEND,
-  SET_BLENDING_PRICE,
-} from '../actionTypes';
+// Activators
 
-/** ******* ACTIONS *********/
-
-export const getUser = () => ({
-  type: GET_USER,
+export const REQUEST_PLAY = 'REQUEST_PLAY';
+export const requestPlay = () => ({
+  type: REQUEST_PLAY
 });
 
-export const startLoadingUser = () => ({
-  type: START_LOADING_USER,
-});
+export const REQUEST_SET_BLENDING_PRICE = 'REQUEST_SET_BLENDING_PRICE';
+export const requestSetBlendingPrice = newPrice => ({
+  type: REQUEST_SET_BLENDING_PRICE,
+  payload: newPrice
+})
 
-export const endLoadingUser = () => ({
-  type: END_LOADING_USER,
-});
-
-export const setUser = (address) => ({
-  type: SET_USER,
-  payload: address,
-});
-
-export const startTransaction = (txHash) => ({
-  type: START_TRANSACTION,
-  payload: txHash
-});
-
-export const endTransaction = () => ({
-  type: END_TRANSACTION,
-});
-
-export const setBlendingPrice = (price) => ({
-  type: SET_BLENDING_PRICE,
-  payload: price,
-});
-
-export const startPlaying = () => {
-  return {
-    type: START_PLAYING,
-  };
-};
-
+export const REQUEST_BLEND = "REQUEST_BLEND";
 export const requestBlend = (
-  blendingAddress = undefined,
-  blendingToken = undefined
+    blendingAddress = undefined,
+    blendingToken = undefined
 ) => ({
-  type: REQUEST_BLEND,
-  payload: {
-    blendingAddress,
-    blendingToken,
-  },
+    type: REQUEST_BLEND,
+    payload: {
+        blendingAddress,
+        blendingToken
+    }
+});
+
+// Setter
+
+export const SET_USER_AS_PLAYER = 'SET_USER_AS_PLAYER';
+export const setUserAsPlayer = () => ({
+  type: SET_USER_AS_PLAYER
+})
+
+export const REMOVE_USER_AS_PLAYER = 'REMOVE_USER_AS_PLAYER';
+export const removeUserAsPlayer = () => ({
+  type: REMOVE_USER_AS_PLAYER
 });
