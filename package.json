@@ -63,8 +63,8 @@
     "prettier": "^1.10.2",
     "solidity-coverage": "^0.5.11",
     "solium": "^1.1.7",
-    "truffle": "^4.1.8",
-    "truffle-hdwallet-provider": "0.0.3"
+    "truffle": "^5.0.6",
+    "truffle-hdwallet-provider": "^1.0.5"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
@@ -99,6 +99,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "ganache:start": "cd ganache && ACCOUNTS=`cat accounts.txt` docker-compose up",
+    "ganache:stop": "cd ganache && docker-compose stop"
   }
 }

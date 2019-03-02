@@ -3,7 +3,7 @@ version: '3'
 services:
   ganache:
     image: trufflesuite/ganache-cli:latest
-    command: --gasLimit 0xfffffffffff ${ACCOUNTS}
+    command: --gasLimit 0xffffffffff ${ACCOUNTS} -b 5
     ports:
       - 7545:8545
 
@@ -17,4 +17,3 @@ services:
   #     - 8555:8555
   #   volumes:
   #     - ..:/usr/src/app
-
