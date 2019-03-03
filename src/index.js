@@ -8,7 +8,7 @@ import App from './App';
 import './App.css';
 
 /* Methods & Functions */
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+// registerServiceWorker();
