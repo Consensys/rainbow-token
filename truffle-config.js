@@ -17,6 +17,7 @@ const ropstenProvider = process.env.SOLIDITY_COVERAGE
   : infuraProvider('ropsten');
 
 module.exports = {
+  contracts_build_directory: "./contractBuild",
   networks: {
     development: {
       host: 'localhost',

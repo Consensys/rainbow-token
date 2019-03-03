@@ -23,6 +23,11 @@ export const requestBlend = (
     }
 });
 
+export const REQUEST_CLAIM_VICTORY = 'REQUEST_CLAIM_VICTORY';
+export const requestClaimVictory = () => ({
+  type: REQUEST_CLAIM_VICTORY
+});
+
 // Setter
 
 export const SET_USER_AS_PLAYER = 'SET_USER_AS_PLAYER';

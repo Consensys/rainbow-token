@@ -6,7 +6,7 @@ import { requestPlay } from "../../redux/actions/user";
 import Homepage from "../../components/Homepage/Homepage";
 
 const mapStateToProps = state => ({
-  onAvailableNetwork: state.web3.network.id === 3 || true,
+  onAvailableNetwork: state.web3.network.id === 3,
   txInProgress: state.web3.transactions.txInProgress,
   metamaskUnlocked: !!state.web3.accounts.defaultAccount,
 });

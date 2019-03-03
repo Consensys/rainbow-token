@@ -1,13 +1,13 @@
 /* Redux */
 import { connect } from "react-redux";
 import { closeDefaultBlendDialog } from "../../redux/actions/ui";
-import { requestBlend } from "../../redux/actions/transactions/rainbowToken";
+import { requestBlend } from "../../redux/actions/user";
 
 /* Component */
-import DefaultBlendDialog from "../../components/Dialogs/DefaultBlendDialog";
+import DefaultBlendDialog from "../../components/UI/Dialogs/DefaultBlendDialog";
 
 /* Constants */
-import { defaultBlendingPrice } from "../../constants/rainbowToken";
+import { defaultBlendingPrice } from "../../constants";
 
 const mapStateToProps = state => ({
     open: state.ui.defaultBlendDialog.open,

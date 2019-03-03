@@ -25,19 +25,35 @@ import web3Config from '../../../../web3Config'
 
 export function* handleProvider(provider = undefined) {
   // Get the provider from args or from window
-  const web3Provider = provider || Web3.givenProvider;
+  const web3Provider = provider || Web3.givenProvider || web3Config.defaultProvider;
   // If no provider, throw
   if (!web3Provider)
     throw new Error('Unable to detect a provider.')
-  // If provider is MetaMask, ask for permission
-  if (web3Provider.isMetaMask)
-      yield call([web3Provider, 'enable']);
-  // Build web3 object and get eth and utils elements
+  // If provider is MetaMask, ask for permission and plug the defaultProvider
+  // if there is one
+  let defaultEth;
+  if (web3Provider.isMetaMask) {
+    yield call([web3Provider, 'enable']);
+    const defaultWeb3 = web3Config.defaultProvider
+    ? new Web3(web3Config.defaultProvider)
+    : { eth: {} };
+    defaultEth = defaultWeb3.eth;
+  }
   const { eth, utils } = new Web3(web3Provider);
+  if (!defaultEth) {
+    defaultEth = eth;
+  }
   // Get network id
   const networkId = yield call([eth.net, 'getId']);
   // Set in store
-  yield put(setEth({ ...eth, utils }));
+  yield put(setEth({
+    ...eth,
+    utils,
+    subscribe: defaultEth.subscribe,
+    Contract: defaultEth.Contract,
+    getTransactionReceipt: defaultEth.getTransactionReceipt,
+    ContractMetamask: web3Provider.isMetaMask ? eth.Contract : null
+  }))
   yield put(fillNetwork({ id: networkId, isMetaMask: !!web3Provider.isMetaMask }));
 }
 

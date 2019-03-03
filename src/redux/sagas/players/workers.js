@@ -50,12 +50,14 @@ export function* getPlayersSaga() {
           )
         ).map(computeToken);
         missingPlayerAddresses.forEach(
-          (address, index) => ({
-            address,
-            pseudo: generator(address),
-            token: tokens[index],
-            score: computeScore(tokens[index].color, targetColor)
-          })
+          (address, index) => {
+            players[address] = {
+              address,
+              pseudo: generator(address),
+              token: tokens[index],
+              score: computeScore(tokens[index].color, targetColor)
+            }
+          }
         )
         yield put(setPlayers(players));
     } catch (err) {

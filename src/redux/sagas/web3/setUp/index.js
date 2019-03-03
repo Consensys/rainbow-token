@@ -23,7 +23,8 @@ import {
   updateBalances
 } from '../accounts';
 import {
-  clearTransactions
+  clearTransactions,
+  updateTransactions
 } from '../transactions';
 
 export function* setUpWeb3(provider = undefined) {
@@ -43,6 +44,8 @@ export function* setUpWeb3(provider = undefined) {
     yield put(subscribe('balances', updateBalances));
     // Subscribe to cleaning of old transactions
     yield put(subscribe('clearTransactions', clearTransactions));
+    // Subscribe to update transactions status
+    yield put(subscribe('updateTransactions', updateTransactions));
     // Set the set up as successful
     yield put(successfulSetUp());
   } finally {

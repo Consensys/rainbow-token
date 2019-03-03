@@ -16,11 +16,20 @@ export function* createContract(
   options = {}
 ) {
   // Get the Contract builder object
-  const { Contract } = yield select(
+  const { Contract, ContractMetamask } = yield select(
     state => state.web3.eth
   );
   // Build contract
-  const contract = new Contract(abi, address, options);
+  // If ContractMetamask exists, use it for the methods
+  const { methods: methodsMetamask } = ContractMetamask
+  ? new ContractMetamask(abi, address, options)
+  : { methods: null };
+  const rawContract = new Contract(abi, address, options);
+  const contract = methodsMetamask
+  ? {
+    ...rawContract,
+    methods: methodsMetamask
+  } : rawContract;
   // Add contract to store
   yield put(addContract(name, contract));
 }

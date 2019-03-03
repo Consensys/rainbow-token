@@ -52,6 +52,22 @@ export function* transactionHandler(chan) {
     }
 }
 
+export function* updateTransaction(txHash) {
+  // Get eth object
+  const { getTransactionReceipt } = yield select(
+    state => state.web3.eth
+  );
+  // Fetch the receipt
+  const receipt = yield call(
+    getTransactionReceipt,
+    txHash
+  );
+  // If receipt, end the transaction
+  if (receipt && receipt.blockNumber) {
+    yield put(endTransaction(receipt));
+  }
+}
+
 export const transactionToEmitter = transaction => eventChannel(emitter => {
     transaction
         .on("transactionHash", txHash => {

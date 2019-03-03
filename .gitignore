@@ -30,7 +30,7 @@ bower_components
 .lock-wscript
 
 # Contract artifact
-build
+contractBuild
 dist
 coverage
 coverage.json

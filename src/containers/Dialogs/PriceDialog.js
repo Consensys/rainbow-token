@@ -4,10 +4,10 @@ import {
     closePriceDialog,
     modifyBlendingPriceInput
 } from "../../redux/actions/ui";
-import { requestSetBlendingPrice } from "../../redux/actions/transactions/rainbowToken";
+import { requestSetBlendingPrice } from "../../redux/actions/user";
 
 /* Component */
-import PriceDialog from "../../components/Dialogs/PriceDialog";
+import PriceDialog from "../../components/UI/Dialogs/PriceDialog";
 
 const mapStateToProps = state => ({
     open: state.ui.priceDialog.open,

@@ -5,14 +5,16 @@ import { all, takeLatest } from "redux-saga/effects";
 import {
     REQUEST_BLEND,
     REQUEST_SET_BLENDING_PRICE,
-    REQUEST_PLAY
+    REQUEST_PLAY,
+    REQUEST_CLAIM_VICTORY,
 } from "../../actions/user";
 
 /* Workers */
 import {
   blendSaga,
   setBlendingPriceSaga,
-  playSaga
+  playSaga,
+  claimVictorySaga,
 } from './workers'
 
 function* watchPlay() {
@@ -27,10 +29,15 @@ function* watchBlend() {
     yield takeLatest(REQUEST_BLEND, blendSaga);
 }
 
+function* watchClaimVictory() {
+    yield takeLatest(REQUEST_CLAIM_VICTORY, claimVictorySaga);
+}
+
 export default function*() {
     yield all([
       watchPlay(),
       watchSetBlendingPrice(),
       watchBlend(),
+      watchClaimVictory()
     ]);
 }

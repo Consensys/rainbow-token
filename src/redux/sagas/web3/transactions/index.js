@@ -9,7 +9,8 @@ import {
 import {
   rawTransaction,
   transactionToEmitter,
-  transactionHandler
+  transactionHandler,
+  updateTransaction
 } from './utils';
 
 // Actions
@@ -80,6 +81,26 @@ export function* clearTransactions() {
     const txHashes = Object.keys(transactions);
     yield all(
       oldTransactionsIndex.map(index => put(removeTransaction(txHashes[index])))
+    )
+  }
+}
+
+export function* updateTransactions() {
+  const { transactions: { list }, network: { isMetaMask } } = yield select(
+    state => state.web3
+  );
+  if (isMetaMask) {
+    const txToBeUpdated = [];
+    for (let txHash in list) {
+      if (!list[txHash].blockNumber) {
+        txToBeUpdated.push(txHash);
+      }
+    }
+    // Get the status of the transactions and set in store if received
+    yield all(
+      txToBeUpdated.map(
+        txHash => call(updateTransaction, txHash)
+      )
     )
   }
 }

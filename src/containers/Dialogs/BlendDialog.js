@@ -3,10 +3,10 @@ import React from "react";
 /* Redux */
 import { connect } from "react-redux";
 import { closeBlendDialog } from "../../redux/actions/ui";
-import { requestBlend } from "../../redux/actions/transactions/rainbowToken";
+import { requestBlend } from "../../redux/actions/user";
 
 /* Component */
-import BlendDialog from "../../components/Dialogs/BlendDialog";
+import BlendDialog from "../../components/UI/Dialogs/BlendDialog";
 
 const BlendDialogContainer = ({
     open,

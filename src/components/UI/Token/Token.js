@@ -19,8 +19,8 @@ const Token = ({ color, size, boxShadowSize, borderSize }) => {
         borderRadius: "50%",
         boxShadow: `${boxShadowSize}px ${boxShadowSize}px rgba(10, 10, 10, 0.9)`,
         border: `${borderSize}px solid rgb(50, 50, 50)`,
-        marginLeft: "auto",
-        marginRight: "auto"
+        // marginLeft: "auto",
+        // marginRight: "auto"
     };
     return (
         <Tooltip
@@ -38,7 +38,7 @@ Token.propTypes = {
   color: PropTypes.object.isRequired,
   size: PropTypes.string.isRequired,
   boxShadowSize: PropTypes.string.isRequired,
-  borderRadius: PropTypes.string.isRequired,
+  borderRadius: PropTypes.string,
 }
 
 export default Token;

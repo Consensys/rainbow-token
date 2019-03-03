@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { closeRulesDialog } from "../../redux/actions/ui";
 
 /* Component */
-import RulesDialog from "../../components/Dialogs/RulesDialog";
+import RulesDialog from "../../components/UI/Dialogs/RulesDialog";
 
 const mapStateToProps = state => ({
     open: state.ui.rulesDialog.open,

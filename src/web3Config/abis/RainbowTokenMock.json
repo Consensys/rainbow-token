@@ -1481,8 +1481,8 @@
     "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.0.1",
-  "updatedAt": "2019-03-02T11:05:39.551Z",
+  "schemaVersion": "3.0.2",
+  "updatedAt": "2019-03-03T15:36:17.708Z",
   "devdoc": {
     "methods": {
       "backdoor()": {

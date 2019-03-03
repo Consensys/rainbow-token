@@ -4,8 +4,10 @@ import React from "react";
 import RulesDialog from "../../containers/Dialogs/RulesDialog";
 import DefaultBlendDialog from "../../containers/Dialogs/DefaultBlendDialog";
 import PriceDialog from "../../containers/Dialogs/PriceDialog";
-import PlayerTable from "../../containers/Dashboard/PlayerTable";
-import Topbar from "../../containers/Dashboard/Topbar";
+import VictoryDialog from "../../containers/Dialogs/VictoryDialog";
+import PlayerTable from "../../containers/PlayerTable/PlayerTable";
+import Topbar from "../../containers/Topbar/Topbar";
+import TransactionSnackbar from "../../containers/TransactionSnackbar/TransactionSnackbar";
 
 /* Styles */
 import { withStyles } from "@material-ui/core/styles";
@@ -25,6 +27,8 @@ const Dashboard = ({ classes }) => (
         <RulesDialog />
         <DefaultBlendDialog />
         <PriceDialog />
+        <VictoryDialog />
+        <TransactionSnackbar />
     </div>
 );
 

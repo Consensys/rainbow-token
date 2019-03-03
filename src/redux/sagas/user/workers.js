@@ -77,3 +77,19 @@ export function* blendSaga({ payload: { blendingAddress, blendingToken }}) {
     yield put(addError('Transaction has failed... Unable to blend.'))
   }
 }
+
+export function* claimVictorySaga() {
+  try {
+    yield call(
+      sendTransaction,
+      {
+        contract: 'RainbowToken',
+        method: 'claimVictory',
+        params: [],
+      }
+    )
+  } catch(err) {
+    console.error(err);
+    yield put(addError('Transaction has failed... Unable to claim victory.'))
+  }
+}
