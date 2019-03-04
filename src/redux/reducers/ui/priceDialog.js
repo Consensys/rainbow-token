@@ -30,7 +30,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
                 blendingPriceInput: payload
             };
         case INITIALIZE:
-            return DEFAULT_STATE;
+            return { ...DEFAULT_STATE };
         default:
             return state;
     }

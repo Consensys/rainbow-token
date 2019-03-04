@@ -18,7 +18,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
                 index: -1
             };
         case INITIALIZE:
-            return DEFAULT_STATE;
+            return { ...DEFAULT_STATE };
         default:
             return state;
     }

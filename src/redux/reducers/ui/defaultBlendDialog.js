@@ -23,7 +23,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
                 open: false
             };
         case INITIALIZE:
-            return DEFAULT_STATE;
+            return { ...DEFAULT_STATE };
         default:
             return state;
     }

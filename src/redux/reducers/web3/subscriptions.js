@@ -2,6 +2,9 @@ import {
   SUBSCRIBE,
   UNSUBSCRIBE
 } from '../../actions/web3/subscriptions';
+import {
+  INITIALIZE
+} from '../../actions/setUp';
 
 const DEFAULT_STATE = {};
 
@@ -18,6 +21,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       }
       delete updatedState[payload];
       return updatedState;
+    case INITIALIZE:
+      return DEFAULT_STATE;
     default:
       return state;
   }

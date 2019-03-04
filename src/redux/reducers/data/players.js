@@ -3,9 +3,6 @@ import {
     UPDATE_PLAYER_TOKEN,
     ADD_PLAYER
 } from "../../actions/players";
-import {
-  INITIALIZE
-} from '../../actions/setUp';
 
 const DEFAULT_STATE = {};
 
@@ -38,8 +35,6 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
             } else {
                 return state;
             }
-        case INITIALIZE:
-            return DEFAULT_STATE;
         default:
             return state;
     }

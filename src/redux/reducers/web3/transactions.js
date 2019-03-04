@@ -4,6 +4,7 @@ import {
   END_TRANSACTION,
   REMOVE_TRANSACTION,
 } from "../../actions/web3/transactions";
+import { INITIALIZE } from '../../actions/setUp';
 
 const DEFAULT_STATE = {
   list: {},
@@ -43,6 +44,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
               list: listCopy,
               txInProgress: Object.values(listCopy).some(tx => !('blockNumber' in tx)),
             };
+        case INITIALIZE:
+          return DEFAULT_STATE;
         default:
             return state;
     }

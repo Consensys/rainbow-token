@@ -10,7 +10,7 @@ import {
 import Topbar from "../../components/Dashboard/Topbar";
 
 const mapStateToProps = state => ({
-    pseudo: state.data.players[state.web3.accounts.defaultAccount],
+    player: state.data.players[state.web3.accounts.defaultAccount],
     balance: state.web3.accounts.list.get(state.web3.accounts.defaultAccount),
     txInProgress: state.web3.transactions.txInProgress,
 });

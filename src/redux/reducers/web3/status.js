@@ -2,8 +2,9 @@
 import {
   START_LOADING_WEB3,
   END_LOADING_WEB3,
-  SUCCESSFUL_SET_UP
+  SUCCESSFUL_SET_UP,
 } from "../../actions/web3/setUp";
+import { INITIALIZE } from '../../actions/setUp';
 
 const DEFAULT_STATE = {
   isLoading: false,
@@ -27,6 +28,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
               ...state,
               isSetUp: true
             }
+        case INITIALIZE:
+          return DEFAULT_STATE;
         default:
             return state;
     }

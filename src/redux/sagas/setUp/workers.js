@@ -5,7 +5,8 @@ import { setUpWeb3 } from '../web3/setUp';
 
 /* Actions */
 import {
-  setUserAsPlayer
+  setUserAsPlayer,
+  removeUserAsPlayer,
 } from '../../actions/user';
 import {
   endInitialization
@@ -30,6 +31,8 @@ export function* initializeSaga() {
     )
     if (isPlayer) {
       yield put(setUserAsPlayer());
+    } else {
+      yield put(removeUserAsPlayer());
     }
   } catch(err) {
     console.error(err);
