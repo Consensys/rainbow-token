@@ -111,6 +111,8 @@ contract RainbowToken {
   )
     public
   {
+    // Color must be valid
+    require(_r < 256 && _g < 256 && _b < 256, 'Target color is not valid');
     // Set target color
     targetColor = Color(uint(_r), uint(_g), uint(_b));
     // Set owner to be the sender
@@ -220,24 +222,6 @@ contract RainbowToken {
     );
 
     return true;
-  }
-
-  /**
-   * @dev Compute RGB values based on a seed
-   * @param _seed New price (must be strictly positive)
-   */
-  function getRgb(
-    uint _seed
-  )
-    public
-    pure
-    returns (uint[3] memory)
-  {
-    return [
-      toPrimary(uint((_seed & 0xff0000) / 0xffff)),
-      toPrimary(uint((_seed & 0xff00) / 0xff)),
-      toPrimary(uint(_seed & 0xff))
-    ];
   }
 
   /**
@@ -385,6 +369,31 @@ contract RainbowToken {
     return true;
   }
 
+  /**
+   * @dev Compute RGB values based on a seed
+   * @param _seed New price (must be strictly positive)
+   */
+  function getRgb(
+    uint _seed
+  )
+    internal
+    pure
+    returns (uint[3] memory)
+  {
+    return [
+      toPrimary(uint((_seed & 0xff0000) / 0xffff)),
+      toPrimary(uint((_seed & 0xff00) / 0xff)),
+      toPrimary(uint(_seed & 0xff))
+    ];
+  }
+
+  /**
+   * @dev checks if a color is contained into the winning cube
+   * @param  r The r component of the color
+   * @param  g The g component of the color
+   * @param  b The b component of the color
+   * @return true if the color is contained in the winning cube, false otherwise
+   */
   function isCloseEnough(
     uint r,
     uint g,
