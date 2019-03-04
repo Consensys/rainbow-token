@@ -22,14 +22,15 @@ export function* createContract(
   // Build contract
   // If ContractMetamask exists, use it for the methods
   const { methods: methodsMetamask } = ContractMetamask
-  ? new ContractMetamask(abi, address, options)
+  ? new ContractMetamask(abi, address.toLowerCase(), options)
   : { methods: null };
-  const rawContract = new Contract(abi, address, options);
+  const rawContract = new Contract(abi, address.toLowerCase(), options);
   const contract = methodsMetamask
   ? {
     ...rawContract,
     methods: methodsMetamask
   } : rawContract;
+  console.log(contract);
   // Add contract to store
   yield put(addContract(name, contract));
 }

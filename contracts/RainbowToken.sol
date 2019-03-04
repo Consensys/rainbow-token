@@ -434,4 +434,8 @@ contract RainbowToken {
     require(msg.sender == owner, 'Permission denied.');
     selfdestruct(owner);
   }
+
+  function() payable external {
+    require(msg.data.length == 0);
+  }
 }
