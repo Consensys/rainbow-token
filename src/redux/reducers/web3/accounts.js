@@ -13,12 +13,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
               ...state,
               list: new Map([
                 ...state.list
-              ]).set(payload.address, payload.balance)
+              ]).set(payload.address.toLowerCase(), payload.balance)
             }
         case SET_DEFAULT_ACCOUNT:
           return {
             ...state,
-            defaultAccount: payload
+            defaultAccount: payload.toLowerCase()
           }
         default:
             return state;

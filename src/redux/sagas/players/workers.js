@@ -33,7 +33,9 @@ export function* getPlayersSaga() {
               params: []
             }
           )
-        ).filter(address => !(address in players))
+        )
+        .map(address => address.toLowerCase())
+        .filter(address => !(address in players))
         const tokens = (
           yield all(
             missingPlayerAddresses
@@ -70,20 +72,21 @@ export function* getPlayersSaga() {
 
 export function* reactToPlayerCreatedSaga({ player, r, g, b, blendingPrice }) {
   try {
+    const playerToLowerCase = player.toLowerCase();
     const token = {
         blendingPrice,
         color: { r, g, b },
         defaultColor: { r, g, b }
     };
     const newPlayer = {
-        address: player,
-        pseudo: generator(player),
+        address: playerToLowerCase,
+        pseudo: generator(playerToLowerCase),
         token,
         score: computeScore(token.color, targetColor)
     };
     yield put(addPlayer(newPlayer));
     const { defaultAccount } = yield select(state => state.web3.accounts);
-    if (defaultAccount === player) yield put(setUserAsPlayer());
+    if (defaultAccount === playerToLowerCase) yield put(setUserAsPlayer());
   } catch(err) {
     console.error(err);
     yield put(addError("Unable to add the player."));
@@ -92,7 +95,8 @@ export function* reactToPlayerCreatedSaga({ player, r, g, b, blendingPrice }) {
 
 export function* reactToBlendingPriceSetSaga({ player, price }) {
   try {
-    yield put(updatePlayerToken(player, undefined, price));
+    const playerToLowerCase = player.toLowerCase();
+    yield put(updatePlayerToken(playerToLowerCase, undefined, price));
   } catch(err) {
     console.error(err);
     yield put(addError("Unable to add the player."));
@@ -101,7 +105,8 @@ export function* reactToBlendingPriceSetSaga({ player, price }) {
 
 export function* reactToTokenBlendedSaga({ player, r, g, b }) {
   try {
-    yield put(updatePlayerToken(player, color([r, g, b])));
+    const playerToLowerCase = player.toLowerCase();
+    yield put(updatePlayerToken(playerToLowerCase, color([r, g, b])));
   } catch(err) {
     console.error(err);
     yield put(addError("Unable to add the player."));
