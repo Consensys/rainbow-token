@@ -28,7 +28,6 @@ export function* initializeSaga() {
         params: [defaultAccount],
       }
     )
-    console.log('isPlayer', isPlayer)
     if (isPlayer) {
       yield put(setUserAsPlayer());
     }

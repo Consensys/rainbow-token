@@ -30,7 +30,6 @@ export function* createContract(
     ...rawContract,
     methods: methodsMetamask
   } : rawContract;
-  console.log(contract);
   // Add contract to store
   yield put(addContract(name, contract));
 }
