@@ -1,5 +1,7 @@
 // Libs
 import { call, take, put, takeEvery, select, all } from 'redux-saga/effects';
+import { contractCall } from '../contracts';
+import { getBalance } from '../accounts';
 
 // Utils
 import {
@@ -9,22 +11,41 @@ import {
 
 // Actions
 import { newBlockHeader, NEW_BLOCK_HEADER } from '../../../actions/web3/blocks';
+import { startInitialization, endInitialization } from '../../../actions/setUp';
 import { SUCCESSFUL_SET_UP } from '../../../actions/web3/setUp';
-import { initialize } from '../../../actions/setUp';
+import { removeUserAsPlayer, setUserAsPlayer } from '../../../actions/user';
+import { updateAccount, setDefaultAccount } from '../../../actions/web3/accounts';
 
 export function* subscribeToMetamaskAccount() {
   // Create the channel
   const chan = yield call(metamaskAccountSubscription);
   while (true) {
     // Get the address from event
-    yield take(chan);
-    yield put(initialize());
-    // // Fetch the corresponding balance
-    // const balance = yield call(getBalance, address);
-    // // Add the account
-    // yield put(updateAccount(address, balance));
-    // // Set the account as default account
-    // yield put(setDefaultAccount(address));
+    const { address} = yield take(chan);
+    try {
+      yield put(startInitialization());
+      // Remove user as player
+      yield put(removeUserAsPlayer());
+      // Fetch the corresponding balance
+      const balance = yield call(getBalance, address);
+      // Add the account
+      yield put(updateAccount(address, balance));
+      // Set the account as default account
+      yield put(setDefaultAccount(address));
+      const isPlayer = yield call(
+        contractCall,
+        {
+          contract: 'RainbowToken',
+          method: 'isPlayer',
+          params: [address],
+        }
+      )
+      if (isPlayer) {
+        yield put(setUserAsPlayer());
+      }
+    } finally {
+      yield put(endInitialization());
+    }
   }
 }
 

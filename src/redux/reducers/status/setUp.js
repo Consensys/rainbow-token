@@ -1,5 +1,6 @@
 import {
     INITIALIZE,
+    START_INITIALIZATION,
     END_INITIALIZATION
 } from "../../actions/setUp";
 
@@ -9,6 +10,8 @@ const DEFAULT_STATE = {
 
 export default (state = DEFAULT_STATE, { type }) => {
     switch (type) {
+        case START_INITIALIZATION:
+            return { ...state, isLoading: true };
         case END_INITIALIZATION:
             return { ...state, isLoading: false };
         case INITIALIZE:
