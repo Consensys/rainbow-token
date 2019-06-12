@@ -20,6 +20,7 @@ export function* rawTransaction(transactionArguments) {
     const estimatedGas = yield call([eth, 'estimateGas'], transactionArguments);
     if (estimatedGas) {
       transactionArguments.gas = estimatedGas;
+      transactionArguments.gasLimit = estimatedGas;
     }
   }
   // Return the event emitter

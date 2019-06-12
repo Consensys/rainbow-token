@@ -18,7 +18,7 @@ export function* playSaga() {
         contract: 'RainbowToken',
         method: 'play',
         params: [],
-        value: defaultBlendingPrice
+        value: defaultBlendingPrice,
       }
     )
   } catch(err) {
@@ -68,7 +68,7 @@ export function* blendSaga({ payload: { blendingAddress, blendingToken }}) {
             contract: 'RainbowToken',
             method: 'defaultBlend',
             params: [],
-            value: defaultBlendingPrice
+            value: defaultBlendingPrice,
           }
         );
     }

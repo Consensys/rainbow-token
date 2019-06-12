@@ -45,6 +45,7 @@ export function* contractTransaction({
     );
     if (estimatedGas) {
       transactionArguments.gas = estimatedGas;
+      transactionArguments.gasLimit = estimatedGas;
     }
   }
   // Return the event emitter
